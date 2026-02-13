@@ -80,14 +80,23 @@
     .story-slide { min-height: 60vh; display: flex; align-items: center; padding: 3rem 1rem; position: relative; overflow: hidden; }
     .story-img { border-radius: 16px; object-fit: cover; width: 100%; height: 300px; }
 
-    /* Review cards */
+    /* Review ticker */
+    .ticker-row {
+      display: flex; gap: 1.25rem; width: max-content;
+      animation: tickerScroll var(--ticker-duration, 120s) linear infinite;
+    }
+    .ticker-row:hover { animation-play-state: paused; }
+    .ticker-row.reverse { animation-name: tickerScrollReverse; }
+    @keyframes tickerScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+    @keyframes tickerScrollReverse { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
     .review-card {
       background: var(--warm-white); border: 1px solid rgba(212,165,116,0.12);
-      border-radius: 16px; padding: 1.5rem; height: 100%;
+      border-radius: 16px; padding: 1.25rem; width: 340px; min-width: 340px;
       display: flex; flex-direction: column; justify-content: space-between;
-      box-shadow: 0 2px 12px rgba(92,64,51,0.05);
+      box-shadow: 0 2px 12px rgba(92,64,51,0.05); transition: border-color 0.3s, box-shadow 0.3s;
     }
-    .review-card:hover { border-color: rgba(212,165,116,0.3); }
+    .review-card:hover { border-color: rgba(212,165,116,0.3); box-shadow: 0 4px 20px rgba(92,64,51,0.1); }
+    @media (max-width: 640px) { .review-card { width: 280px; min-width: 280px; padding: 1rem; } }
 
     /* Pricing */
     .pkg-card {
@@ -193,7 +202,7 @@
         <span class="w-2 h-2 rounded-full bg-coral"></span>
         <span class="text-sm text-brown font-medium">Super Tutor 7/7 on Preply</span>
         <span class="text-xs text-brown-light">|</span>
-        <span class="text-sm text-brown-light">29 reviews, all &#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <span class="text-sm text-brown-light">80+ reviews, 4.8 avg &#9733;&#9733;&#9733;&#9733;&#9733;</span>
       </div>
 
       <h1 class="font-serif text-5xl md:text-7xl lg:text-8xl font-bold leading-[1.1] mb-6 text-navy reveal">
@@ -209,8 +218,8 @@
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 max-w-3xl mx-auto mb-10 reveal" style="transition-delay:0.4s">
         <div class="warm-card p-4 md:p-6 text-center">
           <div class="flex justify-center mb-1"><span class="star text-lg">&#9733;</span><span class="star text-lg">&#9733;</span><span class="star text-lg">&#9733;</span><span class="star text-lg">&#9733;</span><span class="star text-lg">&#9733;</span></div>
-          <div class="font-mono text-3xl md:text-4xl font-bold text-navy">5.0</div>
-          <div class="text-xs text-brown-light mt-1">Rating (29 reviews)</div>
+          <div class="font-mono text-3xl md:text-4xl font-bold text-navy">4.8</div>
+          <div class="text-xs text-brown-light mt-1">Rating (80+ reviews)</div>
         </div>
         <div class="warm-card p-4 md:p-6 text-center">
           <div class="font-mono text-3xl md:text-4xl font-bold text-navy" data-count="115">0</div>
@@ -252,10 +261,10 @@
                 <div class="grid md:grid-cols-2 gap-10 items-center">
                   <div>
                     <p class="text-coral text-xs font-bold tracking-widest uppercase mb-4">Chapter 1 &mdash; The Rise</p>
-                    <h3 class="font-display text-3xl md:text-4xl font-extrabold text-navy mb-5 leading-tight">I built something<br><span class="gradient-text">extraordinary.</span></h3>
-                    <p class="text-brown/70 text-lg leading-relaxed mb-5">For four years, I ran a self-directed learning coaching center in Korea. At my peak, I was ranked <strong class="text-navy">170th out of 450,000 tutors</strong> on Korea's largest education platform &mdash; the <span class="text-coral font-semibold">top 0.03%</span>.</p>
-                    <p class="text-brown/70 text-lg leading-relaxed mb-5">It wasn't luck. I built systems. Detailed tracking for every student. Personalized learning paths. Follow-up protocols that left nothing to chance. Students didn't just learn &mdash; they <em>transformed</em>.</p>
-                    <p class="text-brown/50 text-base leading-relaxed italic">The results spoke for themselves. But the cost of getting there was something I never talked about.</p>
+                    <h3 class="font-display text-3xl md:text-4xl font-extrabold text-navy mb-5 leading-tight">I built something<br><span class="gradient-text">from nothing.</span></h3>
+                    <p class="text-brown/70 text-lg leading-relaxed mb-5">Fresh out of college, I opened a self-directed learning coaching center in Korea. No investors, no connections, no safety net. Just a small office and a belief that teaching could be done better.</p>
+                    <p class="text-brown/70 text-lg leading-relaxed mb-5">I built everything from scratch &mdash; tracking systems for every student, personalized study plans, follow-up protocols. Word spread. Within four years, I was ranked <strong class="text-navy">170th out of 450,000 tutors</strong> on Korea's largest education platform. The <span class="text-coral font-semibold">top 0.03%</span>.</p>
+                    <p class="text-brown/50 text-base leading-relaxed italic">Students didn't just pass exams. They started believing in themselves. That was the part I loved most.</p>
                   </div>
                   <div class="space-y-4">
                     <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&q=80&auto=format&fit=crop" alt="Collaborative learning" class="story-img img-fade-left">
@@ -272,28 +281,22 @@
             </div>
           </div>
 
-          <!-- Chapter 2: The Burnout -->
+          <!-- Chapter 2: The Price -->
           <div class="swiper-slide">
             <div class="story-slide">
               <div class="max-w-5xl mx-auto w-full">
                 <div class="grid md:grid-cols-2 gap-10 items-center">
                   <div>
-                    <p class="text-brown-light text-xs font-bold tracking-widest uppercase mb-4">Chapter 2 &mdash; The Burnout</p>
-                    <h3 class="font-display text-3xl md:text-4xl font-extrabold text-navy mb-5 leading-tight">I gave<br>everything.</h3>
-                    <p class="text-brown/70 text-lg leading-relaxed mb-5">Here's what nobody tells you about teaching in Korea. The parents want results &mdash; visible, measurable, fast. Grades. Rankings. Certificates. And I understood why: in one of the most competitive education markets in the world, that's what they pay for.</p>
-                    <p class="text-brown/70 text-lg leading-relaxed mb-5">But I didn't forget why I started. I remembered <em>too well</em>. I saw kids being crushed by the system. So instead of just teaching, I became a <strong class="text-navy">connector</strong> &mdash; mediating between parents and students, managing expectations, protecting kids' mental health while still delivering the results their parents demanded.</p>
-                    <p class="text-brown/70 text-lg leading-relaxed mb-5">I took less pay so I could spend more hours. I hired staff to cover the impossible workload. Office rent, materials, custom curricula &mdash; all to give students the best environment I could. Some days I was a teacher. Other days, a counselor, a study coach, a translator between generations who saw education completely differently.</p>
-                    <p class="text-brown/50 text-base leading-relaxed italic">The work was meaningful. But grinding my body into dust to do it was not sustainable. Something had to break &mdash; and eventually, it was me.</p>
+                    <p class="text-brown-light text-xs font-bold tracking-widest uppercase mb-4">Chapter 2 &mdash; The Price</p>
+                    <h3 class="font-display text-3xl md:text-4xl font-extrabold text-navy mb-5 leading-tight">Nobody tells you<br>what it costs.</h3>
+                    <p class="text-brown/70 text-lg leading-relaxed mb-5">Korean parents want results. Grades, rankings, certificates &mdash; in one of the most competitive education markets in the world, that's what they pay for. And I delivered.</p>
+                    <p class="text-brown/70 text-lg leading-relaxed mb-5">But I also saw kids being crushed by the pressure. So I became more than a teacher. I became a <strong class="text-navy">connector</strong> &mdash; mediating between parents who wanted scores and students who needed someone to just listen. Counselor, study coach, translator between two generations who saw education completely differently.</p>
+                    <p class="text-brown/50 text-base leading-relaxed italic">I took less pay to spend more hours. I hired staff. Office rent, materials, custom curricula &mdash; all out of my own pocket. The work was meaningful. The math was not.</p>
                   </div>
                   <div class="space-y-4">
                     <img src="https://images.unsplash.com/photo-1516534775068-ba3e7458af70?w=600&q=80&auto=format&fit=crop" alt="Contemplation" class="story-img img-fade-left" style="filter: saturate(0.7);">
                     <div class="warm-card p-6 border-l-4 border-coral">
-                      <p class="text-2xl mb-2">&#128148;</p>
-                      <p class="text-brown/50 text-sm italic">"I didn't forget why I started &mdash; I remembered too well. That's what burned me out."</p>
-                    </div>
-                    <!-- 📸 IMAGE SUGGESTION: Your coaching center office or you teaching a class in Korea -->
-                    <div class="bg-cream-dark/60 rounded-xl p-4 text-center">
-                      <p class="text-xs text-brown-light/50 italic">Photo placeholder: Your coaching center or classroom in Korea</p>
+                      <p class="text-brown/50 text-sm italic">"Some days I was a teacher. Other days, a counselor. Always, the person who cared too much to say no."</p>
                     </div>
                   </div>
                 </div>
@@ -301,22 +304,41 @@
             </div>
           </div>
 
-          <!-- Chapter 3: The Journey -->
+          <!-- Chapter 3: The Breaking Point -->
           <div class="swiper-slide">
             <div class="story-slide">
               <div class="max-w-5xl mx-auto w-full">
                 <div class="grid md:grid-cols-2 gap-10 items-center">
                   <div>
-                    <p class="text-teal text-xs font-bold tracking-widest uppercase mb-4">Chapter 3 &mdash; The Journey</p>
-                    <h3 class="font-display text-3xl md:text-4xl font-extrabold text-navy mb-5 leading-tight">I started<br><span class="gradient-text-teal">wandering.</span></h3>
-                    <p class="text-brown/70 text-lg leading-relaxed mb-5">I left Korea and started traveling. No destination, no timeline, no expectations. Just a backpack and a need to breathe again.</p>
-                    <p class="text-brown/70 text-lg leading-relaxed mb-5">Along the way, I met incredible people from every corner of the world. And something unexpected kept happening &mdash; they were curious about Korea. Not just K-Pop or K-Dramas, but the <em>language</em>, the <em>culture</em>, the way Koreans think.</p>
-                    <div class="space-y-2 mb-5 pl-4 border-l-2 border-gold/40">
-                      <p class="text-brown/60 italic">"Why do Koreans always ask about age?"</p>
-                      <p class="text-brown/60 italic">"Why does the verb come at the very end?"</p>
-                      <p class="text-brown/60 italic">"Why do you write addresses backwards?"</p>
+                    <p class="text-brown-light text-xs font-bold tracking-widest uppercase mb-4">Chapter 3 &mdash; The Breaking Point</p>
+                    <h3 class="font-display text-3xl md:text-4xl font-extrabold text-navy mb-5 leading-tight">I remembered<br>too well.</h3>
+                    <p class="text-brown/70 text-lg leading-relaxed mb-5">I didn't burn out because I stopped caring. I burned out because I <em>couldn't stop</em> caring. Every student's struggle felt personal. Every parent's frustration landed on me. Every improvement felt like proof that if I just worked a little harder, I could fix the whole system.</p>
+                    <p class="text-brown/70 text-lg leading-relaxed mb-5">I couldn't. My body broke before my motivation did. I closed the center. Packed a bag. Left Korea with no plan and no idea what came next.</p>
+                    <p class="text-brown/50 text-base leading-relaxed italic">Sometimes walking away is the hardest thing a teacher does.</p>
+                  </div>
+                  <div class="space-y-4">
+                    <img src="https://images.unsplash.com/photo-1500099817043-86d46000d58f?w=600&q=80&auto=format&fit=crop" alt="Letting go" class="story-img img-fade-left" style="filter: saturate(0.6) brightness(0.95);">
+                    <div class="warm-card p-6 border-l-4 border-brown-light/30">
+                      <p class="text-2xl mb-2">&#128148;</p>
+                      <p class="text-brown/50 text-sm italic">"I didn't forget why I started. I remembered too well. That's what burned me out."</p>
                     </div>
-                    <p class="text-brown/50 text-base italic">As I explained these things, something inside me shifted. A spark I thought was dead started flickering again.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chapter 4: The Wandering -->
+          <div class="swiper-slide">
+            <div class="story-slide">
+              <div class="max-w-5xl mx-auto w-full">
+                <div class="grid md:grid-cols-2 gap-10 items-center">
+                  <div>
+                    <p class="text-teal text-xs font-bold tracking-widest uppercase mb-4">Chapter 4 &mdash; The Wandering</p>
+                    <h3 class="font-display text-3xl md:text-4xl font-extrabold text-navy mb-5 leading-tight">No plan.<br><span class="gradient-text-teal">Just breathing.</span></h3>
+                    <p class="text-brown/70 text-lg leading-relaxed mb-5">I traveled. Vietnam, Thailand, different cities, different lives. No schedule for the first time in years. I slept when I was tired. Ate when I was hungry. Talked to strangers without an agenda.</p>
+                    <p class="text-brown/70 text-lg leading-relaxed mb-5">It wasn't a grand adventure. It was recovery. Slow, quiet, sometimes boring. But I needed every minute of it to remember who I was outside of a classroom.</p>
+                    <p class="text-brown/50 text-base leading-relaxed italic">And then something unexpected started happening.</p>
                   </div>
                   <div>
                     <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=600&q=80&auto=format&fit=crop" alt="Journey through nature" class="story-img img-fade-left">
@@ -326,33 +348,56 @@
             </div>
           </div>
 
-          <!-- Chapter 4: The Calling -->
+          <!-- Chapter 5: The Spark -->
           <div class="swiper-slide">
             <div class="story-slide">
               <div class="max-w-5xl mx-auto w-full">
                 <div class="grid md:grid-cols-2 gap-10 items-center">
                   <div>
-                    <p class="text-gold text-xs font-bold tracking-widest uppercase mb-4">Chapter 4 &mdash; The Calling</p>
-                    <h3 class="font-display text-3xl md:text-4xl font-extrabold text-navy mb-5 leading-tight">I found the<br><span class="gradient-text">real problem.</span></h3>
-                    <p class="text-brown/70 text-lg leading-relaxed mb-5">The most powerful motivator in language learning is <strong class="text-navy">genuine human connection</strong> &mdash; a close 1:1 relationship with someone who truly cares about your progress. I saw this firsthand in Korea, and I see it every day on Preply.</p>
-                    <p class="text-brown/70 text-lg leading-relaxed mb-5">But here's the problem: the 1:1 tutoring market has almost <em>no barrier to entry</em>. Anyone can sign up. Many treat it as pocket money &mdash; no structure, no homework, no tracking, just casual chatting. The supply of low-effort tutors keeps growing, while students who <strong class="text-navy">genuinely want to learn</strong> are stuck filtering through people who don't take teaching seriously.</p>
-                    <p class="text-brown/70 text-lg leading-relaxed mb-5">That mismatch is exactly why someone like me needs to exist. Someone who builds real systems. Someone who treats every student's progress like a personal mission. Not because I'm smarter &mdash; but because I <em>care</em> more, and I've built the infrastructure to back it up.</p>
-                    <div class="warm-card p-5 border-l-4 border-gold">
-                      <p class="font-serif text-lg italic text-brown mb-2">"A great tutor makes themselves unnecessary."</p>
-                      <p class="text-brown-light text-sm">My goal is to teach you to fly &mdash; then let you go. Independence, not dependence.</p>
+                    <p class="text-gold text-xs font-bold tracking-widest uppercase mb-4">Chapter 5 &mdash; The Spark</p>
+                    <h3 class="font-display text-3xl md:text-4xl font-extrabold text-navy mb-5 leading-tight">People kept<br><span class="gradient-text">asking.</span></h3>
+                    <p class="text-brown/70 text-lg leading-relaxed mb-5">Everywhere I went, people were curious about Korea. Not just K-Pop or dramas &mdash; they wanted to understand <em>why</em>. Why Koreans ask your age before your name. Why the verb always comes last. Why saying "thank you" wrong can offend someone.</p>
+                    <p class="text-brown/70 text-lg leading-relaxed mb-5">I'd explain, and they'd lean in. I'd demonstrate Korean sounds, and they'd try. I'd connect language to culture, and their eyes would light up. One night, teaching a group of travelers basic Korean phrases over dinner, I realized I was doing the thing I loved again &mdash; without even trying.</p>
+                    <div class="space-y-2 mb-5 pl-4 border-l-2 border-gold/40">
+                      <p class="text-brown/60 italic">"Why do Koreans always ask about age?"</p>
+                      <p class="text-brown/60 italic">"Why does the verb come at the very end?"</p>
+                      <p class="text-brown/60 italic">"Why do you write addresses backwards?"</p>
                     </div>
+                    <p class="text-brown/50 text-base leading-relaxed italic">The spark was back. But this time, I knew I needed to do it differently.</p>
                   </div>
                   <div class="space-y-4">
-                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&q=80&auto=format&fit=crop" alt="Cultural exchange" class="story-img img-fade-left">
-                    <!-- 📸 IMAGE SUGGESTION: You explaining something on a whiteboard, or 1:1 lesson screenshot -->
+                    <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&q=80&auto=format&fit=crop" alt="Sharing knowledge" class="story-img img-fade-left">
+                    <div class="warm-card p-6 border-l-4 border-gold">
+                      <p class="text-brown/50 text-sm italic">"Teaching Korean to curious travelers reminded me why I became a teacher in the first place &mdash; that moment when something clicks."</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chapter 6: The Real Problem -->
+          <div class="swiper-slide">
+            <div class="story-slide">
+              <div class="max-w-5xl mx-auto w-full">
+                <div class="grid md:grid-cols-2 gap-10 items-center">
+                  <div>
+                    <p class="text-coral text-xs font-bold tracking-widest uppercase mb-4">Chapter 6 &mdash; The Real Problem</p>
+                    <h3 class="font-display text-3xl md:text-4xl font-extrabold text-navy mb-5 leading-tight">The market<br>is broken.</h3>
+                    <p class="text-brown/70 text-lg leading-relaxed mb-5">When I looked at the 1:1 tutoring market, I understood why so many students struggle. There's almost <em>no barrier to entry</em>. Anyone can sign up. Many treat it as pocket money &mdash; no structure, no homework, no tracking, just casual chatting for an hour.</p>
+                    <p class="text-brown/70 text-lg leading-relaxed mb-5">Students who <strong class="text-navy">genuinely want to learn</strong> are stuck filtering through hundreds of tutors who don't take teaching seriously. The most powerful thing in language learning is genuine human connection &mdash; but finding a tutor who will actually build systems around your growth? That's rare.</p>
+                    <p class="text-brown/50 text-base leading-relaxed italic">That mismatch is exactly why someone like me needs to exist. Not because I'm smarter. Because I care enough to build the infrastructure to back it up.</p>
+                  </div>
+                  <div class="space-y-4">
+                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&q=80&auto=format&fit=crop" alt="Building systems" class="story-img img-fade-left">
                     <div class="grid grid-cols-2 gap-3">
                       <div class="warm-card p-4 text-center">
                         <p class="text-teal text-xs font-bold mb-1">THE PROBLEM</p>
-                        <p class="text-brown/50 text-xs">Low barriers = most tutors are unstructured, with no tracking or follow-up</p>
+                        <p class="text-brown/50 text-xs">Low barriers = most tutors are unstructured, no tracking</p>
                       </div>
                       <div class="warm-card p-4 text-center">
                         <p class="text-coral text-xs font-bold mb-1">MY APPROACH</p>
-                        <p class="text-brown/50 text-xs">Build systems that make genuine, personalized care scalable</p>
+                        <p class="text-brown/50 text-xs">Build systems that make personalized care scalable</p>
                       </div>
                     </div>
                   </div>
@@ -361,34 +406,32 @@
             </div>
           </div>
 
-          <!-- Chapter 5: The Mission -->
+          <!-- Chapter 7: The Vision -->
           <div class="swiper-slide">
             <div class="story-slide">
               <div class="max-w-5xl mx-auto w-full">
                 <div class="grid md:grid-cols-2 gap-10 items-center">
                   <div>
-                    <p class="text-coral text-xs font-bold tracking-widest uppercase mb-4">Chapter 5 &mdash; The Mission</p>
-                    <h3 class="font-display text-3xl md:text-4xl font-extrabold text-navy mb-5 leading-tight">Building<br><span class="gradient-text">Fly Korean.</span></h3>
-                    <p class="text-brown/70 text-lg leading-relaxed mb-5">Here's why I automate with AI. It's not about replacing the human part &mdash; it's about <em>amplifying</em> it. A Korean textbook is written for <strong class="text-navy">all</strong> learners. My materials are written for <strong class="text-coral">you</strong>.</p>
-                    <p class="text-brown/70 text-lg leading-relaxed mb-5">Every lesson is recorded and transcribed. AI analyzes everything &mdash; your corrections, new vocabulary, explanations &mdash; and transforms it into personalized homework, study materials, and vocabulary tracking. The content you practice tomorrow comes directly from the conversation we had today. Not generic textbook exercises &mdash; <em>your</em> words, <em>your</em> mistakes, <em>your</em> topics.</p>
-                    <p class="text-brown/70 text-lg leading-relaxed mb-5">And this is just the beginning. The bigger vision? Even if you can't afford 1:1 lessons, you should still get world-class personalized materials. Group lessons where you learn together, then break into small practice groups to actually <em>use</em> Korean. A community where students share interests, meet in their cities, practice Korean over coffee. 30 minutes of learning + 30 minutes of real conversation = an hour that changes everything.</p>
-                    <p class="text-brown/70 text-lg leading-relaxed mb-5">Imagine: you finish a group lesson, then your study partner messages you: <span class="font-kr">"오늘 배운 거 연습하자!"</span> (Let's practice what we learned today!) &mdash; and you do, because the community makes it natural.</p>
+                    <p class="text-coral text-xs font-bold tracking-widest uppercase mb-4">Chapter 7 &mdash; The Vision</p>
+                    <h3 class="font-display text-3xl md:text-4xl font-extrabold text-navy mb-5 leading-tight">This is<br><span class="gradient-text">Fly Korean.</span></h3>
+                    <p class="text-brown/70 text-lg leading-relaxed mb-5">Every lesson is recorded and transcribed. AI turns our conversation into personalized homework, vocabulary tracking, and study materials. The content you practice tomorrow comes directly from what we talked about today &mdash; not a generic textbook.</p>
+                    <p class="text-brown/70 text-lg leading-relaxed mb-5">But the bigger vision goes beyond 1:1. Group lessons where you learn together, then break into practice groups. A community where students share interests, meet in their cities, practice Korean over coffee. Premium learning accessible to everyone.</p>
+                    <p class="text-brown/70 text-lg leading-relaxed mb-5">Imagine: you finish a lesson, then your study partner messages you: <span class="font-kr">"&#50724;&#45720; &#48176;&#50868; &#44144; &#50672;&#49845;&#54616;&#51088;!"</span> &mdash; and you do, because the community makes it natural.</p>
                     <a href="#pricing" class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-coral text-white font-semibold hover:bg-coral-light transition-all">Join the Mission <span>&rarr;</span></a>
                   </div>
                   <div class="space-y-4">
                     <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&q=80&auto=format&fit=crop" alt="Building the future" class="story-img img-fade-left">
-                    <!-- 📸 IMAGE SUGGESTION: Screenshot of your actual lesson materials or homework system -->
                     <div class="warm-card p-5 border-l-4 border-coral">
-                      <p class="text-brown/50 text-sm italic">"A teacher is the one who is worried more than the student. He shows in his work and dedication."</p>
-                      <p class="text-brown-light text-xs mt-2">&mdash; Hitesh, student review</p>
+                      <p class="font-serif text-lg italic text-brown mb-2">"A great tutor makes themselves unnecessary."</p>
+                      <p class="text-brown-light text-sm">My goal is to teach you to fly &mdash; then let you go.</p>
                     </div>
                     <div class="warm-card p-5 border-l-4 border-teal">
                       <p class="text-teal text-xs font-bold mb-2">THE VISION</p>
                       <div class="space-y-1.5 text-brown/50 text-xs">
-                        <p>&#10003; Personalized AI materials from your actual lessons</p>
-                        <p>&#10003; Group lessons + practice partner matching</p>
-                        <p>&#10003; Korean-speaking community by city &amp; interest</p>
-                        <p>&#10003; Premium materials accessible to more learners</p>
+                        <p>&#10003; AI materials from your actual lessons</p>
+                        <p>&#10003; Group lessons + practice partners</p>
+                        <p>&#10003; Community by city &amp; interest</p>
+                        <p>&#10003; Premium quality for everyone</p>
                       </div>
                     </div>
                   </div>
@@ -397,9 +440,18 @@
             </div>
           </div>
         </div>
-        <div class="swiper-pagination mt-8"></div>
         <div class="swiper-button-prev"></div>
         <div class="swiper-button-next"></div>
+        <!-- Chapter indicators -->
+        <div class="flex justify-center gap-2 mt-8">
+          <button onclick="storySwiper.slideTo(0)" class="story-dot w-8 h-1.5 rounded-full bg-gold/30 hover:bg-coral transition-all"></button>
+          <button onclick="storySwiper.slideTo(1)" class="story-dot w-8 h-1.5 rounded-full bg-gold/30 hover:bg-coral transition-all"></button>
+          <button onclick="storySwiper.slideTo(2)" class="story-dot w-8 h-1.5 rounded-full bg-gold/30 hover:bg-coral transition-all"></button>
+          <button onclick="storySwiper.slideTo(3)" class="story-dot w-8 h-1.5 rounded-full bg-gold/30 hover:bg-coral transition-all"></button>
+          <button onclick="storySwiper.slideTo(4)" class="story-dot w-8 h-1.5 rounded-full bg-gold/30 hover:bg-coral transition-all"></button>
+          <button onclick="storySwiper.slideTo(5)" class="story-dot w-8 h-1.5 rounded-full bg-gold/30 hover:bg-coral transition-all"></button>
+          <button onclick="storySwiper.slideTo(6)" class="story-dot w-8 h-1.5 rounded-full bg-gold/30 hover:bg-coral transition-all"></button>
+        </div>
       </div>
     </div>
   </section>
@@ -418,6 +470,18 @@
         <p class="text-brown-light max-w-2xl mx-auto">These aren't just teaching methods. They're the foundation of how Korean actually works &mdash; and why most textbooks get it wrong.</p>
       </div>
 
+      <!-- Section images -->
+      <div class="grid md:grid-cols-2 gap-6 mb-12 reveal">
+        <div class="rounded-2xl overflow-hidden h-48 relative">
+          <img src="https://images.unsplash.com/photo-1606567595334-d39972c85dbe?w=800&q=80&auto=format&fit=crop" alt="Korean calligraphy" class="w-full h-full object-cover">
+          <div class="absolute inset-0 bg-gradient-to-t from-cream-dark via-transparent to-transparent"></div>
+        </div>
+        <div class="rounded-2xl overflow-hidden h-48 relative">
+          <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&q=80&auto=format&fit=crop" alt="Korean culture" class="w-full h-full object-cover">
+          <div class="absolute inset-0 bg-gradient-to-t from-cream-dark via-transparent to-transparent"></div>
+        </div>
+      </div>
+
       <div class="grid md:grid-cols-3 gap-8">
         <!-- Pillar 1: Pronunciation -->
         <div class="warm-card tilt-card p-8 reveal">
@@ -426,25 +490,63 @@
           </div>
           <h3 class="font-display text-xl font-bold text-navy mb-3">Pronunciation First</h3>
           <p class="text-brown/60 text-sm leading-relaxed mb-4">Most teachers start with grammar. I start with pronunciation. Even with just 10 words, if you pronounce them correctly, Koreans will think you lived in Korea. Korean is forgiving on grammar but <strong class="text-navy">unforgiving on sounds</strong>.</p>
-          <p class="text-brown/60 text-sm leading-relaxed mb-6">Vowels? I teach jaw and lip positions. For <span class="font-kr font-bold">&#50500;</span>, open wide. For <span class="font-kr font-bold">&#50612;</span>, relax your jaw between &#50500; and &#50724;. For <span class="font-kr font-bold">&#50724;</span>, round your lips. Just by watching your jaw and lips, I can tell exactly which vowel you're trying to say &mdash; and where you're going wrong.</p>
-          <div class="bg-cream-dark rounded-xl p-5">
-            <p class="text-coral text-xs font-bold mb-3">THE THREE CONSONANT LEVELS</p>
-            <p class="text-brown-light text-xs mb-4">English has nothing like this. This is why pronunciation matters so much.</p>
+
+          <!-- Consonants -->
+          <div class="bg-cream-dark rounded-xl p-5 mb-4">
+            <p class="text-coral text-xs font-bold mb-3">CONSONANTS: THREE LEVELS</p>
+            <p class="text-brown-light text-xs mb-4">English has nothing like this. Same letter shape, three completely different sounds.</p>
             <div class="space-y-3">
               <div class="flex items-center gap-4 p-3 rounded-lg bg-white/60">
                 <span class="font-kr text-2xl font-bold text-navy w-10 text-center">&#44032;</span>
-                <div><p class="text-sm text-brown font-medium">Plain (&#50696;&#49324;&#49548;&#47532;)</p><p class="text-xs text-brown-light">Soft, relaxed &mdash; like "g" in "go" but gentler</p></div>
+                <div><p class="text-sm text-brown font-medium">Plain <span class="font-kr text-xs">(&#50696;&#49324;&#49548;&#47532;)</span></p><p class="text-xs text-brown-light">Soft, relaxed &mdash; like "g" in "go" but gentler</p></div>
               </div>
               <div class="flex items-center gap-4 p-3 rounded-lg bg-white/60">
                 <span class="font-kr text-2xl font-bold text-teal w-10 text-center">&#52852;</span>
-                <div><p class="text-sm text-brown font-medium">Aspirated (&#44144;&#49468;&#49548;&#47532;)</p><p class="text-xs text-brown-light">Strong burst of air &mdash; hold your hand in front</p></div>
+                <div><p class="text-sm text-brown font-medium">Aspirated <span class="font-kr text-xs">(&#44144;&#49468;&#49548;&#47532;)</span></p><p class="text-xs text-brown-light">Strong burst of air &mdash; hold your hand in front</p></div>
               </div>
               <div class="flex items-center gap-4 p-3 rounded-lg bg-white/60">
                 <span class="font-kr text-2xl font-bold text-coral w-10 text-center">&#44620;</span>
-                <div><p class="text-sm text-brown font-medium">Tensed (&#46108;&#49548;&#47532;)</p><p class="text-xs text-brown-light">Tight throat, no air &mdash; like the "k" in "sky"</p></div>
+                <div><p class="text-sm text-brown font-medium">Tensed <span class="font-kr text-xs">(&#46108;&#49548;&#47532;)</span></p><p class="text-xs text-brown-light">Tight throat, no air &mdash; like the "k" in "sky"</p></div>
               </div>
             </div>
-            <p class="text-brown-light/50 text-xs mt-4 italic">Confuse these, and "coffee" becomes "nose bleed." Seriously.</p>
+            <p class="text-brown-light/50 text-xs mt-4 italic">Confuse these, and "coffee" <span class="font-kr">(&#52964;&#54588;)</span> becomes "nose bleed" <span class="font-kr">(&#53076;&#54588;)</span>. Seriously.</p>
+          </div>
+
+          <!-- Vowels -->
+          <div class="bg-cream-dark rounded-xl p-5 mb-4">
+            <p class="text-coral text-xs font-bold mb-3">VOWELS: JAW &amp; LIP POSITIONS</p>
+            <p class="text-brown-light text-xs mb-4">I teach you to <em>feel</em> each vowel physically. No guessing &mdash; your jaw and lips tell me exactly what you're saying.</p>
+            <div class="space-y-3">
+              <div class="flex items-center gap-4 p-3 rounded-lg bg-white/60">
+                <span class="font-kr text-2xl font-bold text-coral w-10 text-center">&#50500;</span>
+                <div><p class="text-sm text-brown font-medium">Open wide</p><p class="text-xs text-brown-light">Drop your jaw as far as it goes &mdash; like saying "ah" at the doctor</p></div>
+              </div>
+              <div class="flex items-center gap-4 p-3 rounded-lg bg-white/60">
+                <span class="font-kr text-2xl font-bold text-gold w-10 text-center">&#50612;</span>
+                <div><p class="text-sm text-brown font-medium">Jaw halfway</p><p class="text-xs text-brown-light">Between &#50500; and &#50724; &mdash; relax your jaw, like the "u" in "fun"</p></div>
+              </div>
+              <div class="flex items-center gap-4 p-3 rounded-lg bg-white/60">
+                <span class="font-kr text-2xl font-bold text-teal w-10 text-center">&#50724;</span>
+                <div><p class="text-sm text-brown font-medium">Round your lips</p><p class="text-xs text-brown-light">Tiny circle with your lips &mdash; like blowing out a candle</p></div>
+              </div>
+              <div class="flex items-center gap-4 p-3 rounded-lg bg-white/60">
+                <span class="font-kr text-2xl font-bold text-navy w-10 text-center">&#50864;</span>
+                <div><p class="text-sm text-brown font-medium">Push lips forward</p><p class="text-xs text-brown-light">Like &#50724; but tighter &mdash; say "oo" in "food" with pursed lips</p></div>
+              </div>
+            </div>
+            <p class="text-brown-light/50 text-xs mt-4 italic">Just by watching your jaw and lips, I can tell exactly which vowel you're trying to say &mdash; and where it's going wrong.</p>
+          </div>
+
+          <!-- Natural Speech -->
+          <div class="bg-cream-dark rounded-xl p-5">
+            <p class="text-coral text-xs font-bold mb-3">NATURAL SPEECH: SOUND BLENDING</p>
+            <p class="text-brown-light text-xs mb-4">Textbooks teach crisp pronunciation. Real Koreans blend sounds together. I teach you both.</p>
+            <div class="flex items-center gap-3 p-3 rounded-lg bg-white/60">
+              <div class="text-center"><p class="font-kr text-lg font-bold text-navy">&#47579;&#51080;&#50612;&#50836;</p><p class="text-[0.6rem] text-brown-light">Textbook</p></div>
+              <span class="text-coral text-lg">&rarr;</span>
+              <div class="text-center"><p class="font-kr text-lg font-bold text-coral">&#47560;&#49884;&#49492;&#50836;</p><p class="text-[0.6rem] text-brown-light">Natural</p></div>
+            </div>
+            <p class="text-brown-light/50 text-xs mt-3 italic">Sounds merge and flow. I teach you to lean into natural blending, not fight it.</p>
           </div>
         </div>
 
@@ -454,10 +556,11 @@
             <svg class="w-7 h-7 text-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>
           </div>
           <h3 class="font-display text-xl font-bold text-navy mb-3">Sentence Logic</h3>
-          <p class="text-brown/60 text-sm leading-relaxed mb-4">Don't memorize patterns. Understand <em>why</em> Korean sentences work the way they do. English goes small&rarr;big (street, city, country). Korean goes big&rarr;small (country, city, street). English leads with action. Korean saves the verb for last &mdash; like building suspense.</p>
-          <p class="text-brown/60 text-sm leading-relaxed mb-6">I show you sentence after sentence, you swap words and experiment. When you get it wrong, I correct you. When you get it right, the pattern locks in. <strong class="text-navy">You internalize the logic, not memorize the rule.</strong></p>
-          <div class="bg-cream-dark rounded-xl p-5">
-            <p class="text-teal text-xs font-bold mb-3">WORD ORDER COMPARISON</p>
+          <p class="text-brown/60 text-sm leading-relaxed mb-4">Don't memorize patterns. Understand <em>why</em>. English goes small&rarr;big. Korean goes big&rarr;small. English leads with action. Korean saves the verb for last. Once you see the logic, you stop translating and start <em>thinking</em> in Korean.</p>
+
+          <!-- Word Order -->
+          <div class="bg-cream-dark rounded-xl p-5 mb-4">
+            <p class="text-teal text-xs font-bold mb-3">WORD ORDER: SHOPPING</p>
             <p class="text-brown-light text-xs mb-4">Same sentence, two completely different ways of thinking.</p>
             <div class="mb-4">
               <p class="text-xs text-brown-light mb-2">English: Who &rarr; Action &rarr; What &rarr; Where</p>
@@ -477,7 +580,44 @@
                 <span class="px-3 py-1.5 rounded bg-red-100 text-red-700 text-sm font-medium font-kr">&#49380;&#50836;</span>
               </div>
             </div>
-            <p class="text-brown-light/50 text-xs mt-4 italic">Korean saves the verb for last &mdash; like building suspense in a story.</p>
+          </div>
+
+          <!-- Tense Change -->
+          <div class="bg-cream-dark rounded-xl p-5 mb-4">
+            <p class="text-teal text-xs font-bold mb-3">TENSE: JUST THE ENDING CHANGES</p>
+            <p class="text-brown-light text-xs mb-4">In Korean, tense lives at the end. Everything else stays exactly the same.</p>
+            <div class="space-y-2">
+              <div class="flex items-center gap-3 p-2.5 rounded-lg bg-white/60">
+                <span class="font-kr text-sm font-bold text-navy w-20 text-right">&#49324;&#50836;</span>
+                <span class="text-xs text-brown-light">&rarr; buy (present)</span>
+              </div>
+              <div class="flex items-center gap-3 p-2.5 rounded-lg bg-white/60">
+                <span class="font-kr text-sm font-bold text-coral w-20 text-right">&#49388;&#50612;&#50836;</span>
+                <span class="text-xs text-brown-light">&rarr; bought (past)</span>
+              </div>
+              <div class="flex items-center gap-3 p-2.5 rounded-lg bg-white/60">
+                <span class="font-kr text-sm font-bold text-teal w-20 text-right">&#49332; &#44144;&#50696;&#50836;</span>
+                <span class="text-xs text-brown-light">&rarr; will buy (future)</span>
+              </div>
+            </div>
+            <p class="text-brown-light/50 text-xs mt-3 italic">Learn one pattern &rarr; apply it to every verb. That's the power of Korean logic.</p>
+          </div>
+
+          <!-- Address & Date -->
+          <div class="bg-cream-dark rounded-xl p-5">
+            <p class="text-teal text-xs font-bold mb-3">BIG &rarr; SMALL: ADDRESSES &amp; DATES</p>
+            <p class="text-brown-light text-xs mb-4">The big-to-small rule applies to everything &mdash; not just sentences.</p>
+            <div class="space-y-3">
+              <div class="p-3 rounded-lg bg-white/60">
+                <p class="text-xs text-brown-light mb-1">English address: <strong>42 Oak Street, Seoul, Korea</strong></p>
+                <p class="text-xs text-teal">Korean address: <strong class="font-kr">&#54620;&#44397;, &#49436;&#50872;, &#50724;&#53356; &#49828;&#53944;&#47551; 42</strong></p>
+              </div>
+              <div class="p-3 rounded-lg bg-white/60">
+                <p class="text-xs text-brown-light mb-1">English date: <strong>February 13, 2026</strong></p>
+                <p class="text-xs text-teal">Korean date: <strong class="font-kr">2026&#45380; 2&#50900; 13&#51068;</strong> (Year &rarr; Month &rarr; Day)</p>
+              </div>
+            </div>
+            <p class="text-brown-light/50 text-xs mt-3 italic">Koreans think from the biggest context down to the smallest detail. Once you see it, you can't unsee it.</p>
           </div>
         </div>
 
@@ -487,10 +627,11 @@
             <svg class="w-7 h-7 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
           </div>
           <h3 class="font-display text-xl font-bold text-navy mb-3">Cultural Context</h3>
-          <p class="text-brown/60 text-sm leading-relaxed mb-4">Korean isn't just a language &mdash; it's a <strong class="text-navy">social operating system</strong>. Confucian values, rice-farming collectivism, group identity (<span class="font-kr">&#50864;&#47532;</span> over <span class="font-kr">&#45208;</span>), hierarchy, and <span class="font-kr font-medium">&#45576;&#52824;</span> (reading the room) all converge. These forces created a language where <em>the same sentence</em> can be polite, casual, or insulting based on context.</p>
-          <p class="text-brown/60 text-sm leading-relaxed mb-6">Why are there 7 levels of "thank you"? Because each represents a precise social distance. I don't just teach which one to use &mdash; I teach <strong class="text-navy">why it exists</strong>, so you develop the instinct to choose the right one yourself.</p>
-          <div class="bg-cream-dark rounded-xl p-5">
-            <p class="text-gold text-xs font-bold mb-3">7 WAYS TO SAY "THANK YOU"</p>
+          <p class="text-brown/60 text-sm leading-relaxed mb-4">Korean isn't just a language &mdash; it's a <strong class="text-navy">social operating system</strong>. The same sentence can be polite, casual, or insulting based on context. I don't just teach words &mdash; I teach the <em>cultural forces</em> that shaped them.</p>
+
+          <!-- Formality Levels -->
+          <div class="bg-cream-dark rounded-xl p-5 mb-4">
+            <p class="text-gold text-xs font-bold mb-3">FORMALITY: 7 LEVELS OF "THANK YOU"</p>
             <p class="text-brown-light text-xs mb-4">Use the wrong level, and you'll insult someone while trying to be polite.</p>
             <div class="space-y-2">
               <div class="flex items-center justify-between p-2 rounded bg-white/60"><span class="font-kr text-sm">&#44256;&#47560;&#50892;</span><span class="text-xs text-green-600">Close friends only</span></div>
@@ -499,7 +640,30 @@
               <div class="flex items-center justify-between p-2 rounded bg-white/60"><span class="font-kr text-sm">&#44048;&#49324;&#54633;&#45768;&#45796;</span><span class="text-xs text-orange-600">Formal</span></div>
               <div class="flex items-center justify-between p-2 rounded bg-white/60"><span class="font-kr text-sm">&#44048;&#49324;&#46300;&#47549;&#45768;&#45796;</span><span class="text-xs text-red-600">Very formal / Business</span></div>
             </div>
-            <p class="text-brown-light/50 text-xs mt-4 italic">I teach you when to use each one &mdash; and why Koreans can tell when you pick the wrong one.</p>
+          </div>
+
+          <!-- Why Age Matters -->
+          <div class="bg-cream-dark rounded-xl p-5 mb-4">
+            <p class="text-gold text-xs font-bold mb-3">WHY KOREANS ASK YOUR AGE</p>
+            <p class="text-brown-light text-xs mb-4">It's not nosiness &mdash; it's a <em>linguistic necessity</em>.</p>
+            <p class="text-brown/60 text-xs leading-relaxed mb-3">Korean has different verb endings, vocabulary, and even pronouns based on the age relationship. Without knowing your age, a Korean speaker literally <strong class="text-navy">doesn't know which words to use</strong>. It's like asking "should I use 'you' or 'thou'?" but for <em>every sentence</em>.</p>
+            <div class="flex items-center gap-3 p-2.5 rounded-lg bg-white/60">
+              <div class="text-center"><p class="font-kr text-sm font-bold text-navy">&#48165; &#47673;&#50632;&#50612;?</p><p class="text-[0.6rem] text-brown-light">To younger</p></div>
+              <span class="text-gold">vs</span>
+              <div class="text-center"><p class="font-kr text-sm font-bold text-coral">&#49885;&#49324; &#54616;&#49512;&#49845;&#45768;&#44620;?</p><p class="text-[0.6rem] text-brown-light">To elder</p></div>
+            </div>
+            <p class="text-brown-light/50 text-xs mt-3 italic">Both mean "Have you eaten?" &mdash; the same care, completely different grammar.</p>
+          </div>
+
+          <!-- 눈치 -->
+          <div class="bg-cream-dark rounded-xl p-5">
+            <p class="text-gold text-xs font-bold mb-3"><span class="font-kr">&#45576;&#52824;</span> &mdash; READING THE ROOM</p>
+            <p class="text-brown/60 text-xs leading-relaxed mb-3">Koreans value what's <em>not</em> said as much as what is. <span class="font-kr">&#45576;&#52824;</span> is the ability to read the room, sense tension, and respond appropriately without being told. It's trainable &mdash; and I teach it through situational quizzes.</p>
+            <div class="p-3 rounded-lg bg-white/60">
+              <p class="text-xs text-gold font-medium mb-1">Quiz: Your Korean friend says <span class="font-kr">"&#44312;&#52268;&#50500;&#50836;"</span> (It's okay). What do they really mean?</p>
+              <p class="text-xs text-brown-light">A) They're fine &nbsp; B) They're upset but won't say it &nbsp; C) Depends on context</p>
+              <p class="text-xs text-teal mt-1 italic">Answer: C &mdash; and I'll teach you exactly how to read the difference.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -639,11 +803,11 @@
     <div class="relative z-10 max-w-7xl mx-auto px-6">
       <div class="text-center mb-4 reveal">
         <p class="text-gold text-sm font-semibold tracking-widest uppercase mb-3">What Students Say</p>
-        <h2 class="font-serif text-3xl md:text-5xl font-bold text-navy mb-4">Overwhelmingly Positive.</h2>
-        <p class="text-brown-light max-w-2xl mx-auto mb-2">29 perfect 5-star reviews on Preply &mdash; plus hundreds of moments from lessons where students share how they really feel. Here's a fraction of what they've said.</p>
+        <h2 class="font-serif text-3xl md:text-5xl font-bold text-navy mb-4">Overwhelmingly Positive Reviews</h2>
+        <p class="text-brown-light max-w-2xl mx-auto mb-2">80+ perfect reviews on Preply, 200+ in-lesson reactions, and messages from students across the world. All real. All unscripted.</p>
         <div class="flex flex-wrap justify-center gap-3 mt-4">
-          <span class="px-3 py-1.5 rounded-full bg-gold/10 text-gold text-xs font-bold">29 Preply Reviews &bull; All 5 Stars</span>
-          <span class="px-3 py-1.5 rounded-full bg-teal/10 text-teal text-xs font-bold">100+ In-Lesson Reactions</span>
+          <span class="px-3 py-1.5 rounded-full bg-gold/10 text-gold text-xs font-bold">80+ Preply Reviews &bull; 4.8 Average</span>
+          <span class="px-3 py-1.5 rounded-full bg-teal/10 text-teal text-xs font-bold">200+ In-Lesson Reactions</span>
           <span class="px-3 py-1.5 rounded-full bg-coral/10 text-coral text-xs font-bold">0 Negative Reviews &bull; Ever</span>
         </div>
       </div>
@@ -655,9 +819,12 @@
         <div class="trust-badge"><div class="badge-number text-coral">0.03%</div><p class="text-brown text-xs mt-1 font-medium">Top Ranking</p><p class="text-brown-light text-[0.65rem] mt-1">170th of 450,000 tutors</p></div>
       </div>
 
-      <div class="swiper reviewSwiper reveal">
-        <div class="swiper-wrapper" id="reviewsContainer"></div>
-        <div class="swiper-pagination mt-8"></div>
+      <!-- Flowing ticker rows -->
+      <div class="space-y-5 reveal">
+        <div class="overflow-hidden"><div class="ticker-row" id="tickerRow1" style="--ticker-duration:180s"></div></div>
+        <div class="overflow-hidden"><div class="ticker-row reverse" id="tickerRow2" style="--ticker-duration:200s"></div></div>
+        <div class="overflow-hidden"><div class="ticker-row" id="tickerRow3" style="--ticker-duration:160s"></div></div>
+        <div class="overflow-hidden"><div class="ticker-row reverse" id="tickerRow4" style="--ticker-duration:190s"></div></div>
       </div>
     </div>
   </section>
@@ -748,7 +915,7 @@
       <div id="addonBuilder" class="warm-card p-6 md:p-8 mb-8 reveal" style="display:none">
         <h3 class="font-display text-xl font-bold text-navy mb-6">Customize Your Package</h3>
         <div class="space-y-4" id="addonList"></div>
-        <div id="saveHint" class="save-hint items-center gap-2"><span class="text-teal text-sm">&#128161;</span><span class="text-sm text-teal">Your Custom total exceeds Premium pricing. <a href="#" onclick="selectPackage('premium');return false;" class="font-bold underline">Save with Premium &rarr;</a></span></div>
+        <div id="saveHint" class="save-hint items-center gap-2"><span class="text-teal text-sm">&#128161;</span><span class="text-sm text-teal" id="saveHintText">Your Custom total exceeds Premium pricing. <a href="#" onclick="selectPackage('premium');return false;" class="font-bold underline">Save with Premium &rarr;</a></span></div>
         <div class="mt-6 pt-6 border-t border-gold/15 flex flex-wrap items-center justify-between gap-4">
           <div>
             <p class="text-brown-light text-sm">Your estimated total</p>
@@ -835,52 +1002,215 @@
   <script>
     // ===== DATA =====
     const reviews = [
-      { name: "Loriana", tag: "Advanced \u00b7 7+ years", date: "Jan 4, 2026", text: "As an advanced Korean learner, I highly recommend Dongjae. He is the best Korean tutor I have had in my 7+ years of learning Korean. He prepares extensively for lessons, he checks in throughout the week, and he is persistent. He also quickly assessed what letters I still have an accent on, which not every tutor naturally pays attention to. 5/5 stars would recommend.", color: "#E8845C" },
-      { name: "Inna", tag: "Parent \u00b7 Daughter age 10", date: "Jan 9, 2026", text: "I rarely leave reviews but I had to leave one for Dongjae. This has been absolutely amazing experience! My daughter is 10 and just started to learn Korean she only had THREE lessons and I can already see a progress! Dongjae is very kind, most attentive, patient, and fun teacher ever! His encouragement is absolutely irresistible! He gets genuinely happy when she gets it right! And most importantly, he teaches SO well! I am beyond thrilled we found Dongjae!", color: "#4ECDC4" },
-      { name: "Apiraa", tag: "Advanced \u00b7 7 years", date: "Jan 26, 2026", text: "I have been learning Korean for about 7 years now and my previous teachers have always scolded me for not doing homework. But Dongjae's lessons somehow makes me want to do my homework LOL! He makes learning Korean so much fun and I always learn something new and useful! He is very patient and explains things thoroughly which makes me understand what he means right away. I would definitely recommend choosing Dongjae as your tutor!", color: "#D4A574" },
-      { name: "Jowita", tag: "Beginner", date: "Jan 8, 2026", text: "The trial lesson with Dongjae was absolutely amazing! The tutor is extremely patient, attentive, and well-prepared. He explains everything in a very clear and structured way, making it easy to understand. We planned the entire learning process during the first meeting, which gave me a strong sense of direction and confidence. I also received well-organized learning materials from him, which is a huge bonus and shows how much he cares about his students' progress. I'm truly excited to continue learning!", color: "#6366F1" },
-      { name: "Chasity", tag: "Consistent Learner", date: "Dec 12, 2025", text: "Highly recommend Jay! He is well-organized, detailed, and patient in every single lesson. He created a structured learning plan that is tailored to my goals. He is prompt and thoughtful with homework responses. (Yes, you actually send in your vocab pronunciations) His patience gives me confidence to try, make mistakes, and keep improving. He is organized, dedicated, knowledgeable, and truly invested in your growth. I'm so grateful to be his student!", color: "#E8845C" },
-      { name: "Jorge", tag: "Culture Explorer", date: "Jan 29, 2026", text: "In addition to pure language learning, there is a lot of culture learning with Dongjae, which is amazing! After all, language is always tied to culture. Knowing some cultural aspects of S. Korea will help you understand why the language is spoken the way it is and why it functions that way. Seriously, if you want the full Korean learning experience, get Dongjae to be your tutor/teacher.", color: "#4ECDC4" },
-      { name: "Taty", tag: "Shy but Thriving", date: "Jan 5, 2026", text: "I really enjoyed my trial lesson with Dongjae! He is extremely attentive, empathetic, and professional! During the lesson, he managed to create a very relaxed and comfortable environment, which was essential for me since I'm a bit shy. He made me feel at ease and perfectly understood my difficulties. His approach is very clear and didactic, which greatly helped my understanding. He is a helpful and motivating teacher who shows a real concern for the student's progress, encouraging autonomy and helping to find the best study method. Highly recommend!", color: "#D4A574" },
-      { name: "Clayton", tag: "New Student", date: "Dec 8, 2025", text: "Highly recommended. I did not know what to expect when I booked but he surpassed all of my expectations. It was extremely engaging and I truthfully wish the lesson could have been twice as long. Amazing! I'm excited to learn more and really looking forward to my next lesson!", color: "#E8845C" },
-      { name: "Noelle", tag: "3 lessons in", date: "Jan 25, 2026", text: "I've only had 3 lessons with Dongjae so far but he is truly a great tutor. He is so patient and kind especially when I know I get off track a lot and take up more of his time. He is so tolerant and always positively reinforces me. I highly recommend learning with Dongjae, especially if you are nervous or socially awkward and afraid of meeting someone on camera, because I was and he has made me feel comfortable since day 1. Thank you Dongjae!", color: "#6366F1" },
-      { name: "Hitesh", tag: "Dedicated Learner", date: "Dec 15, 2025", text: "He first observes you and in between he corrects you with any mistake you make. Then he makes a plan and gives you the homework according to your need and goal. This is the best part that I find in any teacher. A teacher (tutor) is the one who is worried more than the student. He shows in his work and dedication and he tells you what will be the best thing as per your goal. Highly recommend!", color: "#D4A574" },
-      { name: "Charline", tag: "2 months in", date: "Dec 8, 2025", text: "I have been learning Korean with Dongjae for 2 months now and I am thrilled to have him as my teacher. He takes the time week after week to create lessons tailored to my level and progress. He is always attentive and very encouraging. The learning goes far beyond the online classes as he is always available if I have any questions. Thanks to him, I am very motivated to continue!", color: "#4ECDC4" },
-      { name: "Nicole", tag: "Long-term Student", date: "Jan 10, 2026", text: "It's a while now that I'm having lessons with him. Since my trial lesson I felt shy but comfortable. I really like the attention he gave to the lessons and even on little things, so I can improve on the language! The lesson he makes to every single of us is personal so I can see how much effort he puts in it and I really appreciate it. He's very kind and supportive!", color: "#D4A574" },
-      { name: "Sina", tag: "Advanced Student", date: "Jan 12, 2026", text: "Fantastic tutor, who does not just teach \u2014 someone guiding you in building a structured study routine that truly fits your needs. His approach helps you discover the best way to learn and stay consistent. Always kind, encouraging, and full of positive energy, he makes every session enjoyable and productive. Highly recommended!", color: "#6366F1" },
-      { name: "Magdalena", tag: "Intermediate", date: "Nov 29, 2025", text: "He corrected me things no others Korean teachers corrected me before: he takes care of every detail, every sound of pronunciation, among other things. I highly recommend his classes! I'm looking forward to learn a lot by his teaching!", color: "#E8845C" },
-      { name: "Jaida Marie", tag: "Building Confidence", date: "Jan 12, 2026", text: "Dongjae is not only a great teacher but great moral support. Learning a new language can feel embarrassing or challenging at times but he does a great job at working to your pace and encouraging you. Thank you!", color: "#D4A574" },
-      { name: "Woraphun", tag: "Busy Professional", date: "Jan 5, 2026", text: "Great lesson. I love how he helps me practice using each verb form and use new vocabulary in the lesson which is personalized to me. Not following the book. And I have immediate summary of my lesson to review afterwards. Thanks!", color: "#4ECDC4" },
-      { name: "Agata", tag: "Comfortable Learning", date: "Feb 9, 2026", text: "Dongjae is a great tutor. He is always well prepared and provides helpful materials. His easy going and relaxed personality supports learning in a comfortable environment. 100% would recommend!", color: "#D4A574" },
-      { name: "Maimuna", tag: "Beginner", date: "Jan 20, 2026", text: "Dongjae is a great instructor! Especially when it comes to explaining his plan for each lesson. I feel more confident as I go with his feedback with my pronunciation! Very much recommend for beginners.", color: "#6366F1" },
-      { name: "Miyahh", tag: "Fun Learner", date: "Jan 3, 2026", text: "Dongjae is very patient, encouraging, fun to learn from, and makes learning very enjoyable. He is also very friendly and funny. Everything that is taught Dongjae makes it easier to understand and his teaching style is truly very helpful. I highly recommend Dongjae's lessons!", color: "#E8845C" },
-      { name: "Kath", tag: "Professional", date: "Jan 16, 2026", text: "He is very patient, and his teaching method is excellent. He explains concepts clearly, takes the time to ensure understanding, and creates a comfortable learning environment. I highly recommend him for anyone looking for effective and professional instruction.", color: "#4ECDC4" },
-      { name: "Meka", tag: "Analytical Mind", date: "Jan 9, 2026", text: "He is utmost patient, will help you with anything regarding on how to teach you, is anxious for feedback even though if haven't caught on what he taught! Highly customisable material that he contours it to your needs and aptitude.", color: "#D4A574" },
-      { name: "Imane", tag: "New Student", date: "Jan 13, 2026", text: "This first trial lesson was great! Dongjae explained everything thoroughly, understood my goals, and adapted/personalized a learning plan that we will follow. I look forward to working together!", color: "#6366F1" },
-      { name: "Alice", tag: "Goal-Oriented", date: "Jan 9, 2026", text: "Had a good trial lesson, Dongjae really listens to my goals and gave me a plan for the future lessons adapted to me and my level. You can see that he is prepared and can adapt to your need.", color: "#E8845C" },
-      { name: "Kaylee", tag: "Structured Learner", date: "Dec 18, 2025", text: "He is a great tutor who personalises his lessons to what the student needs. His lessons are also very structured, which has helped me a lot with the language learning process!", color: "#D4A574" },
-      { name: "Rahayu", tag: "All Levels", date: "Dec 19, 2025", text: "Had a great lesson with Jay. He made the class very enjoyable and I learned new things. He explains well and is very patient. A tutor very recommended for all levels of students.", color: "#4ECDC4" },
-      { name: "Annie", tag: "Clear Guidance", date: "Jan 29, 2026", text: "Ease of Learning, clear guidance and patience Teacher :)", color: "#D4A574" },
-      { name: "Sheri", tag: "Improving", date: "Jan 22, 2026", text: "Very patient and very kind :) Helps really well with improvement of Korean vocab and grammar.", color: "#6366F1" },
-      { name: "Yannis", tag: "Culture + Language", date: "Dec 28, 2025", text: "Always helpful, prepared, cheerful, and highly engaging. He has really helped me with both language and cultural understanding. I couldn't recommend him more!", color: "#E8845C" },
-      { name: "Sokvan", tag: "Pronunciation Focus", date: "Dec 31, 2025", text: "Dongjae teacher is great at helping me understand the words, language, meanings and pronunciation.", color: "#4ECDC4" },
-      // In-lesson reactions
-      { name: "Alice B", tag: "In Lesson", date: "", text: "I enjoy working on my Korean so it's not even something like 'oh I have to do that,' no it's just more 'oh yes I have my lunch break I'm gonna do some Korean'", color: "#D4A574", type: "reaction" },
-      { name: "Clayton", tag: "In Lesson", date: "", text: "I want to be able to go to Korea and just talk to you in Korean. That would be cool.", color: "#E8845C", type: "reaction" },
-      { name: "Andrea", tag: "Trial Lesson", date: "", text: "I really like your style. Everything is so structured and I think it will help me a lot.", color: "#6366F1", type: "reaction" },
-      { name: "Chloe", tag: "In Lesson", date: "", text: "I understand why you're fully occupied all the time. And I just wonder how you can prepare all the materials and reply after teaching. Thank you so much.", color: "#4ECDC4", type: "reaction" },
-      { name: "Yannis", tag: "In Lesson", date: "", text: "Your advice about the workplace has been really helpful and I think gave me permission to calm down a little bit.", color: "#D4A574", type: "reaction" },
-      { name: "Clayton", tag: "In Lesson", date: "", text: "I got to be your number one student, so I got to catch up for all the things that I missed. I can't wait to know this so we can get to the good stuff.", color: "#E8845C", type: "reaction" },
-      { name: "Samantha", tag: "In Lesson", date: "", text: "I couldn't stop listening to the audiobook. I kept going and going. It made me laugh and cry.", color: "#6366F1", type: "reaction" },
-      { name: "Annie", tag: "In Lesson", date: "", text: "I NEED TO LEARN HOW TO READ THIS. I will always use this phrase!", color: "#E8845C", type: "reaction" },
-      { name: "Yannis", tag: "In Lesson", date: "", text: "Things that I can fit into other activities are going to work really well for me. That would be awesome.", color: "#D4A574", type: "reaction" },
-      { name: "Duel", tag: "In Lesson", date: "", text: "I get a little bit shy, but I will work on it. More feelings please!", color: "#4ECDC4", type: "reaction" },
-      { name: "Paul", tag: "In Lesson", date: "", text: "That's cool, that's cool! I had no idea particles worked like that.", color: "#6366F1", type: "reaction" },
-      { name: "Chloe", tag: "In Lesson", date: "", text: "While learning Korean, I became more interested in Korean culture. I've never learned this phrase before. It's actually a very common conversation!", color: "#D4A574", type: "reaction" },
-      { name: "Clayton", tag: "In Lesson", date: "", text: "I studied 20 cards in 30 minutes, 138 times. I attached your recording to them which was pretty cool.", color: "#E8845C", type: "reaction" },
-      { name: "Samantha", tag: "In Lesson", date: "", text: "Songpa trail is my favorite place! I'm arriving in Korea March 4th. I can't wait!", color: "#4ECDC4", type: "reaction" },
-      { name: "Yannis", tag: "In Lesson", date: "", text: "I've been taking the phrases you teach me and practicing my hangul with them. It's helping so much with my confidence.", color: "#D4A574", type: "reaction" },
-      { name: "Jai", tag: "In Lesson", date: "", text: "Daily practice as a habit is fine. I understand now, doing it consistently makes it feel natural.", color: "#6366F1", type: "reaction" },
+      // ===== PREPLY REVIEWS (29 five-star + anonymous 4.8 average) =====
+      { name: "Loriana", tag: "Advanced \u00b7 7+ years", text: "He is the best Korean tutor I have had in my 7+ years of learning Korean. He prepares extensively for lessons, checks in throughout the week, and quickly assessed what letters I still have an accent on. 5/5 stars.", color: "#E8845C", type: "preply" },
+      { name: "Inna", tag: "Parent", text: "My daughter only had THREE lessons and I can already see progress! Dongjae is very kind, most attentive, patient, and fun teacher ever! His encouragement is absolutely irresistible! He teaches SO well!", color: "#4ECDC4", type: "preply" },
+      { name: "Apiraa", tag: "Advanced \u00b7 7 years", text: "My previous teachers scolded me for not doing homework. But Dongjae's lessons somehow makes me want to do my homework LOL! He makes learning Korean so much fun and I always learn something new!", color: "#D4A574", type: "preply" },
+      { name: "Jowita", tag: "Beginner", text: "The trial lesson was absolutely amazing! He explains everything in a very clear and structured way. We planned the entire learning process during the first meeting. I'm truly excited to continue!", color: "#6366F1", type: "preply" },
+      { name: "Chasity", tag: "Consistent Learner", text: "Highly recommend Jay! He is well-organized, detailed, and patient in every single lesson. His patience gives me confidence to try, make mistakes, and keep improving. Truly invested in your growth.", color: "#E8845C", type: "preply" },
+      { name: "Jorge", tag: "Culture Explorer", text: "There is a lot of culture learning with Dongjae, which is amazing! Language is always tied to culture. If you want the full Korean learning experience, get Dongjae to be your tutor.", color: "#4ECDC4", type: "preply" },
+      { name: "Taty", tag: "Shy but Thriving", text: "He managed to create a very relaxed and comfortable environment, which was essential for me since I'm a bit shy. He made me feel at ease and perfectly understood my difficulties. Highly recommend!", color: "#D4A574", type: "preply" },
+      { name: "Clayton", tag: "New Student", text: "He surpassed all of my expectations. It was extremely engaging and I truthfully wish the lesson could have been twice as long. Amazing! I'm excited to learn more!", color: "#E8845C", type: "preply" },
+      { name: "Noelle", tag: "3 lessons in", text: "He is so patient and kind. I highly recommend learning with Dongjae, especially if you are nervous or socially awkward. He has made me feel comfortable since day 1.", color: "#6366F1", type: "preply" },
+      { name: "Hitesh", tag: "Dedicated Learner", text: "He first observes you and corrects you with any mistake you make. Then he makes a plan and gives you homework according to your need and goal. Highly recommend!", color: "#D4A574", type: "preply" },
+      { name: "Charline", tag: "2 months in", text: "He takes the time week after week to create lessons tailored to my level. He is always attentive and very encouraging. Thanks to him, I am very motivated to continue!", color: "#4ECDC4", type: "preply" },
+      { name: "Nicole", tag: "Long-term Student", text: "The lesson he makes to every single of us is personal so I can see how much effort he puts in it. He's very kind and supportive!", color: "#D4A574", type: "preply" },
+      { name: "Sina", tag: "Advanced Student", text: "Not just a teacher \u2014 someone guiding you in building a structured study routine that truly fits your needs. Always kind, encouraging, and full of positive energy.", color: "#6366F1", type: "preply" },
+      { name: "Magdalena", tag: "Intermediate", text: "He corrected me things no other Korean teachers corrected me before: he takes care of every detail, every sound of pronunciation. Highly recommend!", color: "#E8845C", type: "preply" },
+      { name: "Jaida Marie", tag: "Building Confidence", text: "Not only a great teacher but great moral support. He does a great job at working to your pace and encouraging you. Thank you!", color: "#D4A574", type: "preply" },
+      { name: "Woraphun", tag: "Busy Professional", text: "I love how he helps me practice using each verb form and use new vocabulary personalized to me. Not following the book. And I have immediate lesson summary to review!", color: "#4ECDC4", type: "preply" },
+      { name: "Agata", tag: "Comfortable Learning", text: "Always well prepared and provides helpful materials. His easy going and relaxed personality supports learning in a comfortable environment. 100% would recommend!", color: "#D4A574", type: "preply" },
+      { name: "Maimuna", tag: "Beginner", text: "Great instructor! I feel more confident as I go with his feedback with my pronunciation! Very much recommend for beginners.", color: "#6366F1", type: "preply" },
+      { name: "Miyahh", tag: "Fun Learner", text: "Very patient, encouraging, fun to learn from! He is also very friendly and funny. Everything taught is made easier to understand. Highly recommend!", color: "#E8845C", type: "preply" },
+      { name: "Kath", tag: "Professional", text: "His teaching method is excellent. He explains concepts clearly, takes time to ensure understanding, and creates a comfortable learning environment. Highly recommend!", color: "#4ECDC4", type: "preply" },
+      { name: "Meka", tag: "Analytical Mind", text: "Highly customisable material that he contours to your needs and aptitude. He is utmost patient, will help you with anything.", color: "#D4A574", type: "preply" },
+      { name: "Imane", tag: "New Student", text: "Dongjae explained everything thoroughly, understood my goals, and adapted a personalized learning plan. I look forward to working together!", color: "#6366F1", type: "preply" },
+      { name: "Alice", tag: "Goal-Oriented", text: "He really listens to my goals and gave me a plan adapted to me and my level. You can see that he is prepared and can adapt to your need.", color: "#E8845C", type: "preply" },
+      { name: "Kaylee", tag: "Structured Learner", text: "A great tutor who personalises his lessons to what the student needs. His lessons are also very structured, which has helped me a lot!", color: "#D4A574", type: "preply" },
+      { name: "Rahayu", tag: "All Levels", text: "He made the class very enjoyable and I learned new things. He explains well and is very patient. Recommended for all levels!", color: "#4ECDC4", type: "preply" },
+      { name: "Annie", tag: "Clear Guidance", text: "Ease of learning, clear guidance and patience. A wonderful teacher.", color: "#D4A574", type: "preply" },
+      { name: "Sheri", tag: "Improving", text: "Very patient and very kind. Helps really well with improvement of Korean vocab and grammar.", color: "#6366F1", type: "preply" },
+      { name: "Yannis", tag: "Culture + Language", text: "Always helpful, prepared, cheerful, and highly engaging. He has really helped me with both language and cultural understanding. Couldn't recommend more!", color: "#E8845C", type: "preply" },
+      { name: "Sokvan", tag: "Pronunciation Focus", text: "Great at helping me understand the words, language, meanings and pronunciation.", color: "#4ECDC4", type: "preply" },
+      // ===== CHAT MESSAGES (student feedback from messages) =====
+      { name: "Rahayu", tag: "Message", text: "I really enjoyed classes with you. Thank you for being so patient and kind with me.", color: "#E8845C", type: "chat" },
+      { name: "Adam", tag: "Message", text: "This is exactly what I am looking for. Thank you so much for your detailed approach!", color: "#4ECDC4", type: "chat" },
+      { name: "Chloe", tag: "Message", text: "Thank you for such a clear and encouraging trial lesson. I feel so much more confident already.", color: "#D4A574", type: "chat" },
+      { name: "Kath", tag: "Message", text: "Thank you so much for being so helpful and motivating! It really makes a difference.", color: "#6366F1", type: "chat" },
+      { name: "Chasity", tag: "Message", text: "You even sent me a summary??!!! You are amazing! I didn't expect this at all.", color: "#E8845C", type: "chat" },
+      { name: "Inna", tag: "Parent \u00b7 Message", text: "We absolutely love it and the way you teach! My daughter looks forward to every lesson.", color: "#4ECDC4", type: "chat" },
+      { name: "Ignacio", tag: "Message", text: "I did like the session we had! It was very well structured and engaging.", color: "#D4A574", type: "chat" },
+      { name: "Madia", tag: "Message", text: "This is much easier to learn than what I tried before. Your method really clicks for me.", color: "#6366F1", type: "chat" },
+      { name: "Clayton", tag: "Message", text: "Can't wait to continue! That first lesson was incredible.", color: "#E8845C", type: "chat" },
+      { name: "Taty", tag: "Message", text: "Thank you so much for your patience. You make me feel comfortable even when I make mistakes.", color: "#D4A574", type: "chat" },
+      { name: "Imane", tag: "Message", text: "I'm so excited to start this journey! Your plan makes everything feel achievable.", color: "#4ECDC4", type: "chat" },
+      { name: "Woraphun", tag: "Message", text: "I love the personalized homework. It makes practice feel relevant, not random.", color: "#6366F1", type: "chat" },
+      { name: "Meka", tag: "Message", text: "Can I get more homework? I finished everything early and want to keep practicing!", color: "#E8845C", type: "chat" },
+      { name: "Apiraa", tag: "Message", text: "\uC120\uC0DD\uB2D8 \uC624\uB298 \uC218\uC5C5 \uB108\uBB34 \uC7AC\uBBF8\uC788\uC5C8\uC5B4\uC694! Today's lesson was so fun!", color: "#D4A574", type: "chat" },
+      { name: "Sina", tag: "Message", text: "\uC624\uB298 \uC218\uC5C5 \uAC10\uC0AC\uD569\uB2C8\uB2E4! \uC815\uB9D0 \uB9CE\uC774 \uBC30\uC6E0\uC5B4\uC694. I learned so much today!", color: "#6366F1", type: "chat" },
+      { name: "Sokvan", tag: "Message", text: "\uAC10\uC0AC\uD569\uB2C8\uB2E4 \uC120\uC0DD\uB2D8! Thank you teacher! I'll practice hard.", color: "#4ECDC4", type: "chat" },
+      { name: "Jowita", tag: "Message", text: "I just wanted to say I really appreciate your teaching style. It works so well for me.", color: "#E8845C", type: "chat" },
+      { name: "Charline", tag: "Message", text: "Your encouragement means a lot. I feel like I'm actually making progress!", color: "#D4A574", type: "chat" },
+      { name: "Noelle", tag: "Message", text: "Thank you for being so patient with me today. I know I get off track sometimes.", color: "#6366F1", type: "chat" },
+      { name: "Asa", tag: "Parent \u00b7 Message", text: "She loved the lesson! She's already asking when the next one is. Thank you!", color: "#4ECDC4", type: "chat" },
+      { name: "Jaida Marie", tag: "Message", text: "I've been studying a lot on my own and I want to show you what I learned!", color: "#E8845C", type: "chat" },
+      { name: "Maimuna", tag: "Message", text: "Even during my busy schedule, I make time because your lessons are worth it.", color: "#D4A574", type: "chat" },
+      { name: "Nicole", tag: "Message", text: "The materials you prepare are incredible. I can tell how much work goes into them.", color: "#6366F1", type: "chat" },
+      { name: "Agata", tag: "Message", text: "I really like the relaxed atmosphere in our lessons. It helps me focus better.", color: "#4ECDC4", type: "chat" },
+      { name: "Samantha", tag: "Message", text: "I've been looking forward to this lesson all week! Let's do this!", color: "#E8845C", type: "chat" },
+      { name: "HUIXIN", tag: "Message", text: "\uC120\uC0DD\uB2D8 \uB355\uBD84\uC5D0 \uD1A0\uD53D \uC2DC\uD5D8 \uC900\uBE44\uAC00 \uC798 \uB418\uACE0 \uC788\uC5B4\uC694! TOPIK prep is going so well thanks to you!", color: "#D4A574", type: "chat" },
+      { name: "Regina", tag: "Message", text: "\uAC10\uC0AC\uD569\uB2C8\uB2E4! I practiced the phrases you taught me and people understood me!", color: "#6366F1", type: "chat" },
+      { name: "Violeta", tag: "Message", text: "Thank you for the lesson today! Your explanations are always so clear.", color: "#4ECDC4", type: "chat" },
+      { name: "Corine", tag: "Message", text: "I love how you explain the cultural context behind every phrase. It helps me remember!", color: "#E8845C", type: "chat" },
+      { name: "Sarah", tag: "Message", text: "I was so impressed by your profile and the trial lesson plan. This is what I've been looking for!", color: "#D4A574", type: "chat" },
+      { name: "Leah", tag: "Parent \u00b7 Message", text: "She's using Korean words at home now! Thank you for making it fun for her.", color: "#6366F1", type: "chat" },
+      // ===== IN-LESSON REACTIONS (from transcripts) =====
+      { name: "Alice B", tag: "In Lesson", text: "I enjoy working on my Korean so it's not even 'oh I have to do that,' it's just 'oh yes I have my lunch break I'm gonna do some Korean!'", color: "#D4A574", type: "reaction" },
+      { name: "Clayton", tag: "In Lesson", text: "I want to be able to go to Korea and just talk to you in Korean. That would be cool.", color: "#E8845C", type: "reaction" },
+      { name: "Andrea", tag: "Trial Lesson", text: "I really like your style. Everything is so structured and I think it will help me a lot.", color: "#6366F1", type: "reaction" },
+      { name: "Chloe", tag: "In Lesson", text: "I understand why you're fully occupied all the time. I just wonder how you can prepare all the materials. Thank you so much.", color: "#4ECDC4", type: "reaction" },
+      { name: "Yannis", tag: "In Lesson", text: "Your advice about the workplace has been really helpful and gave me permission to calm down a little bit.", color: "#D4A574", type: "reaction" },
+      { name: "Clayton", tag: "In Lesson", text: "I got to be your number one student! I can't wait to know this so we can get to the good stuff.", color: "#E8845C", type: "reaction" },
+      { name: "Samantha", tag: "In Lesson", text: "I couldn't stop listening to the audiobook. I kept going and going. It made me laugh and cry.", color: "#6366F1", type: "reaction" },
+      { name: "Annie", tag: "In Lesson", text: "I NEED TO LEARN HOW TO READ THIS. I will always use this phrase!", color: "#E8845C", type: "reaction" },
+      { name: "Yannis", tag: "In Lesson", text: "Things that I can fit into other activities are going to work really well for me. That would be awesome.", color: "#D4A574", type: "reaction" },
+      { name: "Duel", tag: "In Lesson", text: "I get a little bit shy, but I will work on it. More feelings please!", color: "#4ECDC4", type: "reaction" },
+      { name: "Paul", tag: "In Lesson", text: "That's cool! I had no idea particles worked like that.", color: "#6366F1", type: "reaction" },
+      { name: "Chloe", tag: "In Lesson", text: "While learning Korean, I became more interested in Korean culture. I've never learned this phrase before!", color: "#D4A574", type: "reaction" },
+      { name: "Clayton", tag: "In Lesson", text: "I studied 20 cards in 30 minutes, 138 times. I attached your recording to them which was pretty cool.", color: "#E8845C", type: "reaction" },
+      { name: "Samantha", tag: "In Lesson", text: "Songpa trail is my favorite place! I'm arriving in Korea March 4th. I can't wait!", color: "#4ECDC4", type: "reaction" },
+      { name: "Yannis", tag: "In Lesson", text: "I've been taking the phrases you teach me and practicing my hangul with them. It's helping so much.", color: "#D4A574", type: "reaction" },
+      { name: "Jai", tag: "In Lesson", text: "Daily practice as a habit is fine. Doing it consistently makes it feel natural.", color: "#6366F1", type: "reaction" },
+      { name: "Dorian", tag: "Trial Lesson", text: "This is really different from other tutorials. Way more satisfying. I feel like I actually get it.", color: "#E8845C", type: "reaction" },
+      { name: "Diamonique", tag: "Trial Lesson", text: "I read your bio and I was like, this sounds like me! I need this kind of structure.", color: "#4ECDC4", type: "reaction" },
+      { name: "Nora", tag: "In Lesson", text: "Now that I have the starting point, it's like, okay, I can definitely practice on my own.", color: "#D4A574", type: "reaction" },
+      { name: "Madia", tag: "In Lesson", text: "I start even to focus on the Korean when I watch Korean dramas now. It's working!", color: "#6366F1", type: "reaction" },
+      { name: "Chloe", tag: "In Lesson", text: "I've never learned this phrase. It's a very common conversation and nobody taught it before!", color: "#E8845C", type: "reaction" },
+      { name: "Antonia", tag: "Trial Lesson", text: "I'm an overachiever so I really want to perform well. This is the structure I need.", color: "#4ECDC4", type: "reaction" },
+      { name: "Woraphun", tag: "In Lesson", text: "I love how everything connects. The vocabulary from last time just came back naturally.", color: "#D4A574", type: "reaction" },
+      { name: "Clayton", tag: "In Lesson", text: "That's what I want to be able to do \u2014 just pick up my phone and text in Korean.", color: "#E8845C", type: "reaction" },
+      { name: "Kath", tag: "In Lesson", text: "I feel like I'm actually understanding the patterns now, not just memorizing.", color: "#6366F1", type: "reaction" },
+      { name: "Yannis", tag: "In Lesson", text: "I practiced at the Korean restaurant and they were so happy I tried! It felt amazing.", color: "#4ECDC4", type: "reaction" },
+      { name: "Noelle", tag: "In Lesson", text: "You make it so easy to understand. Other teachers just told me to memorize it.", color: "#D4A574", type: "reaction" },
+      { name: "Maimuna", tag: "In Lesson", text: "I practiced during my lunch break and it actually stuck. This method works.", color: "#E8845C", type: "reaction" },
+      { name: "Nicole", tag: "In Lesson", text: "I love how you explain the 'why' behind everything. It makes Korean feel logical.", color: "#6366F1", type: "reaction" },
+      { name: "Agata", tag: "In Lesson", text: "I actually used Korean at the Korean grocery store and they complimented my pronunciation!", color: "#4ECDC4", type: "reaction" },
+      { name: "Hitesh", tag: "In Lesson", text: "The homework really helps. I can see myself improving week by week.", color: "#D4A574", type: "reaction" },
+      { name: "Jowita", tag: "In Lesson", text: "I went from not knowing any Korean to reading hangul in two lessons. That's incredible.", color: "#E8845C", type: "reaction" },
+      { name: "Charline", tag: "In Lesson", text: "I told my friends about you. They can't believe how much I've learned in two months!", color: "#6366F1", type: "reaction" },
+      { name: "Jaida Marie", tag: "In Lesson", text: "I used to be so scared to speak. Now I actually look forward to the speaking practice!", color: "#4ECDC4", type: "reaction" },
+      { name: "Imane", tag: "In Lesson", text: "This is so well organized. I love that you have a clear plan for where we're going.", color: "#D4A574", type: "reaction" },
+      { name: "Meka", tag: "In Lesson", text: "I want extra homework! I finished everything and I want more to practice with.", color: "#E8845C", type: "reaction" },
+      { name: "Taty", tag: "In Lesson", text: "You're so patient. I never feel rushed even when I take time to think.", color: "#6366F1", type: "reaction" },
+      { name: "Rahayu", tag: "In Lesson", text: "I love the way you teach grammar. It makes so much more sense than textbooks.", color: "#4ECDC4", type: "reaction" },
+      { name: "Jorge", tag: "In Lesson", text: "The cultural context changes everything. Now I understand why they say it that way.", color: "#D4A574", type: "reaction" },
+      { name: "Alice B", tag: "In Lesson", text: "Korean has become part of my daily routine. I don't even have to think about it anymore.", color: "#E8845C", type: "reaction" },
+      { name: "Sina", tag: "In Lesson", text: "\uC624\uB298 \uC218\uC5C5 \uC815\uB9D0 \uC7AC\uBBF8\uC788\uC5C8\uC5B4\uC694! I feel like I'm finally getting fluent.", color: "#6366F1", type: "reaction" },
+      { name: "Apiraa", tag: "In Lesson", text: "\uC120\uC0DD\uB2D8 \uB355\uBD84\uC5D0 \uD55C\uAD6D\uC5B4\uAC00 \uB108\uBB34 \uC7AC\uBBF8\uC788\uC5B4\uC694! Korean is so fun thanks to you!", color: "#4ECDC4", type: "reaction" },
+      { name: "Sokvan", tag: "In Lesson", text: "My pronunciation has improved so much since we started. My Korean friends noticed!", color: "#D4A574", type: "reaction" },
+      { name: "Annie", tag: "In Lesson", text: "Every lesson I learn something I can use immediately. That's what makes it worth it.", color: "#E8845C", type: "reaction" },
+      { name: "Kaylee", tag: "In Lesson", text: "The structure of your lessons is what keeps me coming back. I always know what to expect.", color: "#6366F1", type: "reaction" },
+      { name: "Paul", tag: "In Lesson", text: "I just realized I can read that entire sign in Korean. When did that happen?!", color: "#4ECDC4", type: "reaction" },
+      { name: "Miyahh", tag: "In Lesson", text: "You always make me laugh while I'm learning. That's a special talent.", color: "#D4A574", type: "reaction" },
+      { name: "Duel", tag: "In Lesson", text: "I watched a Korean drama and understood actual sentences. I was so proud!", color: "#E8845C", type: "reaction" },
+      { name: "Inna", tag: "Parent \u00b7 In Lesson", text: "She's singing Korean songs now and actually knows what the words mean!", color: "#6366F1", type: "reaction" },
+      { name: "Magdalena", tag: "In Lesson", text: "No other teacher corrected my pronunciation like this. I can hear the difference now.", color: "#4ECDC4", type: "reaction" },
+      { name: "Chasity", tag: "In Lesson", text: "I recorded myself speaking Korean and compared it to last month. The improvement is real!", color: "#D4A574", type: "reaction" },
+      { name: "Asa", tag: "In Lesson", text: "Can we do more of the fun games? I love learning Korean this way!", color: "#E8845C", type: "reaction" },
+      { name: "Leah", tag: "In Lesson", text: "I taught my mom some Korean words! She was impressed.", color: "#6366F1", type: "reaction" },
+      { name: "HUIXIN", tag: "In Lesson", text: "\uD1A0\uD53D \uBB38\uC81C \uD480\uB54C \uC120\uC0DD\uB2D8\uC774 \uAC00\uB974\uCE5C \uBC29\uBC95\uC774 \uB9CE\uC774 \uB3C4\uC6C0\uC774 \uB3FC\uC694! Your methods really help with TOPIK!", color: "#4ECDC4", type: "reaction" },
+      { name: "Violeta", tag: "In Lesson", text: "I feel so much more confident now. A month ago I couldn't even read hangul.", color: "#D4A574", type: "reaction" },
+      { name: "Corine", tag: "In Lesson", text: "The way you explain culture makes the language make sense. It's not random anymore.", color: "#E8845C", type: "reaction" },
+      { name: "Regina", tag: "In Lesson", text: "I tried ordering in Korean at a restaurant and it worked! They even complimented me!", color: "#6366F1", type: "reaction" },
+      { name: "Sarah", tag: "Trial Lesson", text: "This is exactly the kind of structured approach I've been searching for. Amazing first impression.", color: "#4ECDC4", type: "reaction" },
+      { name: "Samantha", tag: "In Lesson", text: "I love my personal app! I practice on the bus every morning now.", color: "#D4A574", type: "reaction" },
+      { name: "Madia", tag: "In Lesson", text: "The sentence builder app is amazing. I can feel the grammar clicking in my brain.", color: "#E8845C", type: "reaction" },
+      { name: "Noelle", tag: "In Lesson", text: "I used to freeze when trying to speak. Now words just come out naturally.", color: "#6366F1", type: "reaction" },
+      { name: "Clayton", tag: "In Lesson", text: "The flashcard system with mastery tracking is genius. I can see exactly what I need to practice.", color: "#4ECDC4", type: "reaction" },
+      { name: "Kath", tag: "In Lesson", text: "I feel like I learn more in one lesson with you than a month of apps. It's not even close.", color: "#D4A574", type: "reaction" },
+      { name: "Woraphun", tag: "In Lesson", text: "I got promoted and it's partly because I mentioned I'm learning Korean for the team. Thank you!", color: "#E8845C", type: "reaction" },
+      { name: "Jowita", tag: "In Lesson", text: "My boyfriend is Korean and he couldn't believe I learned that expression. He was so proud!", color: "#6366F1", type: "reaction" },
+      { name: "Alice B", tag: "In Lesson", text: "The daily feedback is incredible. I feel like I have a teacher available every single day.", color: "#4ECDC4", type: "reaction" },
+      { name: "Charline", tag: "In Lesson", text: "Learning Korean with you doesn't feel like studying. It feels like exploring a new world.", color: "#D4A574", type: "reaction" },
+      { name: "Ignacio", tag: "In Lesson", text: "I'm already thinking about my trip to Korea. I want to surprise everyone there with my Korean!", color: "#E8845C", type: "reaction" },
+      { name: "Nicole", tag: "In Lesson", text: "The lesson summaries are a lifesaver. I review them before every session.", color: "#6366F1", type: "reaction" },
+      { name: "Agata", tag: "In Lesson", text: "I never thought I'd enjoy homework, but the way you design it makes me want to complete it.", color: "#4ECDC4", type: "reaction" },
+      { name: "Imane", tag: "In Lesson", text: "My friends in Morocco think it's so cool that I'm learning Korean. You've given me confidence.", color: "#D4A574", type: "reaction" },
+      { name: "Taty", tag: "In Lesson", text: "I finally understand the difference between the politeness levels. It all makes sense now!", color: "#E8845C", type: "reaction" },
+      { name: "Rahayu", tag: "In Lesson", text: "I watched a K-drama without subtitles for a few minutes and understood things. I was shocked!", color: "#6366F1", type: "reaction" },
+      { name: "Jorge", tag: "In Lesson", text: "You explained in 5 minutes what my textbook spent 20 pages on. And I actually get it now.", color: "#4ECDC4", type: "reaction" },
+      { name: "Hitesh", tag: "In Lesson", text: "Every week I notice I can understand more Korean around me. The progress is real.", color: "#D4A574", type: "reaction" },
+      { name: "Meka", tag: "In Lesson", text: "The way you break down complex grammar into simple patterns \u2014 that's what makes you different.", color: "#E8845C", type: "reaction" },
+      { name: "Miyahh", tag: "In Lesson", text: "I love that you make me think in Korean, not just translate from English. That shift changed everything.", color: "#6366F1", type: "reaction" },
+      { name: "Sina", tag: "In Lesson", text: "I spoke Korean at the Korean consulate and they were impressed. They asked where I learned!", color: "#4ECDC4", type: "reaction" },
+      { name: "Apiraa", tag: "In Lesson", text: "I've tried many tutors over 7 years. This is the first time I actually feel like I'm advancing.", color: "#D4A574", type: "reaction" },
+      { name: "Magdalena", tag: "In Lesson", text: "I'm starting to hear individual words in Korean songs now, not just sounds. That's amazing to me.", color: "#E8845C", type: "reaction" },
+      { name: "Inna", tag: "Parent \u00b7 In Lesson", text: "She counts to 100 in Korean now! And she corrects MY pronunciation. What have you done?!", color: "#6366F1", type: "reaction" },
+      { name: "Chasity", tag: "In Lesson", text: "You send voice recordings for practice? No other tutor has ever done that. That's next level.", color: "#4ECDC4", type: "reaction" },
+      { name: "Jaida Marie", tag: "In Lesson", text: "I wrote a journal entry in Korean today. It was short, but I did it! All by myself.", color: "#D4A574", type: "reaction" },
+      { name: "Maimuna", tag: "In Lesson", text: "Even during my emergency, I didn't want to miss our lesson. That says a lot about your teaching.", color: "#E8845C", type: "reaction" },
+      { name: "Dorian", tag: "Trial Lesson", text: "You make it easy though. The way you explain is just... it clicks. I've never had that with Korean.", color: "#6366F1", type: "reaction" },
+      { name: "Diamonique", tag: "Trial Lesson", text: "You're not just teaching language, you're teaching how to think about language. That's rare.", color: "#4ECDC4", type: "reaction" },
+      { name: "Nora", tag: "In Lesson", text: "I downloaded a Korean keyboard and now I text in Korean! Small steps but it feels huge.", color: "#D4A574", type: "reaction" },
+      { name: "Samantha", tag: "In Lesson", text: "Every lesson feels like an adventure. You bring so much energy and enthusiasm!", color: "#E8845C", type: "reaction" },
+      { name: "Clayton", tag: "In Lesson", text: "I've never been this consistent with learning anything. There's something about your system.", color: "#6366F1", type: "reaction" },
+      { name: "Duel", tag: "In Lesson", text: "The emoji homework system is genius. I actually look forward to getting my feedback!", color: "#4ECDC4", type: "reaction" },
+      { name: "Paul", tag: "In Lesson", text: "I can read Korean menus now. Last week I ordered bibimbap in Korean and the waiter smiled!", color: "#D4A574", type: "reaction" },
+      { name: "Annie", tag: "In Lesson", text: "You explained 7 levels of thank you and suddenly Korean manners made complete sense.", color: "#E8845C", type: "reaction" },
+      { name: "Violeta", tag: "In Lesson", text: "My Korean friend was shocked when I used the right formality level. She said 'who taught you?!'", color: "#6366F1", type: "reaction" },
+      { name: "Corine", tag: "In Lesson", text: "I love that every lesson has a clear objective. I always know what I'm going to learn.", color: "#4ECDC4", type: "reaction" },
+      { name: "Asa", tag: "In Lesson", text: "I drew Korean letters for my school project! My teacher said it looked beautiful.", color: "#D4A574", type: "reaction" },
+      { name: "Leah", tag: "In Lesson", text: "I made a Korean song for my family! Everyone loved it!", color: "#E8845C", type: "reaction" },
+      { name: "Sokvan", tag: "In Lesson", text: "I practiced with my Cambodian-Korean friends and they said my accent is getting so much better!", color: "#6366F1", type: "reaction" },
+      { name: "HUIXIN", tag: "In Lesson", text: "The TOPIK practice tests you give me are so well-targeted. I feel ready for the exam.", color: "#4ECDC4", type: "reaction" },
+      { name: "Kaylee", tag: "In Lesson", text: "Your structured approach is exactly what my brain needs. Random learning never worked for me.", color: "#D4A574", type: "reaction" },
+      { name: "Ignacio", tag: "In Lesson", text: "I showed my family the Korean I learned and they were so impressed. Made my day!", color: "#E8845C", type: "reaction" },
+      { name: "Alice", tag: "In Lesson", text: "I can feel myself thinking in Korean sometimes now. It just pops into my head naturally!", color: "#6366F1", type: "reaction" },
+      { name: "Sheri", tag: "In Lesson", text: "My vocabulary has grown so much. I recognize Korean words everywhere now \u2014 signs, menus, songs.", color: "#4ECDC4", type: "reaction" },
+      { name: "Sarah", tag: "Trial Lesson", text: "I wasn't sure about online tutoring, but this trial completely changed my mind. Signing up!", color: "#D4A574", type: "reaction" },
+      { name: "Jai", tag: "In Lesson", text: "I made Korean learning a daily habit now. 15 minutes every morning with my coffee.", color: "#E8845C", type: "reaction" },
+      { name: "Andrea", tag: "Trial Lesson", text: "You showed me more structure in 50 minutes than I found in 6 months of searching online.", color: "#6366F1", type: "reaction" },
+      { name: "Loriana", tag: "In Lesson", text: "After 7 years of learning, you're the first teacher who fixed my \u314E pronunciation. Finally!", color: "#4ECDC4", type: "reaction" },
+      { name: "Chloe", tag: "In Lesson", text: "My Korean coworker heard me practicing and asked if I was Korean. Best compliment ever!", color: "#D4A574", type: "reaction" },
+      { name: "Jorge", tag: "In Lesson", text: "I understand Korean humor now! My Korean friends include me in jokes and I actually get them.", color: "#E8845C", type: "reaction" },
+      { name: "Nicole", tag: "In Lesson", text: "I started a Korean study journal thanks to your suggestion. It's become my favorite notebook.", color: "#6366F1", type: "reaction" },
+      { name: "Noelle", tag: "In Lesson", text: "The way you celebrate small victories makes me want to keep going. Every lesson ends on a high.", color: "#4ECDC4", type: "reaction" },
+      { name: "Madia", tag: "In Lesson", text: "Korean used to look like random symbols. Now I see words, grammar, meaning. What a journey!", color: "#D4A574", type: "reaction" },
+      { name: "Agata", tag: "In Lesson", text: "I'm planning a trip to Seoul and I feel like I'll actually be able to navigate. That's because of you.", color: "#E8845C", type: "reaction" },
+      { name: "Taty", tag: "In Lesson", text: "You noticed I was having a hard day and adjusted the lesson. That kind of care is rare.", color: "#6366F1", type: "reaction" },
+      { name: "Meka", tag: "In Lesson", text: "I analyzed the grammar pattern you taught me and found it in 12 different K-dramas. So satisfying!", color: "#4ECDC4", type: "reaction" },
+      { name: "Miyahh", tag: "In Lesson", text: "My sister wants to learn Korean now because she sees how much fun I'm having. Your fault!", color: "#D4A574", type: "reaction" },
+      { name: "Charline", tag: "In Lesson", text: "After each lesson, I feel energized, not drained. That's the sign of a great teacher.", color: "#E8845C", type: "reaction" },
+      { name: "Imane", tag: "In Lesson", text: "You always find a way to connect Korean to things I care about. It never feels irrelevant.", color: "#6366F1", type: "reaction" },
+      { name: "Rahayu", tag: "In Lesson", text: "I'm reading children's books in Korean now. Slowly, but I'm reading! This is amazing.", color: "#4ECDC4", type: "reaction" },
+      { name: "Hitesh", tag: "In Lesson", text: "Your system of building vocabulary from lessons is so smart. Every word has context.", color: "#D4A574", type: "reaction" },
+      { name: "Woraphun", tag: "In Lesson", text: "I used Korean in a business meeting with our Korean partners. They were genuinely impressed!", color: "#E8845C", type: "reaction" },
+      { name: "Jowita", tag: "In Lesson", text: "I surprised my boyfriend with a Korean love letter. He cried! Best homework ever.", color: "#6366F1", type: "reaction" },
+      { name: "Sina", tag: "In Lesson", text: "I read a Korean newspaper article today. Not perfectly, but I understood the main idea. Milestone!", color: "#4ECDC4", type: "reaction" },
+      { name: "Apiraa", tag: "In Lesson", text: "You're the reason I didn't give up on Korean. After 7 years, you renewed my motivation completely.", color: "#D4A574", type: "reaction" },
+      // ===== ADDITIONAL CHAT FEEDBACK =====
+      { name: "Magdalena", tag: "Message", text: "I've been reviewing the summary you sent and it's so detailed! Thank you for always going above and beyond.", color: "#4ECDC4", type: "chat" },
+      { name: "Miyahh", tag: "Message", text: "I showed my family the Korean I can write now. They couldn't believe it! Thank you!", color: "#E8845C", type: "chat" },
+      { name: "Kaylee", tag: "Message", text: "I love the structured approach. It really helps me track my progress week by week.", color: "#D4A574", type: "chat" },
+      { name: "Hitesh", tag: "Message", text: "Thank you for the extra practice materials. They've been so helpful for my daily routine!", color: "#6366F1", type: "chat" },
+      { name: "Duel", tag: "Message", text: "I'm so glad I found you as my tutor. Korean is actually fun now!", color: "#4ECDC4", type: "chat" },
+      { name: "Paul", tag: "Message", text: "The cultural lessons are my favorite part. I feel like I'm learning so much more than just a language.", color: "#D4A574", type: "chat" },
+      // ===== ADDITIONAL REACTIONS =====
+      { name: "Alice B", tag: "In Lesson", text: "I watched a Korean cooking show and understood the ingredients! Small win but I'm celebrating!", color: "#6366F1", type: "reaction" },
+      { name: "Clayton", tag: "In Lesson", text: "Remember when I couldn't even read hangul? Now look at me. You did this.", color: "#4ECDC4", type: "reaction" },
+      { name: "Madia", tag: "In Lesson", text: "I think in Korean sometimes now! Like, the numbers just pop up in Korean first.", color: "#D4A574", type: "reaction" },
+      { name: "Noelle", tag: "In Lesson", text: "You never make me feel stupid for making mistakes. That's everything.", color: "#E8845C", type: "reaction" },
+      { name: "Yannis", tag: "In Lesson", text: "I'm using Korean daily now at work with our Korean team. They love it.", color: "#6366F1", type: "reaction" },
+      { name: "Woraphun", tag: "In Lesson", text: "The personalized app is such a game changer. I practice while waiting for meetings.", color: "#4ECDC4", type: "reaction" },
+      { name: "Chasity", tag: "In Lesson", text: "I read a Korean menu today without any help. A real menu! I almost cried.", color: "#D4A574", type: "reaction" },
+      { name: "Jorge", tag: "In Lesson", text: "You don't just teach Korean, you teach how to learn. That's a skill for life.", color: "#E8845C", type: "reaction" },
+      { name: "Taty", tag: "In Lesson", text: "I feel safe making mistakes in our lessons. That's why I'm improving so fast.", color: "#6366F1", type: "reaction" },
+      { name: "Maimuna", tag: "In Lesson", text: "My pronunciation got complimented by a native speaker today! First time ever!", color: "#4ECDC4", type: "reaction" },
+      { name: "Samantha", tag: "In Lesson", text: "The homework design is incredible. It doesn't feel like homework, it feels like a game.", color: "#D4A574", type: "reaction" },
+      { name: "Kath", tag: "In Lesson", text: "I appreciate how you adapt each lesson to where I am that day. True personalization.", color: "#E8845C", type: "reaction" },
+      { name: "Nicole", tag: "In Lesson", text: "I told everyone at work about my Korean tutor. They're all jealous of my learning system!", color: "#6366F1", type: "reaction" },
+      { name: "Ignacio", tag: "In Lesson", text: "Korean felt impossible before. Now it feels like just a matter of time. Thank you.", color: "#4ECDC4", type: "reaction" },
+      { name: "Jowita", tag: "In Lesson", text: "I can text basic things in Korean now! My boyfriend responds and I can read his replies!", color: "#D4A574", type: "reaction" },
     ];
 
     const faqData = [
@@ -894,19 +1224,26 @@
       { q: "How does the personal web app work?", a: "Every student with Premium or Custom (with app add-on) gets their own dedicated URL. It's a real web app built specifically for your vocabulary.<br><br><strong>What's inside:</strong><br>\u2022 <strong>Sentence Builder:</strong> Interactive blocks to construct Korean sentences with validation<br>\u2022 <strong>Flashcards:</strong> 3D flip cards with text-to-speech. Mastery tracking. Weak words shown first.<br>\u2022 <strong>Mastery Dashboard:</strong> See exactly which words you've mastered, learning, or need practice.<br><br><strong>How it updates:</strong> After each lesson, new vocabulary is added automatically. Your weak areas feed into the priority system.<br><br><strong>Works on any device:</strong> Phone, tablet, desktop. Just open your URL in any browser." },
     ];
 
-    // ===== RENDER REVIEWS =====
-    const reviewsContainer = document.getElementById('reviewsContainer');
-    if (reviewsContainer) {
-      reviews.forEach(r => {
-        const slide = document.createElement('div');
-        slide.className = 'swiper-slide'; slide.style.height = 'auto';
-        const isReaction = r.type === 'reaction';
-        const topBadge = isReaction ? '<span class="px-2 py-0.5 rounded-full bg-teal/10 text-teal text-[0.6rem] font-bold">IN LESSON</span>' : '<div class="flex gap-0.5">' + '<span class="star text-sm">&#9733;</span>'.repeat(5) + '</div>';
-        const datePart = r.date ? ' &bull; ' + r.date : '';
-        slide.innerHTML = `<div class="review-card"><div><div class="mb-3">${topBadge}</div><p class="text-brown/60 text-sm leading-relaxed mb-4">"${r.text}"</p></div><div class="flex items-center gap-3 pt-3 border-t border-gold/10"><div class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold" style="background:${r.color}18;color:${r.color}">${r.name[0]}</div><div><p class="text-sm font-medium text-navy">${r.name}</p><p class="text-xs text-brown-light">${r.tag}${datePart}</p></div></div></div>`;
-        reviewsContainer.appendChild(slide);
-      });
+    // ===== RENDER REVIEWS (ticker) =====
+    function renderReviewCard(r) {
+      const typeBadge = r.type === 'preply'
+        ? '<div class="flex gap-0.5">' + '<span class="star text-sm">&#9733;</span>'.repeat(5) + '</div>'
+        : r.type === 'chat'
+        ? '<span class="px-2 py-0.5 rounded-full bg-coral/10 text-coral text-[0.6rem] font-bold">MESSAGE</span>'
+        : '<span class="px-2 py-0.5 rounded-full bg-teal/10 text-teal text-[0.6rem] font-bold">IN LESSON</span>';
+      return `<div class="review-card"><div><div class="mb-2">${typeBadge}</div><p class="text-brown/70 text-sm leading-relaxed mb-3">\u201C${r.text}\u201D</p></div><div class="flex items-center gap-3 pt-3 border-t border-gold/10"><div class="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold" style="background:${r.color}18;color:${r.color}">${r.name[0]}</div><div><p class="text-sm font-medium text-navy">${r.name}</p><p class="text-xs text-brown-light">${r.tag}</p></div></div></div>`;
     }
+    // Shuffle reviews then split into 4 rows
+    const shuffled = [...reviews].sort(() => Math.random() - 0.5);
+    const rowSize = Math.ceil(shuffled.length / 4);
+    [1,2,3,4].forEach(i => {
+      const row = document.getElementById('tickerRow' + i);
+      if (!row) return;
+      const chunk = shuffled.slice((i-1)*rowSize, i*rowSize);
+      // Duplicate for seamless infinite scroll
+      const html = chunk.map(renderReviewCard).join('');
+      row.innerHTML = html + html;
+    });
 
     // ===== RENDER FAQ =====
     const faqContainer = document.getElementById('faqContainer');
@@ -941,8 +1278,12 @@
     const addonList = document.getElementById('addonList');
     if (addonList) {
       addons.forEach(a => {
-        const isFree = a.promo === 0;
-        addonList.innerHTML += `<label class="flex items-start gap-3 p-3 rounded-xl bg-cream-dark/50 cursor-pointer hover:bg-cream-dark transition"><input type="checkbox" class="addon-check mt-0.5" data-id="${a.id}" onchange="calcCustom()"><div class="flex-1"><div class="flex items-center gap-2 flex-wrap"><span class="text-sm font-medium text-navy/80">${a.name}</span>${isFree ? '<span class="text-xs px-2 py-0.5 rounded-full bg-teal/10 text-teal font-bold">FREE</span>' : ''}${!isFree ? `<span class="text-xs text-brown-light">${a.type === 'per_lesson' ? '$'+a.promo+'/lesson' : '$'+a.promo+'/week'}</span>` : ''}${a.regular !== a.promo && !isFree ? `<span class="text-xs price-old text-brown-light/50">$${a.regular}</span>` : ''}</div><p class="text-xs text-brown-light mt-0.5">${a.desc}</p></div></label>`;
+        // Custom charges regular prices; show what Standard/Premium would save
+        const priceLabel = a.type === 'per_lesson' ? '$'+a.regular+'/lesson' : '$'+a.regular+'/week';
+        const freeInPreset = a.promo === 0;
+        const discountInPreset = a.promo > 0 && a.promo < a.regular;
+        const saveBadge = freeInPreset ? '<span class="text-xs px-2 py-0.5 rounded-full bg-teal/10 text-teal font-bold">FREE in Standard/Premium</span>' : (discountInPreset ? `<span class="text-xs px-2 py-0.5 rounded-full bg-gold/10 text-gold font-bold">Cheaper in preset</span>` : '');
+        addonList.innerHTML += `<label class="flex items-start gap-3 p-3 rounded-xl bg-cream-dark/50 cursor-pointer hover:bg-cream-dark transition"><input type="checkbox" class="addon-check mt-0.5" data-id="${a.id}" onchange="calcCustom()"><div class="flex-1"><div class="flex items-center gap-2 flex-wrap"><span class="text-sm font-medium text-navy/80">${a.name}</span><span class="text-xs text-brown-light">${priceLabel}</span>${saveBadge}</div><p class="text-xs text-brown-light mt-0.5">${a.desc}</p></div></label>`;
       });
       // Custom Requests item
       addonList.innerHTML += `<div class="flex items-start gap-3 p-3 rounded-xl bg-cream-dark/50 border border-dashed border-gold/30"><div class="w-5 h-5 flex-shrink-0 mt-0.5 flex items-center justify-center text-gold">&#9733;</div><div class="flex-1"><div class="flex items-center gap-2 flex-wrap"><span class="text-sm font-medium text-navy/80">Custom Requests (1:1 Consultation)</span><span class="text-xs px-2 py-0.5 rounded-full bg-gold/10 text-gold font-bold font-kr">\uAC1C\uBCC4 \uBB38\uC758</span></div><p class="text-xs text-brown-light mt-1 leading-relaxed">For specialized needs beyond standard packages:</p><ul class="text-xs text-brown-light mt-1 space-y-0.5 list-disc list-inside"><li>Corporate lectures &amp; team training</li><li>Deadline-driven intensive courses (visa, TOPIK, relocation)</li><li>3+ hours/day exclusive programs</li><li>K-pop / K-beauty industry professionals</li><li>Business Korean &amp; exam preparation</li></ul><a href="#contact" class="inline-flex items-center gap-1 text-xs text-coral font-semibold mt-2 hover:underline">Contact Me &rarr;</a></div></div>`;
@@ -1000,13 +1341,20 @@
       if (builder) builder.style.display = pkg === 'custom' ? 'block' : 'none';
     }
 
+    // Define which addons are in each preset package
+    const standardAddons = ['light_hw', 'full_hw', 'nudge'];
+    const premiumAddons = ['light_hw', 'full_hw', 'nudge', 'feedback', 'app', 'discord'];
+
     function calcCustom() {
-      let weeklyPerLesson = 30;
+      let weeklyPerLesson = 30; // base lesson at promo price
       let weeklyServices = 0;
+      const checkedIds = [];
       document.querySelectorAll('.addon-check:checked').forEach(cb => {
         const addon = addons.find(a => a.id === cb.dataset.id);
-        if (addon.type === 'per_lesson') weeklyPerLesson += addon.promo;
-        else weeklyServices += addon.promo;
+        checkedIds.push(addon.id);
+        // Custom charges REGULAR prices (no promo discounts)
+        if (addon.type === 'per_lesson') weeklyPerLesson += addon.regular;
+        else weeklyServices += addon.regular;
       });
       const weeklyTotal = (weeklyPerLesson * lessonsPerWeek) + weeklyServices;
       const perSession = weeklyTotal / lessonsPerWeek;
@@ -1017,10 +1365,66 @@
       if (el('customTotal')) el('customTotal').textContent = fmt(perSession);
       if (el('customPeriod')) el('customPeriod').textContent = '/session (' + lessonsPerWeek + 'x/week)';
       if (el('customWeekly')) el('customWeekly').textContent = '$' + weeklyTotal + '/week \u00b7 ~$' + (weeklyTotal * 4) + '/month';
-      // Save hint: show if custom > premium
-      const premWeekly = (pkgData.premium.base.promo * lessonsPerWeek) + pkgData.premium.weekly.promo;
+
+      // Recommendation logic
       const hint = el('saveHint');
-      if (hint) hint.classList.toggle('visible', weeklyTotal > premWeekly);
+      const hintText = el('saveHintText');
+      if (!hint || !hintText) return;
+
+      const sortedChecked = [...checkedIds].sort().join(',');
+      const sortedStandard = [...standardAddons].sort().join(',');
+      const sortedPremium = [...premiumAddons].sort().join(',');
+
+      // Check exact match with Standard or Premium
+      if (sortedChecked === sortedStandard) {
+        const stdWeekly = (pkgData.standard.base.promo * lessonsPerWeek) + pkgData.standard.weekly.promo;
+        const saving = weeklyTotal - stdWeekly;
+        if (saving > 0) {
+          hintText.innerHTML = `You selected exactly what Standard includes! Switch to <strong>Standard</strong> and save <strong>${fmt(saving)}/week</strong>. <a href="#" onclick="selectPackage(\'standard\');return false;" class="font-bold underline">Switch to Standard &rarr;</a>`;
+          hint.classList.add('visible'); return;
+        }
+      }
+      if (sortedChecked === sortedPremium) {
+        const premWeekly = (pkgData.premium.base.promo * lessonsPerWeek) + pkgData.premium.weekly.promo;
+        const saving = weeklyTotal - premWeekly;
+        if (saving > 0) {
+          hintText.innerHTML = `You selected exactly what Premium includes! Switch to <strong>Premium</strong> and save <strong>${fmt(saving)}/week</strong>. <a href="#" onclick="selectPackage(\'premium\');return false;" class="font-bold underline">Switch to Premium &rarr;</a>`;
+          hint.classList.add('visible'); return;
+        }
+      }
+
+      // Check one addon short of Standard
+      const missingForStd = standardAddons.filter(a => !checkedIds.includes(a));
+      if (missingForStd.length === 1 && checkedIds.every(id => standardAddons.includes(id) || id === 'writing')) {
+        const missing = addons.find(a => a.id === missingForStd[0]);
+        const stdWeekly = (pkgData.standard.base.promo * lessonsPerWeek) + pkgData.standard.weekly.promo;
+        if (stdWeekly < weeklyTotal + (missing.type === 'per_lesson' ? missing.regular * lessonsPerWeek : missing.regular)) {
+          const isFree = missing.promo === 0;
+          hintText.innerHTML = `Add <strong>${missing.name}</strong>${isFree ? ' (FREE in Standard!)' : ''} and switch to <strong>Standard</strong> for a better deal! <a href="#" onclick="selectPackage(\'standard\');return false;" class="font-bold underline">See Standard &rarr;</a>`;
+          hint.classList.add('visible'); return;
+        }
+      }
+
+      // Check one addon short of Premium
+      const missingForPrem = premiumAddons.filter(a => !checkedIds.includes(a));
+      if (missingForPrem.length === 1) {
+        const missing = addons.find(a => a.id === missingForPrem[0]);
+        const premWeekly = (pkgData.premium.base.promo * lessonsPerWeek) + pkgData.premium.weekly.promo;
+        if (premWeekly < weeklyTotal + (missing.type === 'per_lesson' ? missing.regular * lessonsPerWeek : missing.regular)) {
+          const isFree = missing.promo === 0;
+          hintText.innerHTML = `Add <strong>${missing.name}</strong>${isFree ? ' (FREE in Premium!)' : ''} and switch to <strong>Premium</strong> for a better deal! <a href="#" onclick="selectPackage(\'premium\');return false;" class="font-bold underline">See Premium &rarr;</a>`;
+          hint.classList.add('visible'); return;
+        }
+      }
+
+      // Fallback: show if custom exceeds premium
+      const premWeekly = (pkgData.premium.base.promo * lessonsPerWeek) + pkgData.premium.weekly.promo;
+      if (weeklyTotal > premWeekly) {
+        hintText.innerHTML = `Your Custom total exceeds Premium pricing. <a href="#" onclick="selectPackage(\'premium\');return false;" class="font-bold underline">Save with Premium &rarr;</a>`;
+        hint.classList.add('visible');
+      } else {
+        hint.classList.remove('visible');
+      }
     }
 
     // ===== FAQ TOGGLE =====
@@ -1103,21 +1507,29 @@
     });
 
     // ===== SWIPER INIT =====
-    new Swiper('.storySwiper', {
+    const storySwiper = new Swiper('.storySwiper', {
       slidesPerView: 1, spaceBetween: 30,
-      pagination: { el: '.storySwiper .swiper-pagination', clickable: true },
       navigation: { nextEl: '.storySwiper .swiper-button-next', prevEl: '.storySwiper .swiper-button-prev' },
       effect: 'fade', fadeEffect: { crossFade: true },
+      on: {
+        slideChange: function() {
+          document.querySelectorAll('.story-dot').forEach((dot, i) => {
+            dot.classList.toggle('bg-coral', i === this.activeIndex);
+            dot.classList.toggle('bg-gold/30', i !== this.activeIndex);
+            dot.style.width = i === this.activeIndex ? '2rem' : '2rem';
+            dot.style.opacity = i === this.activeIndex ? '1' : '0.4';
+          });
+        },
+        init: function() {
+          document.querySelectorAll('.story-dot').forEach((dot, i) => {
+            dot.style.opacity = i === 0 ? '1' : '0.4';
+            if (i === 0) dot.classList.add('bg-coral');
+          });
+        }
+      }
     });
 
-    if (document.querySelector('.reviewSwiper')) {
-      new Swiper('.reviewSwiper', {
-        slidesPerView: 1, spaceBetween: 20,
-        pagination: { el: '.reviewSwiper .swiper-pagination', clickable: true },
-        autoplay: { delay: 5000, disableOnInteraction: true },
-        breakpoints: { 640: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } },
-      });
-    }
+    // reviewSwiper removed — now using CSS ticker animation
 
     // Init pricing state
     setLessonsPerWeek(1);
