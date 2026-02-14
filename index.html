@@ -152,6 +152,33 @@
     .mockup-doc { width: 100%; max-width: 280px; border-radius: 8px; border: 1px solid rgba(212,165,116,0.15); background: var(--cream-dark); padding: 1.5rem; font-size: 0.7rem; color: var(--brown-light); }
 
     /* Responsive */
+    /* Magnetic button */
+    .magnetic-btn {
+      position: relative;
+      display: inline-flex;
+      will-change: transform;
+    }
+    .magnetic-btn::after {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: inherit;
+      background: linear-gradient(135deg, var(--coral), var(--gold), var(--teal));
+      opacity: 0;
+      z-index: -1;
+      filter: blur(12px);
+      transition: opacity 0.4s ease;
+    }
+    .magnetic-btn:hover::after { opacity: 0.4; }
+
+    /* Pulse on mid-page CTAs */
+    @keyframes subtlePulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(232,132,92,0.3); }
+      50% { box-shadow: 0 0 0 10px rgba(232,132,92,0); }
+    }
+    .magnetic-btn { animation: subtlePulse 3s ease-in-out infinite; }
+    .magnetic-btn:hover { animation: none; }
+
     @media (max-width: 768px) {
       .story-img { height: 200px; }
     }
@@ -670,6 +697,12 @@
     </div>
   </section>
 
+  <!-- CTA: After Philosophy -->
+  <div class="py-12 bg-cream-dark text-center reveal">
+    <p class="text-brown/60 text-sm mb-4">Most students handle basic conversations within 2-3 months</p>
+    <a href="#contact" class="magnetic-btn inline-flex items-center gap-2 px-8 py-4 rounded-full bg-coral text-white font-semibold text-lg hover:bg-coral-light hover:shadow-lg hover:shadow-coral/20 transition-all hover:-translate-y-0.5">Start Your First Lesson <span>&rarr;</span></a>
+  </div>
+
   <div class="section-divider"></div>
 
   <!-- ==================== SYSTEM ==================== -->
@@ -795,6 +828,12 @@
     </div>
   </section>
 
+  <!-- CTA: After System -->
+  <div class="py-12 bg-cream text-center reveal">
+    <p class="text-brown/60 text-sm mb-4">Choose a package that fits your goals and schedule</p>
+    <a href="#pricing" class="magnetic-btn inline-flex items-center gap-2 px-8 py-4 rounded-full border-2 border-coral text-coral font-semibold text-lg hover:bg-coral hover:text-white hover:shadow-lg hover:shadow-coral/20 transition-all hover:-translate-y-0.5">See Pricing &amp; Start <span>&darr;</span></a>
+  </div>
+
   <div class="section-divider"></div>
 
   <!-- ==================== REVIEWS ==================== -->
@@ -828,6 +867,13 @@
       </div>
     </div>
   </section>
+
+  <!-- CTA: After Reviews -->
+  <div class="py-14 bg-cream-dark text-center reveal">
+    <p class="font-serif text-2xl md:text-3xl font-bold text-navy mb-3">Ready to Join 115+ Students?</p>
+    <p class="text-brown/60 text-sm mb-6 max-w-lg mx-auto">Book a trial lesson and experience the Fly Korean system firsthand. No commitment required.</p>
+    <a href="#contact" class="magnetic-btn inline-flex items-center gap-2 px-10 py-4 rounded-full bg-gradient-to-r from-coral to-gold text-white font-bold text-lg shadow-lg hover:shadow-xl hover:shadow-coral/30 transition-all hover:-translate-y-1">Book a Trial Lesson <span>&rarr;</span></a>
+  </div>
 
   <div class="section-divider"></div>
 
@@ -988,8 +1034,9 @@
       <div class="flex items-center gap-4 text-sm text-brown-light">
         <a href="https://preply.com" target="_blank" class="hover:text-coral transition">Preply Profile</a>
         <span>Super Tutor 7/7</span>
-        <span>5.0 &#9733;</span>
+        <span class="flex items-center gap-1">4.8+ avg <span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></span>
       </div>
+      <div class="text-brown-light/40 text-[0.6rem] text-center w-full mt-1">4.8+ based on 80+ anonymous Preply reviews &bull; 5 stars from verified student recommendations</div>
       <p class="text-brown-light/60 text-xs">&copy; 2026 Fly Korean by Jay (Dongjae). All rights reserved.</p>
     </div>
   </footer>
@@ -1003,214 +1050,214 @@
     // ===== DATA =====
     const reviews = [
       // ===== PREPLY REVIEWS (29 five-star + anonymous 4.8 average) =====
-      { name: "Loriana", tag: "Advanced \u00b7 7+ years", text: "He is the best Korean tutor I have had in my 7+ years of learning Korean. He prepares extensively for lessons, checks in throughout the week, and quickly assessed what letters I still have an accent on. 5/5 stars.", color: "#E8845C", type: "preply" },
-      { name: "Inna", tag: "Parent", text: "My daughter only had THREE lessons and I can already see progress! Dongjae is very kind, most attentive, patient, and fun teacher ever! His encouragement is absolutely irresistible! He teaches SO well!", color: "#4ECDC4", type: "preply" },
-      { name: "Apiraa", tag: "Advanced \u00b7 7 years", text: "My previous teachers scolded me for not doing homework. But Dongjae's lessons somehow makes me want to do my homework LOL! He makes learning Korean so much fun and I always learn something new!", color: "#D4A574", type: "preply" },
-      { name: "Jowita", tag: "Beginner", text: "The trial lesson was absolutely amazing! He explains everything in a very clear and structured way. We planned the entire learning process during the first meeting. I'm truly excited to continue!", color: "#6366F1", type: "preply" },
-      { name: "Chasity", tag: "Consistent Learner", text: "Highly recommend Jay! He is well-organized, detailed, and patient in every single lesson. His patience gives me confidence to try, make mistakes, and keep improving. Truly invested in your growth.", color: "#E8845C", type: "preply" },
-      { name: "Jorge", tag: "Culture Explorer", text: "There is a lot of culture learning with Dongjae, which is amazing! Language is always tied to culture. If you want the full Korean learning experience, get Dongjae to be your tutor.", color: "#4ECDC4", type: "preply" },
-      { name: "Taty", tag: "Shy but Thriving", text: "He managed to create a very relaxed and comfortable environment, which was essential for me since I'm a bit shy. He made me feel at ease and perfectly understood my difficulties. Highly recommend!", color: "#D4A574", type: "preply" },
-      { name: "Clayton", tag: "New Student", text: "He surpassed all of my expectations. It was extremely engaging and I truthfully wish the lesson could have been twice as long. Amazing! I'm excited to learn more!", color: "#E8845C", type: "preply" },
-      { name: "Noelle", tag: "3 lessons in", text: "He is so patient and kind. I highly recommend learning with Dongjae, especially if you are nervous or socially awkward. He has made me feel comfortable since day 1.", color: "#6366F1", type: "preply" },
-      { name: "Hitesh", tag: "Dedicated Learner", text: "He first observes you and corrects you with any mistake you make. Then he makes a plan and gives you homework according to your need and goal. Highly recommend!", color: "#D4A574", type: "preply" },
-      { name: "Charline", tag: "2 months in", text: "He takes the time week after week to create lessons tailored to my level. He is always attentive and very encouraging. Thanks to him, I am very motivated to continue!", color: "#4ECDC4", type: "preply" },
-      { name: "Nicole", tag: "Long-term Student", text: "The lesson he makes to every single of us is personal so I can see how much effort he puts in it. He's very kind and supportive!", color: "#D4A574", type: "preply" },
-      { name: "Sina", tag: "Advanced Student", text: "Not just a teacher \u2014 someone guiding you in building a structured study routine that truly fits your needs. Always kind, encouraging, and full of positive energy.", color: "#6366F1", type: "preply" },
-      { name: "Magdalena", tag: "Intermediate", text: "He corrected me things no other Korean teachers corrected me before: he takes care of every detail, every sound of pronunciation. Highly recommend!", color: "#E8845C", type: "preply" },
-      { name: "Jaida Marie", tag: "Building Confidence", text: "Not only a great teacher but great moral support. He does a great job at working to your pace and encouraging you. Thank you!", color: "#D4A574", type: "preply" },
-      { name: "Woraphun", tag: "Busy Professional", text: "I love how he helps me practice using each verb form and use new vocabulary personalized to me. Not following the book. And I have immediate lesson summary to review!", color: "#4ECDC4", type: "preply" },
-      { name: "Agata", tag: "Comfortable Learning", text: "Always well prepared and provides helpful materials. His easy going and relaxed personality supports learning in a comfortable environment. 100% would recommend!", color: "#D4A574", type: "preply" },
-      { name: "Maimuna", tag: "Beginner", text: "Great instructor! I feel more confident as I go with his feedback with my pronunciation! Very much recommend for beginners.", color: "#6366F1", type: "preply" },
-      { name: "Miyahh", tag: "Fun Learner", text: "Very patient, encouraging, fun to learn from! He is also very friendly and funny. Everything taught is made easier to understand. Highly recommend!", color: "#E8845C", type: "preply" },
-      { name: "Kath", tag: "Professional", text: "His teaching method is excellent. He explains concepts clearly, takes time to ensure understanding, and creates a comfortable learning environment. Highly recommend!", color: "#4ECDC4", type: "preply" },
-      { name: "Meka", tag: "Analytical Mind", text: "Highly customisable material that he contours to your needs and aptitude. He is utmost patient, will help you with anything.", color: "#D4A574", type: "preply" },
-      { name: "Imane", tag: "New Student", text: "Dongjae explained everything thoroughly, understood my goals, and adapted a personalized learning plan. I look forward to working together!", color: "#6366F1", type: "preply" },
-      { name: "Alice", tag: "Goal-Oriented", text: "He really listens to my goals and gave me a plan adapted to me and my level. You can see that he is prepared and can adapt to your need.", color: "#E8845C", type: "preply" },
-      { name: "Kaylee", tag: "Structured Learner", text: "A great tutor who personalises his lessons to what the student needs. His lessons are also very structured, which has helped me a lot!", color: "#D4A574", type: "preply" },
-      { name: "Rahayu", tag: "All Levels", text: "He made the class very enjoyable and I learned new things. He explains well and is very patient. Recommended for all levels!", color: "#4ECDC4", type: "preply" },
-      { name: "Annie", tag: "Clear Guidance", text: "Ease of learning, clear guidance and patience. A wonderful teacher.", color: "#D4A574", type: "preply" },
-      { name: "Sheri", tag: "Improving", text: "Very patient and very kind. Helps really well with improvement of Korean vocab and grammar.", color: "#6366F1", type: "preply" },
-      { name: "Yannis", tag: "Culture + Language", text: "Always helpful, prepared, cheerful, and highly engaging. He has really helped me with both language and cultural understanding. Couldn't recommend more!", color: "#E8845C", type: "preply" },
-      { name: "Sokvan", tag: "Pronunciation Focus", text: "Great at helping me understand the words, language, meanings and pronunciation.", color: "#4ECDC4", type: "preply" },
+      { name: "L***a", tag: "Advanced \u00b7 7+ years", text: "He is the best Korean tutor I have had in my 7+ years of learning Korean. He prepares extensively for lessons, checks in throughout the week, and quickly assessed what letters I still have an accent on. 5/5 stars.", color: "#E8845C", type: "preply" },
+      { name: "I**a", tag: "Parent", text: "My daughter only had THREE lessons and I can already see progress! Dongjae is very kind, most attentive, patient, and fun teacher ever! His encouragement is absolutely irresistible! He teaches SO well!", color: "#4ECDC4", type: "preply" },
+      { name: "A***a", tag: "Advanced \u00b7 7 years", text: "My previous teachers scolded me for not doing homework. But Dongjae's lessons somehow makes me want to do my homework LOL! He makes learning Korean so much fun and I always learn something new!", color: "#D4A574", type: "preply" },
+      { name: "J***a", tag: "Beginner", text: "The trial lesson was absolutely amazing! He explains everything in a very clear and structured way. We planned the entire learning process during the first meeting. I'm truly excited to continue!", color: "#6366F1", type: "preply" },
+      { name: "C***y", tag: "Consistent Learner", text: "Highly recommend Jay! He is well-organized, detailed, and patient in every single lesson. His patience gives me confidence to try, make mistakes, and keep improving. Truly invested in your growth.", color: "#E8845C", type: "preply" },
+      { name: "J***e", tag: "Culture Explorer", text: "There is a lot of culture learning with Dongjae, which is amazing! Language is always tied to culture. If you want the full Korean learning experience, get Dongjae to be your tutor.", color: "#4ECDC4", type: "preply" },
+      { name: "T**y", tag: "Shy but Thriving", text: "He managed to create a very relaxed and comfortable environment, which was essential for me since I'm a bit shy. He made me feel at ease and perfectly understood my difficulties. Highly recommend!", color: "#D4A574", type: "preply" },
+      { name: "C***n", tag: "New Student", text: "He surpassed all of my expectations. It was extremely engaging and I truthfully wish the lesson could have been twice as long. Amazing! I'm excited to learn more!", color: "#E8845C", type: "preply" },
+      { name: "N***e", tag: "3 lessons in", text: "He is so patient and kind. I highly recommend learning with Dongjae, especially if you are nervous or socially awkward. He has made me feel comfortable since day 1.", color: "#6366F1", type: "preply" },
+      { name: "H***h", tag: "Dedicated Learner", text: "He first observes you and corrects you with any mistake you make. Then he makes a plan and gives you homework according to your need and goal. Highly recommend!", color: "#D4A574", type: "preply" },
+      { name: "C***e", tag: "2 months in", text: "He takes the time week after week to create lessons tailored to my level. He is always attentive and very encouraging. Thanks to him, I am very motivated to continue!", color: "#4ECDC4", type: "preply" },
+      { name: "N***e", tag: "Long-term Student", text: "The lesson he makes to every single of us is personal so I can see how much effort he puts in it. He's very kind and supportive!", color: "#D4A574", type: "preply" },
+      { name: "S**a", tag: "Advanced Student", text: "Not just a teacher \u2014 someone guiding you in building a structured study routine that truly fits your needs. Always kind, encouraging, and full of positive energy.", color: "#6366F1", type: "preply" },
+      { name: "M***a", tag: "Intermediate", text: "He corrected me things no other Korean teachers corrected me before: he takes care of every detail, every sound of pronunciation. Highly recommend!", color: "#E8845C", type: "preply" },
+      { name: "J***a M***e", tag: "Building Confidence", text: "Not only a great teacher but great moral support. He does a great job at working to your pace and encouraging you. Thank you!", color: "#D4A574", type: "preply" },
+      { name: "W***n", tag: "Busy Professional", text: "I love how he helps me practice using each verb form and use new vocabulary personalized to me. Not following the book. And I have immediate lesson summary to review!", color: "#4ECDC4", type: "preply" },
+      { name: "A***a", tag: "Comfortable Learning", text: "Always well prepared and provides helpful materials. His easy going and relaxed personality supports learning in a comfortable environment. 100% would recommend!", color: "#D4A574", type: "preply" },
+      { name: "M***a", tag: "Beginner", text: "Great instructor! I feel more confident as I go with his feedback with my pronunciation! Very much recommend for beginners.", color: "#6366F1", type: "preply" },
+      { name: "M***h", tag: "Fun Learner", text: "Very patient, encouraging, fun to learn from! He is also very friendly and funny. Everything taught is made easier to understand. Highly recommend!", color: "#E8845C", type: "preply" },
+      { name: "K**h", tag: "Professional", text: "His teaching method is excellent. He explains concepts clearly, takes time to ensure understanding, and creates a comfortable learning environment. Highly recommend!", color: "#4ECDC4", type: "preply" },
+      { name: "M**a", tag: "Analytical Mind", text: "Highly customisable material that he contours to your needs and aptitude. He is utmost patient, will help you with anything.", color: "#D4A574", type: "preply" },
+      { name: "I***e", tag: "New Student", text: "Dongjae explained everything thoroughly, understood my goals, and adapted a personalized learning plan. I look forward to working together!", color: "#6366F1", type: "preply" },
+      { name: "A***e", tag: "Goal-Oriented", text: "He really listens to my goals and gave me a plan adapted to me and my level. You can see that he is prepared and can adapt to your need.", color: "#E8845C", type: "preply" },
+      { name: "K***e", tag: "Structured Learner", text: "A great tutor who personalises his lessons to what the student needs. His lessons are also very structured, which has helped me a lot!", color: "#D4A574", type: "preply" },
+      { name: "R***u", tag: "All Levels", text: "He made the class very enjoyable and I learned new things. He explains well and is very patient. Recommended for all levels!", color: "#4ECDC4", type: "preply" },
+      { name: "A***e", tag: "Clear Guidance", text: "Ease of learning, clear guidance and patience. A wonderful teacher.", color: "#D4A574", type: "preply" },
+      { name: "S***i", tag: "Improving", text: "Very patient and very kind. Helps really well with improvement of Korean vocab and grammar.", color: "#6366F1", type: "preply" },
+      { name: "Y***s", tag: "Culture + Language", text: "Always helpful, prepared, cheerful, and highly engaging. He has really helped me with both language and cultural understanding. Couldn't recommend more!", color: "#E8845C", type: "preply" },
+      { name: "S***n", tag: "Pronunciation Focus", text: "Great at helping me understand the words, language, meanings and pronunciation.", color: "#4ECDC4", type: "preply" },
       // ===== CHAT MESSAGES (student feedback from messages) =====
-      { name: "Rahayu", tag: "Message", text: "I really enjoyed classes with you. Thank you for being so patient and kind with me.", color: "#E8845C", type: "chat" },
-      { name: "Adam", tag: "Message", text: "This is exactly what I am looking for. Thank you so much for your detailed approach!", color: "#4ECDC4", type: "chat" },
-      { name: "Chloe", tag: "Message", text: "Thank you for such a clear and encouraging trial lesson. I feel so much more confident already.", color: "#D4A574", type: "chat" },
-      { name: "Kath", tag: "Message", text: "Thank you so much for being so helpful and motivating! It really makes a difference.", color: "#6366F1", type: "chat" },
-      { name: "Chasity", tag: "Message", text: "You even sent me a summary??!!! You are amazing! I didn't expect this at all.", color: "#E8845C", type: "chat" },
-      { name: "Inna", tag: "Parent \u00b7 Message", text: "We absolutely love it and the way you teach! My daughter looks forward to every lesson.", color: "#4ECDC4", type: "chat" },
-      { name: "Ignacio", tag: "Message", text: "I did like the session we had! It was very well structured and engaging.", color: "#D4A574", type: "chat" },
-      { name: "Madia", tag: "Message", text: "This is much easier to learn than what I tried before. Your method really clicks for me.", color: "#6366F1", type: "chat" },
-      { name: "Clayton", tag: "Message", text: "Can't wait to continue! That first lesson was incredible.", color: "#E8845C", type: "chat" },
-      { name: "Taty", tag: "Message", text: "Thank you so much for your patience. You make me feel comfortable even when I make mistakes.", color: "#D4A574", type: "chat" },
-      { name: "Imane", tag: "Message", text: "I'm so excited to start this journey! Your plan makes everything feel achievable.", color: "#4ECDC4", type: "chat" },
-      { name: "Woraphun", tag: "Message", text: "I love the personalized homework. It makes practice feel relevant, not random.", color: "#6366F1", type: "chat" },
-      { name: "Meka", tag: "Message", text: "Can I get more homework? I finished everything early and want to keep practicing!", color: "#E8845C", type: "chat" },
-      { name: "Apiraa", tag: "Message", text: "\uC120\uC0DD\uB2D8 \uC624\uB298 \uC218\uC5C5 \uB108\uBB34 \uC7AC\uBBF8\uC788\uC5C8\uC5B4\uC694! Today's lesson was so fun!", color: "#D4A574", type: "chat" },
-      { name: "Sina", tag: "Message", text: "\uC624\uB298 \uC218\uC5C5 \uAC10\uC0AC\uD569\uB2C8\uB2E4! \uC815\uB9D0 \uB9CE\uC774 \uBC30\uC6E0\uC5B4\uC694. I learned so much today!", color: "#6366F1", type: "chat" },
-      { name: "Sokvan", tag: "Message", text: "\uAC10\uC0AC\uD569\uB2C8\uB2E4 \uC120\uC0DD\uB2D8! Thank you teacher! I'll practice hard.", color: "#4ECDC4", type: "chat" },
-      { name: "Jowita", tag: "Message", text: "I just wanted to say I really appreciate your teaching style. It works so well for me.", color: "#E8845C", type: "chat" },
-      { name: "Charline", tag: "Message", text: "Your encouragement means a lot. I feel like I'm actually making progress!", color: "#D4A574", type: "chat" },
-      { name: "Noelle", tag: "Message", text: "Thank you for being so patient with me today. I know I get off track sometimes.", color: "#6366F1", type: "chat" },
-      { name: "Asa", tag: "Parent \u00b7 Message", text: "She loved the lesson! She's already asking when the next one is. Thank you!", color: "#4ECDC4", type: "chat" },
-      { name: "Jaida Marie", tag: "Message", text: "I've been studying a lot on my own and I want to show you what I learned!", color: "#E8845C", type: "chat" },
-      { name: "Maimuna", tag: "Message", text: "Even during my busy schedule, I make time because your lessons are worth it.", color: "#D4A574", type: "chat" },
-      { name: "Nicole", tag: "Message", text: "The materials you prepare are incredible. I can tell how much work goes into them.", color: "#6366F1", type: "chat" },
-      { name: "Agata", tag: "Message", text: "I really like the relaxed atmosphere in our lessons. It helps me focus better.", color: "#4ECDC4", type: "chat" },
-      { name: "Samantha", tag: "Message", text: "I've been looking forward to this lesson all week! Let's do this!", color: "#E8845C", type: "chat" },
-      { name: "HUIXIN", tag: "Message", text: "\uC120\uC0DD\uB2D8 \uB355\uBD84\uC5D0 \uD1A0\uD53D \uC2DC\uD5D8 \uC900\uBE44\uAC00 \uC798 \uB418\uACE0 \uC788\uC5B4\uC694! TOPIK prep is going so well thanks to you!", color: "#D4A574", type: "chat" },
-      { name: "Regina", tag: "Message", text: "\uAC10\uC0AC\uD569\uB2C8\uB2E4! I practiced the phrases you taught me and people understood me!", color: "#6366F1", type: "chat" },
-      { name: "Violeta", tag: "Message", text: "Thank you for the lesson today! Your explanations are always so clear.", color: "#4ECDC4", type: "chat" },
-      { name: "Corine", tag: "Message", text: "I love how you explain the cultural context behind every phrase. It helps me remember!", color: "#E8845C", type: "chat" },
-      { name: "Sarah", tag: "Message", text: "I was so impressed by your profile and the trial lesson plan. This is what I've been looking for!", color: "#D4A574", type: "chat" },
-      { name: "Leah", tag: "Parent \u00b7 Message", text: "She's using Korean words at home now! Thank you for making it fun for her.", color: "#6366F1", type: "chat" },
+      { name: "R***u", tag: "Message", text: "I really enjoyed classes with you. Thank you for being so patient and kind with me.", color: "#E8845C", type: "chat" },
+      { name: "A**m", tag: "Message", text: "This is exactly what I am looking for. Thank you so much for your detailed approach!", color: "#4ECDC4", type: "chat" },
+      { name: "C***e", tag: "Message", text: "Thank you for such a clear and encouraging trial lesson. I feel so much more confident already.", color: "#D4A574", type: "chat" },
+      { name: "K**h", tag: "Message", text: "Thank you so much for being so helpful and motivating! It really makes a difference.", color: "#6366F1", type: "chat" },
+      { name: "C***y", tag: "Message", text: "You even sent me a summary??!!! You are amazing! I didn't expect this at all.", color: "#E8845C", type: "chat" },
+      { name: "I**a", tag: "Parent \u00b7 Message", text: "We absolutely love it and the way you teach! My daughter looks forward to every lesson.", color: "#4ECDC4", type: "chat" },
+      { name: "I***o", tag: "Message", text: "I did like the session we had! It was very well structured and engaging.", color: "#D4A574", type: "chat" },
+      { name: "M***a", tag: "Message", text: "This is much easier to learn than what I tried before. Your method really clicks for me.", color: "#6366F1", type: "chat" },
+      { name: "C***n", tag: "Message", text: "Can't wait to continue! That first lesson was incredible.", color: "#E8845C", type: "chat" },
+      { name: "T**y", tag: "Message", text: "Thank you so much for your patience. You make me feel comfortable even when I make mistakes.", color: "#D4A574", type: "chat" },
+      { name: "I***e", tag: "Message", text: "I'm so excited to start this journey! Your plan makes everything feel achievable.", color: "#4ECDC4", type: "chat" },
+      { name: "W***n", tag: "Message", text: "I love the personalized homework. It makes practice feel relevant, not random.", color: "#6366F1", type: "chat" },
+      { name: "M**a", tag: "Message", text: "Can I get more homework? I finished everything early and want to keep practicing!", color: "#E8845C", type: "chat" },
+      { name: "A***a", tag: "Message", text: "\uC120\uC0DD\uB2D8 \uC624\uB298 \uC218\uC5C5 \uB108\uBB34 \uC7AC\uBBF8\uC788\uC5C8\uC5B4\uC694! Today's lesson was so fun!", color: "#D4A574", type: "chat" },
+      { name: "S**a", tag: "Message", text: "\uC624\uB298 \uC218\uC5C5 \uAC10\uC0AC\uD569\uB2C8\uB2E4! \uC815\uB9D0 \uB9CE\uC774 \uBC30\uC6E0\uC5B4\uC694. I learned so much today!", color: "#6366F1", type: "chat" },
+      { name: "S***n", tag: "Message", text: "\uAC10\uC0AC\uD569\uB2C8\uB2E4 \uC120\uC0DD\uB2D8! Thank you teacher! I'll practice hard.", color: "#4ECDC4", type: "chat" },
+      { name: "J***a", tag: "Message", text: "I just wanted to say I really appreciate your teaching style. It works so well for me.", color: "#E8845C", type: "chat" },
+      { name: "C***e", tag: "Message", text: "Your encouragement means a lot. I feel like I'm actually making progress!", color: "#D4A574", type: "chat" },
+      { name: "N***e", tag: "Message", text: "Thank you for being so patient with me today. I know I get off track sometimes.", color: "#6366F1", type: "chat" },
+      { name: "A*a", tag: "Parent \u00b7 Message", text: "She loved the lesson! She's already asking when the next one is. Thank you!", color: "#4ECDC4", type: "chat" },
+      { name: "J***a M***e", tag: "Message", text: "I've been studying a lot on my own and I want to show you what I learned!", color: "#E8845C", type: "chat" },
+      { name: "M***a", tag: "Message", text: "Even during my busy schedule, I make time because your lessons are worth it.", color: "#D4A574", type: "chat" },
+      { name: "N***e", tag: "Message", text: "The materials you prepare are incredible. I can tell how much work goes into them.", color: "#6366F1", type: "chat" },
+      { name: "A***a", tag: "Message", text: "I really like the relaxed atmosphere in our lessons. It helps me focus better.", color: "#4ECDC4", type: "chat" },
+      { name: "S***a", tag: "Message", text: "I've been looking forward to this lesson all week! Let's do this!", color: "#E8845C", type: "chat" },
+      { name: "H***N", tag: "Message", text: "\uC120\uC0DD\uB2D8 \uB355\uBD84\uC5D0 \uD1A0\uD53D \uC2DC\uD5D8 \uC900\uBE44\uAC00 \uC798 \uB418\uACE0 \uC788\uC5B4\uC694! TOPIK prep is going so well thanks to you!", color: "#D4A574", type: "chat" },
+      { name: "R***a", tag: "Message", text: "\uAC10\uC0AC\uD569\uB2C8\uB2E4! I practiced the phrases you taught me and people understood me!", color: "#6366F1", type: "chat" },
+      { name: "V***a", tag: "Message", text: "Thank you for the lesson today! Your explanations are always so clear.", color: "#4ECDC4", type: "chat" },
+      { name: "C***e", tag: "Message", text: "I love how you explain the cultural context behind every phrase. It helps me remember!", color: "#E8845C", type: "chat" },
+      { name: "S***h", tag: "Message", text: "I was so impressed by your profile and the trial lesson plan. This is what I've been looking for!", color: "#D4A574", type: "chat" },
+      { name: "L**h", tag: "Parent \u00b7 Message", text: "She's using Korean words at home now! Thank you for making it fun for her.", color: "#6366F1", type: "chat" },
       // ===== IN-LESSON REACTIONS (from transcripts) =====
-      { name: "Alice B", tag: "In Lesson", text: "I enjoy working on my Korean so it's not even 'oh I have to do that,' it's just 'oh yes I have my lunch break I'm gonna do some Korean!'", color: "#D4A574", type: "reaction" },
-      { name: "Clayton", tag: "In Lesson", text: "I want to be able to go to Korea and just talk to you in Korean. That would be cool.", color: "#E8845C", type: "reaction" },
-      { name: "Andrea", tag: "Trial Lesson", text: "I really like your style. Everything is so structured and I think it will help me a lot.", color: "#6366F1", type: "reaction" },
-      { name: "Chloe", tag: "In Lesson", text: "I understand why you're fully occupied all the time. I just wonder how you can prepare all the materials. Thank you so much.", color: "#4ECDC4", type: "reaction" },
-      { name: "Yannis", tag: "In Lesson", text: "Your advice about the workplace has been really helpful and gave me permission to calm down a little bit.", color: "#D4A574", type: "reaction" },
-      { name: "Clayton", tag: "In Lesson", text: "I got to be your number one student! I can't wait to know this so we can get to the good stuff.", color: "#E8845C", type: "reaction" },
-      { name: "Samantha", tag: "In Lesson", text: "I couldn't stop listening to the audiobook. I kept going and going. It made me laugh and cry.", color: "#6366F1", type: "reaction" },
-      { name: "Annie", tag: "In Lesson", text: "I NEED TO LEARN HOW TO READ THIS. I will always use this phrase!", color: "#E8845C", type: "reaction" },
-      { name: "Yannis", tag: "In Lesson", text: "Things that I can fit into other activities are going to work really well for me. That would be awesome.", color: "#D4A574", type: "reaction" },
-      { name: "Duel", tag: "In Lesson", text: "I get a little bit shy, but I will work on it. More feelings please!", color: "#4ECDC4", type: "reaction" },
-      { name: "Paul", tag: "In Lesson", text: "That's cool! I had no idea particles worked like that.", color: "#6366F1", type: "reaction" },
-      { name: "Chloe", tag: "In Lesson", text: "While learning Korean, I became more interested in Korean culture. I've never learned this phrase before!", color: "#D4A574", type: "reaction" },
-      { name: "Clayton", tag: "In Lesson", text: "I studied 20 cards in 30 minutes, 138 times. I attached your recording to them which was pretty cool.", color: "#E8845C", type: "reaction" },
-      { name: "Samantha", tag: "In Lesson", text: "Songpa trail is my favorite place! I'm arriving in Korea March 4th. I can't wait!", color: "#4ECDC4", type: "reaction" },
-      { name: "Yannis", tag: "In Lesson", text: "I've been taking the phrases you teach me and practicing my hangul with them. It's helping so much.", color: "#D4A574", type: "reaction" },
-      { name: "Jai", tag: "In Lesson", text: "Daily practice as a habit is fine. Doing it consistently makes it feel natural.", color: "#6366F1", type: "reaction" },
-      { name: "Dorian", tag: "Trial Lesson", text: "This is really different from other tutorials. Way more satisfying. I feel like I actually get it.", color: "#E8845C", type: "reaction" },
-      { name: "Diamonique", tag: "Trial Lesson", text: "I read your bio and I was like, this sounds like me! I need this kind of structure.", color: "#4ECDC4", type: "reaction" },
-      { name: "Nora", tag: "In Lesson", text: "Now that I have the starting point, it's like, okay, I can definitely practice on my own.", color: "#D4A574", type: "reaction" },
-      { name: "Madia", tag: "In Lesson", text: "I start even to focus on the Korean when I watch Korean dramas now. It's working!", color: "#6366F1", type: "reaction" },
-      { name: "Chloe", tag: "In Lesson", text: "I've never learned this phrase. It's a very common conversation and nobody taught it before!", color: "#E8845C", type: "reaction" },
-      { name: "Antonia", tag: "Trial Lesson", text: "I'm an overachiever so I really want to perform well. This is the structure I need.", color: "#4ECDC4", type: "reaction" },
-      { name: "Woraphun", tag: "In Lesson", text: "I love how everything connects. The vocabulary from last time just came back naturally.", color: "#D4A574", type: "reaction" },
-      { name: "Clayton", tag: "In Lesson", text: "That's what I want to be able to do \u2014 just pick up my phone and text in Korean.", color: "#E8845C", type: "reaction" },
-      { name: "Kath", tag: "In Lesson", text: "I feel like I'm actually understanding the patterns now, not just memorizing.", color: "#6366F1", type: "reaction" },
-      { name: "Yannis", tag: "In Lesson", text: "I practiced at the Korean restaurant and they were so happy I tried! It felt amazing.", color: "#4ECDC4", type: "reaction" },
-      { name: "Noelle", tag: "In Lesson", text: "You make it so easy to understand. Other teachers just told me to memorize it.", color: "#D4A574", type: "reaction" },
-      { name: "Maimuna", tag: "In Lesson", text: "I practiced during my lunch break and it actually stuck. This method works.", color: "#E8845C", type: "reaction" },
-      { name: "Nicole", tag: "In Lesson", text: "I love how you explain the 'why' behind everything. It makes Korean feel logical.", color: "#6366F1", type: "reaction" },
-      { name: "Agata", tag: "In Lesson", text: "I actually used Korean at the Korean grocery store and they complimented my pronunciation!", color: "#4ECDC4", type: "reaction" },
-      { name: "Hitesh", tag: "In Lesson", text: "The homework really helps. I can see myself improving week by week.", color: "#D4A574", type: "reaction" },
-      { name: "Jowita", tag: "In Lesson", text: "I went from not knowing any Korean to reading hangul in two lessons. That's incredible.", color: "#E8845C", type: "reaction" },
-      { name: "Charline", tag: "In Lesson", text: "I told my friends about you. They can't believe how much I've learned in two months!", color: "#6366F1", type: "reaction" },
-      { name: "Jaida Marie", tag: "In Lesson", text: "I used to be so scared to speak. Now I actually look forward to the speaking practice!", color: "#4ECDC4", type: "reaction" },
-      { name: "Imane", tag: "In Lesson", text: "This is so well organized. I love that you have a clear plan for where we're going.", color: "#D4A574", type: "reaction" },
-      { name: "Meka", tag: "In Lesson", text: "I want extra homework! I finished everything and I want more to practice with.", color: "#E8845C", type: "reaction" },
-      { name: "Taty", tag: "In Lesson", text: "You're so patient. I never feel rushed even when I take time to think.", color: "#6366F1", type: "reaction" },
-      { name: "Rahayu", tag: "In Lesson", text: "I love the way you teach grammar. It makes so much more sense than textbooks.", color: "#4ECDC4", type: "reaction" },
-      { name: "Jorge", tag: "In Lesson", text: "The cultural context changes everything. Now I understand why they say it that way.", color: "#D4A574", type: "reaction" },
-      { name: "Alice B", tag: "In Lesson", text: "Korean has become part of my daily routine. I don't even have to think about it anymore.", color: "#E8845C", type: "reaction" },
-      { name: "Sina", tag: "In Lesson", text: "\uC624\uB298 \uC218\uC5C5 \uC815\uB9D0 \uC7AC\uBBF8\uC788\uC5C8\uC5B4\uC694! I feel like I'm finally getting fluent.", color: "#6366F1", type: "reaction" },
-      { name: "Apiraa", tag: "In Lesson", text: "\uC120\uC0DD\uB2D8 \uB355\uBD84\uC5D0 \uD55C\uAD6D\uC5B4\uAC00 \uB108\uBB34 \uC7AC\uBBF8\uC788\uC5B4\uC694! Korean is so fun thanks to you!", color: "#4ECDC4", type: "reaction" },
-      { name: "Sokvan", tag: "In Lesson", text: "My pronunciation has improved so much since we started. My Korean friends noticed!", color: "#D4A574", type: "reaction" },
-      { name: "Annie", tag: "In Lesson", text: "Every lesson I learn something I can use immediately. That's what makes it worth it.", color: "#E8845C", type: "reaction" },
-      { name: "Kaylee", tag: "In Lesson", text: "The structure of your lessons is what keeps me coming back. I always know what to expect.", color: "#6366F1", type: "reaction" },
-      { name: "Paul", tag: "In Lesson", text: "I just realized I can read that entire sign in Korean. When did that happen?!", color: "#4ECDC4", type: "reaction" },
-      { name: "Miyahh", tag: "In Lesson", text: "You always make me laugh while I'm learning. That's a special talent.", color: "#D4A574", type: "reaction" },
-      { name: "Duel", tag: "In Lesson", text: "I watched a Korean drama and understood actual sentences. I was so proud!", color: "#E8845C", type: "reaction" },
-      { name: "Inna", tag: "Parent \u00b7 In Lesson", text: "She's singing Korean songs now and actually knows what the words mean!", color: "#6366F1", type: "reaction" },
-      { name: "Magdalena", tag: "In Lesson", text: "No other teacher corrected my pronunciation like this. I can hear the difference now.", color: "#4ECDC4", type: "reaction" },
-      { name: "Chasity", tag: "In Lesson", text: "I recorded myself speaking Korean and compared it to last month. The improvement is real!", color: "#D4A574", type: "reaction" },
-      { name: "Asa", tag: "In Lesson", text: "Can we do more of the fun games? I love learning Korean this way!", color: "#E8845C", type: "reaction" },
-      { name: "Leah", tag: "In Lesson", text: "I taught my mom some Korean words! She was impressed.", color: "#6366F1", type: "reaction" },
-      { name: "HUIXIN", tag: "In Lesson", text: "\uD1A0\uD53D \uBB38\uC81C \uD480\uB54C \uC120\uC0DD\uB2D8\uC774 \uAC00\uB974\uCE5C \uBC29\uBC95\uC774 \uB9CE\uC774 \uB3C4\uC6C0\uC774 \uB3FC\uC694! Your methods really help with TOPIK!", color: "#4ECDC4", type: "reaction" },
-      { name: "Violeta", tag: "In Lesson", text: "I feel so much more confident now. A month ago I couldn't even read hangul.", color: "#D4A574", type: "reaction" },
-      { name: "Corine", tag: "In Lesson", text: "The way you explain culture makes the language make sense. It's not random anymore.", color: "#E8845C", type: "reaction" },
-      { name: "Regina", tag: "In Lesson", text: "I tried ordering in Korean at a restaurant and it worked! They even complimented me!", color: "#6366F1", type: "reaction" },
-      { name: "Sarah", tag: "Trial Lesson", text: "This is exactly the kind of structured approach I've been searching for. Amazing first impression.", color: "#4ECDC4", type: "reaction" },
-      { name: "Samantha", tag: "In Lesson", text: "I love my personal app! I practice on the bus every morning now.", color: "#D4A574", type: "reaction" },
-      { name: "Madia", tag: "In Lesson", text: "The sentence builder app is amazing. I can feel the grammar clicking in my brain.", color: "#E8845C", type: "reaction" },
-      { name: "Noelle", tag: "In Lesson", text: "I used to freeze when trying to speak. Now words just come out naturally.", color: "#6366F1", type: "reaction" },
-      { name: "Clayton", tag: "In Lesson", text: "The flashcard system with mastery tracking is genius. I can see exactly what I need to practice.", color: "#4ECDC4", type: "reaction" },
-      { name: "Kath", tag: "In Lesson", text: "I feel like I learn more in one lesson with you than a month of apps. It's not even close.", color: "#D4A574", type: "reaction" },
-      { name: "Woraphun", tag: "In Lesson", text: "I got promoted and it's partly because I mentioned I'm learning Korean for the team. Thank you!", color: "#E8845C", type: "reaction" },
-      { name: "Jowita", tag: "In Lesson", text: "My boyfriend is Korean and he couldn't believe I learned that expression. He was so proud!", color: "#6366F1", type: "reaction" },
-      { name: "Alice B", tag: "In Lesson", text: "The daily feedback is incredible. I feel like I have a teacher available every single day.", color: "#4ECDC4", type: "reaction" },
-      { name: "Charline", tag: "In Lesson", text: "Learning Korean with you doesn't feel like studying. It feels like exploring a new world.", color: "#D4A574", type: "reaction" },
-      { name: "Ignacio", tag: "In Lesson", text: "I'm already thinking about my trip to Korea. I want to surprise everyone there with my Korean!", color: "#E8845C", type: "reaction" },
-      { name: "Nicole", tag: "In Lesson", text: "The lesson summaries are a lifesaver. I review them before every session.", color: "#6366F1", type: "reaction" },
-      { name: "Agata", tag: "In Lesson", text: "I never thought I'd enjoy homework, but the way you design it makes me want to complete it.", color: "#4ECDC4", type: "reaction" },
-      { name: "Imane", tag: "In Lesson", text: "My friends in Morocco think it's so cool that I'm learning Korean. You've given me confidence.", color: "#D4A574", type: "reaction" },
-      { name: "Taty", tag: "In Lesson", text: "I finally understand the difference between the politeness levels. It all makes sense now!", color: "#E8845C", type: "reaction" },
-      { name: "Rahayu", tag: "In Lesson", text: "I watched a K-drama without subtitles for a few minutes and understood things. I was shocked!", color: "#6366F1", type: "reaction" },
-      { name: "Jorge", tag: "In Lesson", text: "You explained in 5 minutes what my textbook spent 20 pages on. And I actually get it now.", color: "#4ECDC4", type: "reaction" },
-      { name: "Hitesh", tag: "In Lesson", text: "Every week I notice I can understand more Korean around me. The progress is real.", color: "#D4A574", type: "reaction" },
-      { name: "Meka", tag: "In Lesson", text: "The way you break down complex grammar into simple patterns \u2014 that's what makes you different.", color: "#E8845C", type: "reaction" },
-      { name: "Miyahh", tag: "In Lesson", text: "I love that you make me think in Korean, not just translate from English. That shift changed everything.", color: "#6366F1", type: "reaction" },
-      { name: "Sina", tag: "In Lesson", text: "I spoke Korean at the Korean consulate and they were impressed. They asked where I learned!", color: "#4ECDC4", type: "reaction" },
-      { name: "Apiraa", tag: "In Lesson", text: "I've tried many tutors over 7 years. This is the first time I actually feel like I'm advancing.", color: "#D4A574", type: "reaction" },
-      { name: "Magdalena", tag: "In Lesson", text: "I'm starting to hear individual words in Korean songs now, not just sounds. That's amazing to me.", color: "#E8845C", type: "reaction" },
-      { name: "Inna", tag: "Parent \u00b7 In Lesson", text: "She counts to 100 in Korean now! And she corrects MY pronunciation. What have you done?!", color: "#6366F1", type: "reaction" },
-      { name: "Chasity", tag: "In Lesson", text: "You send voice recordings for practice? No other tutor has ever done that. That's next level.", color: "#4ECDC4", type: "reaction" },
-      { name: "Jaida Marie", tag: "In Lesson", text: "I wrote a journal entry in Korean today. It was short, but I did it! All by myself.", color: "#D4A574", type: "reaction" },
-      { name: "Maimuna", tag: "In Lesson", text: "Even during my emergency, I didn't want to miss our lesson. That says a lot about your teaching.", color: "#E8845C", type: "reaction" },
-      { name: "Dorian", tag: "Trial Lesson", text: "You make it easy though. The way you explain is just... it clicks. I've never had that with Korean.", color: "#6366F1", type: "reaction" },
-      { name: "Diamonique", tag: "Trial Lesson", text: "You're not just teaching language, you're teaching how to think about language. That's rare.", color: "#4ECDC4", type: "reaction" },
-      { name: "Nora", tag: "In Lesson", text: "I downloaded a Korean keyboard and now I text in Korean! Small steps but it feels huge.", color: "#D4A574", type: "reaction" },
-      { name: "Samantha", tag: "In Lesson", text: "Every lesson feels like an adventure. You bring so much energy and enthusiasm!", color: "#E8845C", type: "reaction" },
-      { name: "Clayton", tag: "In Lesson", text: "I've never been this consistent with learning anything. There's something about your system.", color: "#6366F1", type: "reaction" },
-      { name: "Duel", tag: "In Lesson", text: "The emoji homework system is genius. I actually look forward to getting my feedback!", color: "#4ECDC4", type: "reaction" },
-      { name: "Paul", tag: "In Lesson", text: "I can read Korean menus now. Last week I ordered bibimbap in Korean and the waiter smiled!", color: "#D4A574", type: "reaction" },
-      { name: "Annie", tag: "In Lesson", text: "You explained 7 levels of thank you and suddenly Korean manners made complete sense.", color: "#E8845C", type: "reaction" },
-      { name: "Violeta", tag: "In Lesson", text: "My Korean friend was shocked when I used the right formality level. She said 'who taught you?!'", color: "#6366F1", type: "reaction" },
-      { name: "Corine", tag: "In Lesson", text: "I love that every lesson has a clear objective. I always know what I'm going to learn.", color: "#4ECDC4", type: "reaction" },
-      { name: "Asa", tag: "In Lesson", text: "I drew Korean letters for my school project! My teacher said it looked beautiful.", color: "#D4A574", type: "reaction" },
-      { name: "Leah", tag: "In Lesson", text: "I made a Korean song for my family! Everyone loved it!", color: "#E8845C", type: "reaction" },
-      { name: "Sokvan", tag: "In Lesson", text: "I practiced with my Cambodian-Korean friends and they said my accent is getting so much better!", color: "#6366F1", type: "reaction" },
-      { name: "HUIXIN", tag: "In Lesson", text: "The TOPIK practice tests you give me are so well-targeted. I feel ready for the exam.", color: "#4ECDC4", type: "reaction" },
-      { name: "Kaylee", tag: "In Lesson", text: "Your structured approach is exactly what my brain needs. Random learning never worked for me.", color: "#D4A574", type: "reaction" },
-      { name: "Ignacio", tag: "In Lesson", text: "I showed my family the Korean I learned and they were so impressed. Made my day!", color: "#E8845C", type: "reaction" },
-      { name: "Alice", tag: "In Lesson", text: "I can feel myself thinking in Korean sometimes now. It just pops into my head naturally!", color: "#6366F1", type: "reaction" },
-      { name: "Sheri", tag: "In Lesson", text: "My vocabulary has grown so much. I recognize Korean words everywhere now \u2014 signs, menus, songs.", color: "#4ECDC4", type: "reaction" },
-      { name: "Sarah", tag: "Trial Lesson", text: "I wasn't sure about online tutoring, but this trial completely changed my mind. Signing up!", color: "#D4A574", type: "reaction" },
-      { name: "Jai", tag: "In Lesson", text: "I made Korean learning a daily habit now. 15 minutes every morning with my coffee.", color: "#E8845C", type: "reaction" },
-      { name: "Andrea", tag: "Trial Lesson", text: "You showed me more structure in 50 minutes than I found in 6 months of searching online.", color: "#6366F1", type: "reaction" },
-      { name: "Loriana", tag: "In Lesson", text: "After 7 years of learning, you're the first teacher who fixed my \u314E pronunciation. Finally!", color: "#4ECDC4", type: "reaction" },
-      { name: "Chloe", tag: "In Lesson", text: "My Korean coworker heard me practicing and asked if I was Korean. Best compliment ever!", color: "#D4A574", type: "reaction" },
-      { name: "Jorge", tag: "In Lesson", text: "I understand Korean humor now! My Korean friends include me in jokes and I actually get them.", color: "#E8845C", type: "reaction" },
-      { name: "Nicole", tag: "In Lesson", text: "I started a Korean study journal thanks to your suggestion. It's become my favorite notebook.", color: "#6366F1", type: "reaction" },
-      { name: "Noelle", tag: "In Lesson", text: "The way you celebrate small victories makes me want to keep going. Every lesson ends on a high.", color: "#4ECDC4", type: "reaction" },
-      { name: "Madia", tag: "In Lesson", text: "Korean used to look like random symbols. Now I see words, grammar, meaning. What a journey!", color: "#D4A574", type: "reaction" },
-      { name: "Agata", tag: "In Lesson", text: "I'm planning a trip to Seoul and I feel like I'll actually be able to navigate. That's because of you.", color: "#E8845C", type: "reaction" },
-      { name: "Taty", tag: "In Lesson", text: "You noticed I was having a hard day and adjusted the lesson. That kind of care is rare.", color: "#6366F1", type: "reaction" },
-      { name: "Meka", tag: "In Lesson", text: "I analyzed the grammar pattern you taught me and found it in 12 different K-dramas. So satisfying!", color: "#4ECDC4", type: "reaction" },
-      { name: "Miyahh", tag: "In Lesson", text: "My sister wants to learn Korean now because she sees how much fun I'm having. Your fault!", color: "#D4A574", type: "reaction" },
-      { name: "Charline", tag: "In Lesson", text: "After each lesson, I feel energized, not drained. That's the sign of a great teacher.", color: "#E8845C", type: "reaction" },
-      { name: "Imane", tag: "In Lesson", text: "You always find a way to connect Korean to things I care about. It never feels irrelevant.", color: "#6366F1", type: "reaction" },
-      { name: "Rahayu", tag: "In Lesson", text: "I'm reading children's books in Korean now. Slowly, but I'm reading! This is amazing.", color: "#4ECDC4", type: "reaction" },
-      { name: "Hitesh", tag: "In Lesson", text: "Your system of building vocabulary from lessons is so smart. Every word has context.", color: "#D4A574", type: "reaction" },
-      { name: "Woraphun", tag: "In Lesson", text: "I used Korean in a business meeting with our Korean partners. They were genuinely impressed!", color: "#E8845C", type: "reaction" },
-      { name: "Jowita", tag: "In Lesson", text: "I surprised my boyfriend with a Korean love letter. He cried! Best homework ever.", color: "#6366F1", type: "reaction" },
-      { name: "Sina", tag: "In Lesson", text: "I read a Korean newspaper article today. Not perfectly, but I understood the main idea. Milestone!", color: "#4ECDC4", type: "reaction" },
-      { name: "Apiraa", tag: "In Lesson", text: "You're the reason I didn't give up on Korean. After 7 years, you renewed my motivation completely.", color: "#D4A574", type: "reaction" },
+      { name: "A***e B.", tag: "In Lesson", text: "I enjoy working on my Korean so it's not even 'oh I have to do that,' it's just 'oh yes I have my lunch break I'm gonna do some Korean!'", color: "#D4A574", type: "reaction" },
+      { name: "C***n", tag: "In Lesson", text: "I want to be able to go to Korea and just talk to you in Korean. That would be cool.", color: "#E8845C", type: "reaction" },
+      { name: "A***a", tag: "Trial Lesson", text: "I really like your style. Everything is so structured and I think it will help me a lot.", color: "#6366F1", type: "reaction" },
+      { name: "C***e", tag: "In Lesson", text: "I understand why you're fully occupied all the time. I just wonder how you can prepare all the materials. Thank you so much.", color: "#4ECDC4", type: "reaction" },
+      { name: "Y***s", tag: "In Lesson", text: "Your advice about the workplace has been really helpful and gave me permission to calm down a little bit.", color: "#D4A574", type: "reaction" },
+      { name: "C***n", tag: "In Lesson", text: "I got to be your number one student! I can't wait to know this so we can get to the good stuff.", color: "#E8845C", type: "reaction" },
+      { name: "S***a", tag: "In Lesson", text: "I couldn't stop listening to the audiobook. I kept going and going. It made me laugh and cry.", color: "#6366F1", type: "reaction" },
+      { name: "A***e", tag: "In Lesson", text: "I NEED TO LEARN HOW TO READ THIS. I will always use this phrase!", color: "#E8845C", type: "reaction" },
+      { name: "Y***s", tag: "In Lesson", text: "Things that I can fit into other activities are going to work really well for me. That would be awesome.", color: "#D4A574", type: "reaction" },
+      { name: "D**l", tag: "In Lesson", text: "I get a little bit shy, but I will work on it. More feelings please!", color: "#4ECDC4", type: "reaction" },
+      { name: "P**l", tag: "In Lesson", text: "That's cool! I had no idea particles worked like that.", color: "#6366F1", type: "reaction" },
+      { name: "C***e", tag: "In Lesson", text: "While learning Korean, I became more interested in Korean culture. I've never learned this phrase before!", color: "#D4A574", type: "reaction" },
+      { name: "C***n", tag: "In Lesson", text: "I studied 20 cards in 30 minutes, 138 times. I attached your recording to them which was pretty cool.", color: "#E8845C", type: "reaction" },
+      { name: "S***a", tag: "In Lesson", text: "Songpa trail is my favorite place! I'm arriving in Korea March 4th. I can't wait!", color: "#4ECDC4", type: "reaction" },
+      { name: "Y***s", tag: "In Lesson", text: "I've been taking the phrases you teach me and practicing my hangul with them. It's helping so much.", color: "#D4A574", type: "reaction" },
+      { name: "J*i", tag: "In Lesson", text: "Daily practice as a habit is fine. Doing it consistently makes it feel natural.", color: "#6366F1", type: "reaction" },
+      { name: "D***n", tag: "Trial Lesson", text: "This is really different from other tutorials. Way more satisfying. I feel like I actually get it.", color: "#E8845C", type: "reaction" },
+      { name: "D***e", tag: "Trial Lesson", text: "I read your bio and I was like, this sounds like me! I need this kind of structure.", color: "#4ECDC4", type: "reaction" },
+      { name: "N**a", tag: "In Lesson", text: "Now that I have the starting point, it's like, okay, I can definitely practice on my own.", color: "#D4A574", type: "reaction" },
+      { name: "M***a", tag: "In Lesson", text: "I start even to focus on the Korean when I watch Korean dramas now. It's working!", color: "#6366F1", type: "reaction" },
+      { name: "C***e", tag: "In Lesson", text: "I've never learned this phrase. It's a very common conversation and nobody taught it before!", color: "#E8845C", type: "reaction" },
+      { name: "A***a", tag: "Trial Lesson", text: "I'm an overachiever so I really want to perform well. This is the structure I need.", color: "#4ECDC4", type: "reaction" },
+      { name: "W***n", tag: "In Lesson", text: "I love how everything connects. The vocabulary from last time just came back naturally.", color: "#D4A574", type: "reaction" },
+      { name: "C***n", tag: "In Lesson", text: "That's what I want to be able to do \u2014 just pick up my phone and text in Korean.", color: "#E8845C", type: "reaction" },
+      { name: "K**h", tag: "In Lesson", text: "I feel like I'm actually understanding the patterns now, not just memorizing.", color: "#6366F1", type: "reaction" },
+      { name: "Y***s", tag: "In Lesson", text: "I practiced at the Korean restaurant and they were so happy I tried! It felt amazing.", color: "#4ECDC4", type: "reaction" },
+      { name: "N***e", tag: "In Lesson", text: "You make it so easy to understand. Other teachers just told me to memorize it.", color: "#D4A574", type: "reaction" },
+      { name: "M***a", tag: "In Lesson", text: "I practiced during my lunch break and it actually stuck. This method works.", color: "#E8845C", type: "reaction" },
+      { name: "N***e", tag: "In Lesson", text: "I love how you explain the 'why' behind everything. It makes Korean feel logical.", color: "#6366F1", type: "reaction" },
+      { name: "A***a", tag: "In Lesson", text: "I actually used Korean at the Korean grocery store and they complimented my pronunciation!", color: "#4ECDC4", type: "reaction" },
+      { name: "H***h", tag: "In Lesson", text: "The homework really helps. I can see myself improving week by week.", color: "#D4A574", type: "reaction" },
+      { name: "J***a", tag: "In Lesson", text: "I went from not knowing any Korean to reading hangul in two lessons. That's incredible.", color: "#E8845C", type: "reaction" },
+      { name: "C***e", tag: "In Lesson", text: "I told my friends about you. They can't believe how much I've learned in two months!", color: "#6366F1", type: "reaction" },
+      { name: "J***a M***e", tag: "In Lesson", text: "I used to be so scared to speak. Now I actually look forward to the speaking practice!", color: "#4ECDC4", type: "reaction" },
+      { name: "I***e", tag: "In Lesson", text: "This is so well organized. I love that you have a clear plan for where we're going.", color: "#D4A574", type: "reaction" },
+      { name: "M**a", tag: "In Lesson", text: "I want extra homework! I finished everything and I want more to practice with.", color: "#E8845C", type: "reaction" },
+      { name: "T**y", tag: "In Lesson", text: "You're so patient. I never feel rushed even when I take time to think.", color: "#6366F1", type: "reaction" },
+      { name: "R***u", tag: "In Lesson", text: "I love the way you teach grammar. It makes so much more sense than textbooks.", color: "#4ECDC4", type: "reaction" },
+      { name: "J***e", tag: "In Lesson", text: "The cultural context changes everything. Now I understand why they say it that way.", color: "#D4A574", type: "reaction" },
+      { name: "A***e B.", tag: "In Lesson", text: "Korean has become part of my daily routine. I don't even have to think about it anymore.", color: "#E8845C", type: "reaction" },
+      { name: "S**a", tag: "In Lesson", text: "\uC624\uB298 \uC218\uC5C5 \uC815\uB9D0 \uC7AC\uBBF8\uC788\uC5C8\uC5B4\uC694! I feel like I'm finally getting fluent.", color: "#6366F1", type: "reaction" },
+      { name: "A***a", tag: "In Lesson", text: "\uC120\uC0DD\uB2D8 \uB355\uBD84\uC5D0 \uD55C\uAD6D\uC5B4\uAC00 \uB108\uBB34 \uC7AC\uBBF8\uC788\uC5B4\uC694! Korean is so fun thanks to you!", color: "#4ECDC4", type: "reaction" },
+      { name: "S***n", tag: "In Lesson", text: "My pronunciation has improved so much since we started. My Korean friends noticed!", color: "#D4A574", type: "reaction" },
+      { name: "A***e", tag: "In Lesson", text: "Every lesson I learn something I can use immediately. That's what makes it worth it.", color: "#E8845C", type: "reaction" },
+      { name: "K***e", tag: "In Lesson", text: "The structure of your lessons is what keeps me coming back. I always know what to expect.", color: "#6366F1", type: "reaction" },
+      { name: "P**l", tag: "In Lesson", text: "I just realized I can read that entire sign in Korean. When did that happen?!", color: "#4ECDC4", type: "reaction" },
+      { name: "M***h", tag: "In Lesson", text: "You always make me laugh while I'm learning. That's a special talent.", color: "#D4A574", type: "reaction" },
+      { name: "D**l", tag: "In Lesson", text: "I watched a Korean drama and understood actual sentences. I was so proud!", color: "#E8845C", type: "reaction" },
+      { name: "I**a", tag: "Parent \u00b7 In Lesson", text: "She's singing Korean songs now and actually knows what the words mean!", color: "#6366F1", type: "reaction" },
+      { name: "M***a", tag: "In Lesson", text: "No other teacher corrected my pronunciation like this. I can hear the difference now.", color: "#4ECDC4", type: "reaction" },
+      { name: "C***y", tag: "In Lesson", text: "I recorded myself speaking Korean and compared it to last month. The improvement is real!", color: "#D4A574", type: "reaction" },
+      { name: "A*a", tag: "In Lesson", text: "Can we do more of the fun games? I love learning Korean this way!", color: "#E8845C", type: "reaction" },
+      { name: "L**h", tag: "In Lesson", text: "I taught my mom some Korean words! She was impressed.", color: "#6366F1", type: "reaction" },
+      { name: "H***N", tag: "In Lesson", text: "\uD1A0\uD53D \uBB38\uC81C \uD480\uB54C \uC120\uC0DD\uB2D8\uC774 \uAC00\uB974\uCE5C \uBC29\uBC95\uC774 \uB9CE\uC774 \uB3C4\uC6C0\uC774 \uB3FC\uC694! Your methods really help with TOPIK!", color: "#4ECDC4", type: "reaction" },
+      { name: "V***a", tag: "In Lesson", text: "I feel so much more confident now. A month ago I couldn't even read hangul.", color: "#D4A574", type: "reaction" },
+      { name: "C***e", tag: "In Lesson", text: "The way you explain culture makes the language make sense. It's not random anymore.", color: "#E8845C", type: "reaction" },
+      { name: "R***a", tag: "In Lesson", text: "I tried ordering in Korean at a restaurant and it worked! They even complimented me!", color: "#6366F1", type: "reaction" },
+      { name: "S***h", tag: "Trial Lesson", text: "This is exactly the kind of structured approach I've been searching for. Amazing first impression.", color: "#4ECDC4", type: "reaction" },
+      { name: "S***a", tag: "In Lesson", text: "I love my personal app! I practice on the bus every morning now.", color: "#D4A574", type: "reaction" },
+      { name: "M***a", tag: "In Lesson", text: "The sentence builder app is amazing. I can feel the grammar clicking in my brain.", color: "#E8845C", type: "reaction" },
+      { name: "N***e", tag: "In Lesson", text: "I used to freeze when trying to speak. Now words just come out naturally.", color: "#6366F1", type: "reaction" },
+      { name: "C***n", tag: "In Lesson", text: "The flashcard system with mastery tracking is genius. I can see exactly what I need to practice.", color: "#4ECDC4", type: "reaction" },
+      { name: "K**h", tag: "In Lesson", text: "I feel like I learn more in one lesson with you than a month of apps. It's not even close.", color: "#D4A574", type: "reaction" },
+      { name: "W***n", tag: "In Lesson", text: "I got promoted and it's partly because I mentioned I'm learning Korean for the team. Thank you!", color: "#E8845C", type: "reaction" },
+      { name: "J***a", tag: "In Lesson", text: "My boyfriend is Korean and he couldn't believe I learned that expression. He was so proud!", color: "#6366F1", type: "reaction" },
+      { name: "A***e B.", tag: "In Lesson", text: "The daily feedback is incredible. I feel like I have a teacher available every single day.", color: "#4ECDC4", type: "reaction" },
+      { name: "C***e", tag: "In Lesson", text: "Learning Korean with you doesn't feel like studying. It feels like exploring a new world.", color: "#D4A574", type: "reaction" },
+      { name: "I***o", tag: "In Lesson", text: "I'm already thinking about my trip to Korea. I want to surprise everyone there with my Korean!", color: "#E8845C", type: "reaction" },
+      { name: "N***e", tag: "In Lesson", text: "The lesson summaries are a lifesaver. I review them before every session.", color: "#6366F1", type: "reaction" },
+      { name: "A***a", tag: "In Lesson", text: "I never thought I'd enjoy homework, but the way you design it makes me want to complete it.", color: "#4ECDC4", type: "reaction" },
+      { name: "I***e", tag: "In Lesson", text: "My friends in Morocco think it's so cool that I'm learning Korean. You've given me confidence.", color: "#D4A574", type: "reaction" },
+      { name: "T**y", tag: "In Lesson", text: "I finally understand the difference between the politeness levels. It all makes sense now!", color: "#E8845C", type: "reaction" },
+      { name: "R***u", tag: "In Lesson", text: "I watched a K-drama without subtitles for a few minutes and understood things. I was shocked!", color: "#6366F1", type: "reaction" },
+      { name: "J***e", tag: "In Lesson", text: "You explained in 5 minutes what my textbook spent 20 pages on. And I actually get it now.", color: "#4ECDC4", type: "reaction" },
+      { name: "H***h", tag: "In Lesson", text: "Every week I notice I can understand more Korean around me. The progress is real.", color: "#D4A574", type: "reaction" },
+      { name: "M**a", tag: "In Lesson", text: "The way you break down complex grammar into simple patterns \u2014 that's what makes you different.", color: "#E8845C", type: "reaction" },
+      { name: "M***h", tag: "In Lesson", text: "I love that you make me think in Korean, not just translate from English. That shift changed everything.", color: "#6366F1", type: "reaction" },
+      { name: "S**a", tag: "In Lesson", text: "I spoke Korean at the Korean consulate and they were impressed. They asked where I learned!", color: "#4ECDC4", type: "reaction" },
+      { name: "A***a", tag: "In Lesson", text: "I've tried many tutors over 7 years. This is the first time I actually feel like I'm advancing.", color: "#D4A574", type: "reaction" },
+      { name: "M***a", tag: "In Lesson", text: "I'm starting to hear individual words in Korean songs now, not just sounds. That's amazing to me.", color: "#E8845C", type: "reaction" },
+      { name: "I**a", tag: "Parent \u00b7 In Lesson", text: "She counts to 100 in Korean now! And she corrects MY pronunciation. What have you done?!", color: "#6366F1", type: "reaction" },
+      { name: "C***y", tag: "In Lesson", text: "You send voice recordings for practice? No other tutor has ever done that. That's next level.", color: "#4ECDC4", type: "reaction" },
+      { name: "J***a M***e", tag: "In Lesson", text: "I wrote a journal entry in Korean today. It was short, but I did it! All by myself.", color: "#D4A574", type: "reaction" },
+      { name: "M***a", tag: "In Lesson", text: "Even during my emergency, I didn't want to miss our lesson. That says a lot about your teaching.", color: "#E8845C", type: "reaction" },
+      { name: "D***n", tag: "Trial Lesson", text: "You make it easy though. The way you explain is just... it clicks. I've never had that with Korean.", color: "#6366F1", type: "reaction" },
+      { name: "D***e", tag: "Trial Lesson", text: "You're not just teaching language, you're teaching how to think about language. That's rare.", color: "#4ECDC4", type: "reaction" },
+      { name: "N**a", tag: "In Lesson", text: "I downloaded a Korean keyboard and now I text in Korean! Small steps but it feels huge.", color: "#D4A574", type: "reaction" },
+      { name: "S***a", tag: "In Lesson", text: "Every lesson feels like an adventure. You bring so much energy and enthusiasm!", color: "#E8845C", type: "reaction" },
+      { name: "C***n", tag: "In Lesson", text: "I've never been this consistent with learning anything. There's something about your system.", color: "#6366F1", type: "reaction" },
+      { name: "D**l", tag: "In Lesson", text: "The emoji homework system is genius. I actually look forward to getting my feedback!", color: "#4ECDC4", type: "reaction" },
+      { name: "P**l", tag: "In Lesson", text: "I can read Korean menus now. Last week I ordered bibimbap in Korean and the waiter smiled!", color: "#D4A574", type: "reaction" },
+      { name: "A***e", tag: "In Lesson", text: "You explained 7 levels of thank you and suddenly Korean manners made complete sense.", color: "#E8845C", type: "reaction" },
+      { name: "V***a", tag: "In Lesson", text: "My Korean friend was shocked when I used the right formality level. She said 'who taught you?!'", color: "#6366F1", type: "reaction" },
+      { name: "C***e", tag: "In Lesson", text: "I love that every lesson has a clear objective. I always know what I'm going to learn.", color: "#4ECDC4", type: "reaction" },
+      { name: "A*a", tag: "In Lesson", text: "I drew Korean letters for my school project! My teacher said it looked beautiful.", color: "#D4A574", type: "reaction" },
+      { name: "L**h", tag: "In Lesson", text: "I made a Korean song for my family! Everyone loved it!", color: "#E8845C", type: "reaction" },
+      { name: "S***n", tag: "In Lesson", text: "I practiced with my Cambodian-Korean friends and they said my accent is getting so much better!", color: "#6366F1", type: "reaction" },
+      { name: "H***N", tag: "In Lesson", text: "The TOPIK practice tests you give me are so well-targeted. I feel ready for the exam.", color: "#4ECDC4", type: "reaction" },
+      { name: "K***e", tag: "In Lesson", text: "Your structured approach is exactly what my brain needs. Random learning never worked for me.", color: "#D4A574", type: "reaction" },
+      { name: "I***o", tag: "In Lesson", text: "I showed my family the Korean I learned and they were so impressed. Made my day!", color: "#E8845C", type: "reaction" },
+      { name: "A***e", tag: "In Lesson", text: "I can feel myself thinking in Korean sometimes now. It just pops into my head naturally!", color: "#6366F1", type: "reaction" },
+      { name: "S***i", tag: "In Lesson", text: "My vocabulary has grown so much. I recognize Korean words everywhere now \u2014 signs, menus, songs.", color: "#4ECDC4", type: "reaction" },
+      { name: "S***h", tag: "Trial Lesson", text: "I wasn't sure about online tutoring, but this trial completely changed my mind. Signing up!", color: "#D4A574", type: "reaction" },
+      { name: "J*i", tag: "In Lesson", text: "I made Korean learning a daily habit now. 15 minutes every morning with my coffee.", color: "#E8845C", type: "reaction" },
+      { name: "A***a", tag: "Trial Lesson", text: "You showed me more structure in 50 minutes than I found in 6 months of searching online.", color: "#6366F1", type: "reaction" },
+      { name: "L***a", tag: "In Lesson", text: "After 7 years of learning, you're the first teacher who fixed my \u314E pronunciation. Finally!", color: "#4ECDC4", type: "reaction" },
+      { name: "C***e", tag: "In Lesson", text: "My Korean coworker heard me practicing and asked if I was Korean. Best compliment ever!", color: "#D4A574", type: "reaction" },
+      { name: "J***e", tag: "In Lesson", text: "I understand Korean humor now! My Korean friends include me in jokes and I actually get them.", color: "#E8845C", type: "reaction" },
+      { name: "N***e", tag: "In Lesson", text: "I started a Korean study journal thanks to your suggestion. It's become my favorite notebook.", color: "#6366F1", type: "reaction" },
+      { name: "N***e", tag: "In Lesson", text: "The way you celebrate small victories makes me want to keep going. Every lesson ends on a high.", color: "#4ECDC4", type: "reaction" },
+      { name: "M***a", tag: "In Lesson", text: "Korean used to look like random symbols. Now I see words, grammar, meaning. What a journey!", color: "#D4A574", type: "reaction" },
+      { name: "A***a", tag: "In Lesson", text: "I'm planning a trip to Seoul and I feel like I'll actually be able to navigate. That's because of you.", color: "#E8845C", type: "reaction" },
+      { name: "T**y", tag: "In Lesson", text: "You noticed I was having a hard day and adjusted the lesson. That kind of care is rare.", color: "#6366F1", type: "reaction" },
+      { name: "M**a", tag: "In Lesson", text: "I analyzed the grammar pattern you taught me and found it in 12 different K-dramas. So satisfying!", color: "#4ECDC4", type: "reaction" },
+      { name: "M***h", tag: "In Lesson", text: "My sister wants to learn Korean now because she sees how much fun I'm having. Your fault!", color: "#D4A574", type: "reaction" },
+      { name: "C***e", tag: "In Lesson", text: "After each lesson, I feel energized, not drained. That's the sign of a great teacher.", color: "#E8845C", type: "reaction" },
+      { name: "I***e", tag: "In Lesson", text: "You always find a way to connect Korean to things I care about. It never feels irrelevant.", color: "#6366F1", type: "reaction" },
+      { name: "R***u", tag: "In Lesson", text: "I'm reading children's books in Korean now. Slowly, but I'm reading! This is amazing.", color: "#4ECDC4", type: "reaction" },
+      { name: "H***h", tag: "In Lesson", text: "Your system of building vocabulary from lessons is so smart. Every word has context.", color: "#D4A574", type: "reaction" },
+      { name: "W***n", tag: "In Lesson", text: "I used Korean in a business meeting with our Korean partners. They were genuinely impressed!", color: "#E8845C", type: "reaction" },
+      { name: "J***a", tag: "In Lesson", text: "I surprised my boyfriend with a Korean love letter. He cried! Best homework ever.", color: "#6366F1", type: "reaction" },
+      { name: "S**a", tag: "In Lesson", text: "I read a Korean newspaper article today. Not perfectly, but I understood the main idea. Milestone!", color: "#4ECDC4", type: "reaction" },
+      { name: "A***a", tag: "In Lesson", text: "You're the reason I didn't give up on Korean. After 7 years, you renewed my motivation completely.", color: "#D4A574", type: "reaction" },
       // ===== ADDITIONAL CHAT FEEDBACK =====
-      { name: "Magdalena", tag: "Message", text: "I've been reviewing the summary you sent and it's so detailed! Thank you for always going above and beyond.", color: "#4ECDC4", type: "chat" },
-      { name: "Miyahh", tag: "Message", text: "I showed my family the Korean I can write now. They couldn't believe it! Thank you!", color: "#E8845C", type: "chat" },
-      { name: "Kaylee", tag: "Message", text: "I love the structured approach. It really helps me track my progress week by week.", color: "#D4A574", type: "chat" },
-      { name: "Hitesh", tag: "Message", text: "Thank you for the extra practice materials. They've been so helpful for my daily routine!", color: "#6366F1", type: "chat" },
-      { name: "Duel", tag: "Message", text: "I'm so glad I found you as my tutor. Korean is actually fun now!", color: "#4ECDC4", type: "chat" },
-      { name: "Paul", tag: "Message", text: "The cultural lessons are my favorite part. I feel like I'm learning so much more than just a language.", color: "#D4A574", type: "chat" },
+      { name: "M***a", tag: "Message", text: "I've been reviewing the summary you sent and it's so detailed! Thank you for always going above and beyond.", color: "#4ECDC4", type: "chat" },
+      { name: "M***h", tag: "Message", text: "I showed my family the Korean I can write now. They couldn't believe it! Thank you!", color: "#E8845C", type: "chat" },
+      { name: "K***e", tag: "Message", text: "I love the structured approach. It really helps me track my progress week by week.", color: "#D4A574", type: "chat" },
+      { name: "H***h", tag: "Message", text: "Thank you for the extra practice materials. They've been so helpful for my daily routine!", color: "#6366F1", type: "chat" },
+      { name: "D**l", tag: "Message", text: "I'm so glad I found you as my tutor. Korean is actually fun now!", color: "#4ECDC4", type: "chat" },
+      { name: "P**l", tag: "Message", text: "The cultural lessons are my favorite part. I feel like I'm learning so much more than just a language.", color: "#D4A574", type: "chat" },
       // ===== ADDITIONAL REACTIONS =====
-      { name: "Alice B", tag: "In Lesson", text: "I watched a Korean cooking show and understood the ingredients! Small win but I'm celebrating!", color: "#6366F1", type: "reaction" },
-      { name: "Clayton", tag: "In Lesson", text: "Remember when I couldn't even read hangul? Now look at me. You did this.", color: "#4ECDC4", type: "reaction" },
-      { name: "Madia", tag: "In Lesson", text: "I think in Korean sometimes now! Like, the numbers just pop up in Korean first.", color: "#D4A574", type: "reaction" },
-      { name: "Noelle", tag: "In Lesson", text: "You never make me feel stupid for making mistakes. That's everything.", color: "#E8845C", type: "reaction" },
-      { name: "Yannis", tag: "In Lesson", text: "I'm using Korean daily now at work with our Korean team. They love it.", color: "#6366F1", type: "reaction" },
-      { name: "Woraphun", tag: "In Lesson", text: "The personalized app is such a game changer. I practice while waiting for meetings.", color: "#4ECDC4", type: "reaction" },
-      { name: "Chasity", tag: "In Lesson", text: "I read a Korean menu today without any help. A real menu! I almost cried.", color: "#D4A574", type: "reaction" },
-      { name: "Jorge", tag: "In Lesson", text: "You don't just teach Korean, you teach how to learn. That's a skill for life.", color: "#E8845C", type: "reaction" },
-      { name: "Taty", tag: "In Lesson", text: "I feel safe making mistakes in our lessons. That's why I'm improving so fast.", color: "#6366F1", type: "reaction" },
-      { name: "Maimuna", tag: "In Lesson", text: "My pronunciation got complimented by a native speaker today! First time ever!", color: "#4ECDC4", type: "reaction" },
-      { name: "Samantha", tag: "In Lesson", text: "The homework design is incredible. It doesn't feel like homework, it feels like a game.", color: "#D4A574", type: "reaction" },
-      { name: "Kath", tag: "In Lesson", text: "I appreciate how you adapt each lesson to where I am that day. True personalization.", color: "#E8845C", type: "reaction" },
-      { name: "Nicole", tag: "In Lesson", text: "I told everyone at work about my Korean tutor. They're all jealous of my learning system!", color: "#6366F1", type: "reaction" },
-      { name: "Ignacio", tag: "In Lesson", text: "Korean felt impossible before. Now it feels like just a matter of time. Thank you.", color: "#4ECDC4", type: "reaction" },
-      { name: "Jowita", tag: "In Lesson", text: "I can text basic things in Korean now! My boyfriend responds and I can read his replies!", color: "#D4A574", type: "reaction" },
+      { name: "A***e B.", tag: "In Lesson", text: "I watched a Korean cooking show and understood the ingredients! Small win but I'm celebrating!", color: "#6366F1", type: "reaction" },
+      { name: "C***n", tag: "In Lesson", text: "Remember when I couldn't even read hangul? Now look at me. You did this.", color: "#4ECDC4", type: "reaction" },
+      { name: "M***a", tag: "In Lesson", text: "I think in Korean sometimes now! Like, the numbers just pop up in Korean first.", color: "#D4A574", type: "reaction" },
+      { name: "N***e", tag: "In Lesson", text: "You never make me feel stupid for making mistakes. That's everything.", color: "#E8845C", type: "reaction" },
+      { name: "Y***s", tag: "In Lesson", text: "I'm using Korean daily now at work with our Korean team. They love it.", color: "#6366F1", type: "reaction" },
+      { name: "W***n", tag: "In Lesson", text: "The personalized app is such a game changer. I practice while waiting for meetings.", color: "#4ECDC4", type: "reaction" },
+      { name: "C***y", tag: "In Lesson", text: "I read a Korean menu today without any help. A real menu! I almost cried.", color: "#D4A574", type: "reaction" },
+      { name: "J***e", tag: "In Lesson", text: "You don't just teach Korean, you teach how to learn. That's a skill for life.", color: "#E8845C", type: "reaction" },
+      { name: "T**y", tag: "In Lesson", text: "I feel safe making mistakes in our lessons. That's why I'm improving so fast.", color: "#6366F1", type: "reaction" },
+      { name: "M***a", tag: "In Lesson", text: "My pronunciation got complimented by a native speaker today! First time ever!", color: "#4ECDC4", type: "reaction" },
+      { name: "S***a", tag: "In Lesson", text: "The homework design is incredible. It doesn't feel like homework, it feels like a game.", color: "#D4A574", type: "reaction" },
+      { name: "K**h", tag: "In Lesson", text: "I appreciate how you adapt each lesson to where I am that day. True personalization.", color: "#E8845C", type: "reaction" },
+      { name: "N***e", tag: "In Lesson", text: "I told everyone at work about my Korean tutor. They're all jealous of my learning system!", color: "#6366F1", type: "reaction" },
+      { name: "I***o", tag: "In Lesson", text: "Korean felt impossible before. Now it feels like just a matter of time. Thank you.", color: "#4ECDC4", type: "reaction" },
+      { name: "J***a", tag: "In Lesson", text: "I can text basic things in Korean now! My boyfriend responds and I can read his replies!", color: "#D4A574", type: "reaction" },
     ];
 
     const faqData = [
@@ -1530,6 +1577,23 @@
     });
 
     // reviewSwiper removed — now using CSS ticker animation
+
+    // ===== MAGNETIC BUTTON EFFECT =====
+    document.querySelectorAll('.magnetic-btn').forEach(btn => {
+      btn.addEventListener('mousemove', e => {
+        const rect = btn.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        btn.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
+      });
+      btn.addEventListener('mouseleave', () => {
+        btn.style.transform = 'translate(0, 0)';
+        btn.style.transition = 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+      });
+      btn.addEventListener('mouseenter', () => {
+        btn.style.transition = 'transform 0.1s ease-out';
+      });
+    });
 
     // Init pricing state
     setLessonsPerWeek(1);
