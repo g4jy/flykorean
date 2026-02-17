@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fly Korean — Premium Korean Learning System</title>
+  <meta name="description" content="A premium Korean learning system by Jay. Super Tutor 7/7, 5.0 rating, 115+ students.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            dark: '#0A0A0F',
+            'dark-card': '#111118',
+            'dark-border': '#1E1E2E',
+            indigo: '#6366F1',
+            cyan: '#22D3EE',
+            'cyan-glow': 'rgba(34,211,238,0.15)',
+          },
+          fontFamily: {
+            heading: ['Inter', 'sans-serif'],
+            body: ['Inter', 'sans-serif'],
+            korean: ['Noto Sans KR', 'sans-serif'],
+            stat: ['Space Grotesk', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: #0A0A0F; color: #E2E8F0; overflow-x: hidden; }
+
+    /* Glow text */
+    .glow-text { text-shadow: 0 0 40px rgba(99,102,241,0.3), 0 0 80px rgba(99,102,241,0.1); }
+    .cyan-glow-text { text-shadow: 0 0 30px rgba(34,211,238,0.4), 0 0 60px rgba(34,211,238,0.15); }
+
+    /* Border beam */
+    .border-beam {
+      position: relative;
+      overflow: hidden;
+    }
+    .border-beam::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 1px;
+      background: conic-gradient(from var(--beam-angle, 0deg), transparent 60%, #6366F1 80%, #22D3EE 90%, transparent 100%);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      animation: beam-rotate 4s linear infinite;
+    }
+    @keyframes beam-rotate { to { --beam-angle: 360deg; } }
+    @property --beam-angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+
+    /* Particle canvas */
+    #particles-canvas { position: absolute; inset: 0; z-index: 0; }
+
+    /* Card magnetic effect */
+    .magnetic-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .magnetic-card::after {
+      content: '';
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(99,102,241,0.15) 0%, transparent 70%);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .magnetic-card:hover::after { opacity: 1; }
+
+    /* Typing cursor */
+    .typing-cursor::after {
+      content: '|';
+      animation: blink 1s step-end infinite;
+      color: #22D3EE;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* Fade up */
+    .fade-up { opacity: 0; transform: translateY(40px); }
+
+    /* Grid pattern background */
+    .grid-bg {
+      background-image:
+        linear-gradient(rgba(99,102,241,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(99,102,241,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    /* Gradient border cards */
+    .gradient-border {
+      background: #111118;
+      border: 1px solid #1E1E2E;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .gradient-border:hover {
+      border-color: rgba(99,102,241,0.3);
+      box-shadow: 0 0 30px rgba(99,102,241,0.08), 0 20px 60px rgba(0,0,0,0.3);
+    }
+
+    /* Nav */
+    .nav-dark { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+
+    /* Badge pulse */
+    .pulse-dot {
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(34,211,238,0.4); }
+      50% { opacity: 0.8; box-shadow: 0 0 0 6px rgba(34,211,238,0); }
+    }
+
+    /* FAQ */
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1); }
+    .faq-answer.open { max-height: 500px; }
+    .faq-chevron { transition: transform 0.3s ease; }
+    .faq-chevron.open { transform: rotate(180deg); }
+
+    /* Form */
+    .form-input-dark {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid #1E1E2E;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .form-input-dark:focus {
+      outline: none;
+      border-color: #6366F1;
+      box-shadow: 0 0 0 3px rgba(99,102,241,0.15);
+    }
+
+    /* Stat */
+    .stat-number { font-family: 'Space Grotesk', monospace; }
+
+    /* Divider */
+    .section-divider {
+      width: 60px; height: 3px;
+      background: linear-gradient(90deg, #6366F1, #22D3EE);
+      border-radius: 2px;
+    }
+
+    /* Review star */
+    .star-filled { fill: #6366F1; color: #6366F1; }
+
+    /* Scroll */
+    .scroll-indicator { animation: scrollBounce 2s ease-in-out infinite; }
+    @keyframes scrollBounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(8px)} }
+
+    @media (max-width: 768px) {
+      .hero-title { font-size: 2.5rem !important; }
+      .section-title { font-size: 2rem !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav class="fixed top-0 w-full z-50 nav-dark bg-dark/80 border-b border-dark-border">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="#hero" class="flex items-center gap-1">
+      <span class="text-indigo text-2xl font-black tracking-tight">fly</span>
+      <span class="text-white text-2xl font-black tracking-tight">korean</span>
+    </a>
+    <div class="hidden md:flex items-center gap-8">
+      <a href="#story" class="text-white/40 hover:text-white text-sm font-medium transition">Story</a>
+      <a href="#philosophy" class="text-white/40 hover:text-white text-sm font-medium transition">Philosophy</a>
+      <a href="#system" class="text-white/40 hover:text-white text-sm font-medium transition">System</a>
+      <a href="#reviews" class="text-white/40 hover:text-white text-sm font-medium transition">Reviews</a>
+      <a href="#pricing" class="text-white/40 hover:text-white text-sm font-medium transition">Pricing</a>
+      <a href="#contact" class="bg-indigo text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-indigo/80 transition">Get Started</a>
+    </div>
+    <button id="mobile-menu-btn" class="md:hidden text-white">
+      <i data-lucide="menu" class="w-6 h-6"></i>
+    </button>
+  </div>
+  <div id="mobile-menu" class="hidden md:hidden bg-dark border-t border-dark-border px-6 py-4">
+    <div class="flex flex-col gap-4">
+      <a href="#story" class="text-white/50 text-sm">Story</a>
+      <a href="#philosophy" class="text-white/50 text-sm">Philosophy</a>
+      <a href="#system" class="text-white/50 text-sm">System</a>
+      <a href="#reviews" class="text-white/50 text-sm">Reviews</a>
+      <a href="#pricing" class="text-white/50 text-sm">Pricing</a>
+      <a href="#contact" class="bg-indigo text-white px-5 py-2 rounded-lg text-sm font-semibold text-center">Get Started</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== SECTION 1: HERO ===== -->
+<section id="hero" class="min-h-screen flex items-center relative overflow-hidden bg-dark">
+  <canvas id="particles-canvas"></canvas>
+  <div class="max-w-7xl mx-auto px-6 py-32 relative z-10 w-full">
+    <div class="text-center">
+      <!-- Badge -->
+      <div class="fade-up inline-flex items-center gap-2 bg-white/5 border border-dark-border rounded-full px-4 py-1.5 mb-8">
+        <span class="w-2 h-2 bg-cyan rounded-full pulse-dot"></span>
+        <span class="text-cyan text-sm font-medium">Super Tutor 7/7 on Preply</span>
+      </div>
+
+      <h1 class="fade-up hero-title text-5xl md:text-7xl lg:text-8xl font-black text-white mb-6 leading-tight tracking-tight">
+        Learn to Fly.<br>
+        <span class="glow-text bg-gradient-to-r from-indigo to-cyan bg-clip-text text-transparent">In Korean.</span>
+      </h1>
+
+      <p class="fade-up text-white/40 text-lg md:text-xl max-w-2xl mx-auto mb-12 font-light leading-relaxed">
+        A premium Korean learning system designed to make you independent.<br class="hidden md:block">
+        Built by a tutor who believes the best teachers make themselves unnecessary.
+      </p>
+
+      <!-- Stats -->
+      <div class="fade-up grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto mb-12">
+        <div class="text-center p-4 rounded-xl bg-white/[0.02] border border-dark-border">
+          <div class="stat-number text-3xl md:text-4xl font-bold text-white" data-target="5.0">0</div>
+          <div class="text-white/30 text-xs mt-1">Rating (22 reviews)</div>
+        </div>
+        <div class="text-center p-4 rounded-xl bg-white/[0.02] border border-dark-border">
+          <div class="stat-number text-3xl md:text-4xl font-bold text-white" data-target="115" data-suffix="+">0</div>
+          <div class="text-white/30 text-xs mt-1">Active Students</div>
+        </div>
+        <div class="text-center p-4 rounded-xl bg-white/[0.02] border border-dark-border">
+          <div class="stat-number text-3xl md:text-4xl font-bold text-white" data-target="507" data-suffix="+">0</div>
+          <div class="text-white/30 text-xs mt-1">Lessons in 90 Days</div>
+        </div>
+        <div class="text-center p-4 rounded-xl bg-white/[0.02] border border-dark-border">
+          <div class="stat-number text-3xl md:text-4xl font-bold text-cyan" data-target="65.8" data-suffix="%">0</div>
+          <div class="text-white/30 text-xs mt-1">Conversion Rate</div>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="fade-up flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="#pricing" class="bg-indigo text-white px-8 py-4 rounded-xl text-lg font-semibold hover:bg-indigo/80 transition shadow-lg shadow-indigo/20">
+          Explore Packages
+        </a>
+        <a href="#system" class="bg-white/5 border border-dark-border text-white/70 px-8 py-4 rounded-xl text-lg font-medium hover:bg-white/10 transition">
+          See How It Works
+        </a>
+      </div>
+    </div>
+
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 scroll-indicator">
+      <i data-lucide="chevron-down" class="w-6 h-6 text-white/20"></i>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 2: STORY ===== -->
+<section id="story" class="py-24 md:py-32 bg-dark grid-bg">
+  <div class="max-w-4xl mx-auto px-6">
+    <div class="text-center mb-16">
+      <p class="fade-up text-indigo font-medium text-sm tracking-widest uppercase mb-4">Origin Story</p>
+      <h2 class="fade-up section-title text-3xl md:text-5xl font-black text-white mb-4 tracking-tight">
+        Why I Teach Korean
+      </h2>
+      <div class="fade-up section-divider mx-auto"></div>
+    </div>
+
+    <div class="space-y-8 text-lg leading-relaxed text-white/50">
+      <p class="fade-up">
+        In March 2025, I walked away from my business. I was completely burnt out. For the first time in my life, I just started traveling. As I wandered through different countries, I met incredible people who were genuinely curious about Korea.
+      </p>
+
+      <div class="fade-up gradient-border rounded-2xl p-8">
+        <div class="space-y-4 text-white/60 italic text-xl font-light">
+          <p class="flex items-start gap-3"><span class="text-cyan shrink-0">&gt;</span> "Why do Koreans always ask about age?"</p>
+          <p class="flex items-start gap-3"><span class="text-cyan shrink-0">&gt;</span> "Why does the verb come at the very end?"</p>
+          <p class="flex items-start gap-3"><span class="text-cyan shrink-0">&gt;</span> "Why do you write addresses backwards?"</p>
+        </div>
+      </div>
+
+      <p class="fade-up">
+        Before teaching Korean, I ran a self-directed learning coaching center in Korea for four years. At my peak, I was ranked <span class="text-cyan font-semibold">170th out of 450,000 tutors</span> &mdash; the top 0.03%.
+      </p>
+
+      <div class="fade-up border-beam gradient-border rounded-2xl p-8 text-center">
+        <p class="text-white text-2xl md:text-3xl font-light leading-relaxed">
+          "I didn't get there because I'm smarter.<br>
+          I got there because I <span class="text-indigo font-semibold">built systems</span>."
+        </p>
+        <div class="mt-4 w-12 h-px bg-gradient-to-r from-indigo to-cyan mx-auto"></div>
+        <p class="text-white/30 mt-3 text-sm">The philosophy behind flykorean</p>
+      </div>
+
+      <p class="fade-up">
+        My goal is for you to eventually <span class="text-indigo">not need me</span>. A great tutor makes themselves unnecessary. I build the system so you can fly on your own.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 3: PHILOSOPHY ===== -->
+<section id="philosophy" class="py-24 md:py-32 bg-dark-card">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="text-center mb-16">
+      <p class="fade-up text-indigo font-medium text-sm tracking-widest uppercase mb-4">Philosophy</p>
+      <h2 class="fade-up section-title text-3xl md:text-5xl font-black text-white mb-4 tracking-tight">
+        Three Pillars of Mastery
+      </h2>
+      <div class="fade-up section-divider mx-auto"></div>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="fade-up magnetic-card gradient-border rounded-2xl p-8 text-center">
+        <div class="w-14 h-14 bg-indigo/10 rounded-xl flex items-center justify-center mx-auto mb-6 border border-indigo/20">
+          <i data-lucide="mic" class="w-7 h-7 text-indigo"></i>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-4">Pronunciation First</h3>
+        <p class="text-white/40 leading-relaxed text-sm">
+          Even with 10 words, correct pronunciation makes Koreans understand you. Korean is forgiving on grammar but unforgiving on sounds. We start here.
+        </p>
+        <div class="mt-6 p-4 bg-white/[0.02] rounded-xl border border-dark-border">
+          <div class="space-y-2 text-left text-sm">
+            <div class="flex items-center gap-3">
+              <span class="font-korean text-lg text-white">가</span>
+              <span class="text-white/30">Plain &mdash; soft</span>
+              <span class="ml-auto text-xs px-2 py-0.5 rounded bg-indigo/10 text-indigo">level 1</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="font-korean text-lg text-white">카</span>
+              <span class="text-white/30">Aspirated &mdash; air</span>
+              <span class="ml-auto text-xs px-2 py-0.5 rounded bg-indigo/10 text-indigo">level 2</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="font-korean text-lg text-white">까</span>
+              <span class="text-white/30">Tensed &mdash; tight</span>
+              <span class="ml-auto text-xs px-2 py-0.5 rounded bg-cyan/10 text-cyan">level 3</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fade-up magnetic-card gradient-border rounded-2xl p-8 text-center">
+        <div class="w-14 h-14 bg-indigo/10 rounded-xl flex items-center justify-center mx-auto mb-6 border border-indigo/20">
+          <i data-lucide="puzzle" class="w-7 h-7 text-indigo"></i>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-4">Sentence Logic</h3>
+        <p class="text-white/40 leading-relaxed text-sm">
+          Understand <em>why</em> Korean works the way it does. Create your own sentences instead of repeating textbook phrases.
+        </p>
+        <div class="mt-6 p-4 bg-white/[0.02] rounded-xl border border-dark-border text-left text-sm">
+          <p class="text-white/20 text-xs mb-2 font-mono">// English: action first</p>
+          <p class="text-white/60 mb-3">I <span class="text-indigo">bought</span> a bag in Paris</p>
+          <p class="text-white/20 text-xs mb-2 font-mono">// Korean: context first</p>
+          <p class="font-korean text-white/60">저는 파리에서 가방을 <span class="text-cyan">샀어요</span></p>
+        </div>
+      </div>
+
+      <div class="fade-up magnetic-card gradient-border rounded-2xl p-8 text-center">
+        <div class="w-14 h-14 bg-indigo/10 rounded-xl flex items-center justify-center mx-auto mb-6 border border-indigo/20">
+          <i data-lucide="heart" class="w-7 h-7 text-indigo"></i>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-4">Cultural Context</h3>
+        <p class="text-white/40 leading-relaxed text-sm">
+          The same phrase can be polite or rude. I teach you to read the room, not just the textbook. 7 levels of formality.
+        </p>
+        <div class="mt-6 p-4 bg-white/[0.02] rounded-xl border border-dark-border text-left text-sm">
+          <div class="space-y-1.5">
+            <div class="flex justify-between items-center">
+              <span class="font-korean text-white/60">고마워</span>
+              <span class="text-xs text-white/20">friends</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="font-korean text-white/60">감사해요</span>
+              <span class="text-xs text-white/20">polite</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="font-korean text-white/60">감사합니다</span>
+              <span class="text-xs text-white/20">formal</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="font-korean text-cyan/70">감사드립니다</span>
+              <span class="text-xs text-cyan/50">very formal</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 4: THE SYSTEM ===== -->
+<section id="system" class="py-24 md:py-32 bg-dark grid-bg">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="text-center mb-16">
+      <p class="fade-up text-cyan font-medium text-sm tracking-widest uppercase mb-4">The System</p>
+      <h2 class="fade-up section-title text-3xl md:text-5xl font-black text-white mb-4 tracking-tight">
+        What Makes This Different
+      </h2>
+      <p class="fade-up text-white/30 text-lg max-w-2xl mx-auto">
+        Not just lessons. A complete learning infrastructure.
+      </p>
+      <div class="fade-up section-divider mx-auto mt-6"></div>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="fade-up magnetic-card gradient-border rounded-2xl p-8">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="w-10 h-10 bg-indigo/10 rounded-lg flex items-center justify-center border border-indigo/20">
+            <i data-lucide="file-text" class="w-5 h-5 text-indigo"></i>
+          </div>
+          <h3 class="text-lg font-bold text-white">AI Lesson Docs</h3>
+        </div>
+        <p class="text-white/40 leading-relaxed text-sm">
+          After every lesson, AI generates a detailed 7-section summary. Corrections, new vocabulary, homework notes, progress tracking. Nothing is forgotten.
+        </p>
+        <div class="mt-4 flex items-center gap-2 text-cyan/50 text-xs">
+          <i data-lucide="zap" class="w-3 h-3"></i>
+          <span>Automated after every lesson</span>
+        </div>
+      </div>
+
+      <div class="fade-up magnetic-card gradient-border rounded-2xl p-8">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="w-10 h-10 bg-indigo/10 rounded-lg flex items-center justify-center border border-indigo/20">
+            <i data-lucide="book-open" class="w-5 h-5 text-indigo"></i>
+          </div>
+          <h3 class="text-lg font-bold text-white">3-Doc Homework</h3>
+        </div>
+        <p class="text-white/40 leading-relaxed text-sm">
+          <span class="text-white/60">Sentence Practice</span> (125 exercises) + <span class="text-white/60">Reading</span> (4 passages) + <span class="text-white/60">Lesson Materials</span> (20-25 vocab + word tests + patterns). All from your lesson.
+        </p>
+        <div class="mt-4 flex items-center gap-2 text-cyan/50 text-xs">
+          <i data-lucide="layers" class="w-3 h-3"></i>
+          <span>Built from your actual content</span>
+        </div>
+      </div>
+
+      <div class="fade-up magnetic-card gradient-border rounded-2xl p-8">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="w-10 h-10 bg-indigo/10 rounded-lg flex items-center justify-center border border-indigo/20">
+            <i data-lucide="smartphone" class="w-5 h-5 text-indigo"></i>
+          </div>
+          <h3 class="text-lg font-bold text-white">Personal Web App</h3>
+        </div>
+        <p class="text-white/40 leading-relaxed text-sm">
+          Your own practice app: Sentence Builder, Flashcards, Mastery Tracking. TTS pronunciation. Weak areas shown first. Auto-updated after each lesson.
+        </p>
+        <div class="mt-4 flex items-center gap-2 text-cyan/50 text-xs">
+          <i data-lucide="sparkles" class="w-3 h-3"></i>
+          <span>100% personalized to your vocab</span>
+        </div>
+      </div>
+
+      <div class="fade-up magnetic-card gradient-border rounded-2xl p-8">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="w-10 h-10 bg-indigo/10 rounded-lg flex items-center justify-center border border-indigo/20">
+            <i data-lucide="message-circle" class="w-5 h-5 text-indigo"></i>
+          </div>
+          <h3 class="text-lg font-bold text-white">Daily Feedback</h3>
+        </div>
+        <p class="text-white/40 leading-relaxed text-sm">
+          Send voice recordings and writing. Get detailed corrections, tips, and encouragement within 12-24 hours. Improve every day, not just in lessons.
+        </p>
+        <div class="mt-4 flex items-center gap-2 text-cyan/50 text-xs">
+          <i data-lucide="clock" class="w-3 h-3"></i>
+          <span>12-24 hour response</span>
+        </div>
+      </div>
+
+      <div class="fade-up magnetic-card gradient-border rounded-2xl p-8">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="w-10 h-10 bg-indigo/10 rounded-lg flex items-center justify-center border border-indigo/20">
+            <i data-lucide="bell" class="w-5 h-5 text-indigo"></i>
+          </div>
+          <h3 class="text-lg font-bold text-white">Nudge & Quiz</h3>
+        </div>
+        <p class="text-white/40 leading-relaxed text-sm">
+          Like a personal Duolingo, but better. 2-3 weekly messages with vocabulary quizzes, study reminders, and encouragement to keep you connected.
+        </p>
+        <div class="mt-4 flex items-center gap-2 text-cyan/50 text-xs">
+          <i data-lucide="repeat" class="w-3 h-3"></i>
+          <span>2-3x per week, automated</span>
+        </div>
+      </div>
+
+      <div class="fade-up magnetic-card gradient-border rounded-2xl p-8">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="w-10 h-10 bg-indigo/10 rounded-lg flex items-center justify-center border border-indigo/20">
+            <i data-lucide="database" class="w-5 h-5 text-indigo"></i>
+          </div>
+          <h3 class="text-lg font-bold text-white">Word DB & Tracking</h3>
+        </div>
+        <p class="text-white/40 leading-relaxed text-sm">
+          Every word from every lesson saved to your database. The system identifies weak areas and prioritizes them in homework, quizzes, and app practice.
+        </p>
+        <div class="mt-4 flex items-center gap-2 text-cyan/50 text-xs">
+          <i data-lucide="trending-up" class="w-3 h-3"></i>
+          <span>Automatic weakness detection</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 5: REVIEWS ===== -->
+<section id="reviews" class="py-24 md:py-32 bg-dark-card">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="text-center mb-16">
+      <p class="fade-up text-indigo font-medium text-sm tracking-widest uppercase mb-4">Social Proof</p>
+      <h2 class="fade-up section-title text-3xl md:text-5xl font-black text-white mb-4 tracking-tight">
+        What Students Say
+      </h2>
+      <div class="fade-up flex items-center justify-center gap-6 mt-6">
+        <div class="text-center"><div class="stat-number text-2xl font-bold text-white">5.0</div><div class="text-white/20 text-xs">Rating</div></div>
+        <div class="w-px h-8 bg-dark-border"></div>
+        <div class="text-center"><div class="stat-number text-2xl font-bold text-white">22</div><div class="text-white/20 text-xs">Reviews</div></div>
+        <div class="w-px h-8 bg-dark-border"></div>
+        <div class="text-center"><div class="stat-number text-2xl font-bold text-cyan">100%</div><div class="text-white/20 text-xs">5 Stars</div></div>
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="fade-up gradient-border rounded-2xl p-6">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-9 h-9 bg-indigo/10 rounded-full flex items-center justify-center"><span class="text-indigo font-bold text-sm">L</span></div>
+          <div><p class="font-semibold text-white text-sm">Loriana</p><p class="text-white/20 text-xs">Advanced &middot; 7+ years</p></div>
+        </div>
+        <p class="text-white/40 text-sm leading-relaxed">"The <span class="text-white/70">best Korean tutor I have had in my 7+ years</span> of learning Korean. He prepares extensively for lessons, checks in throughout the week."</p>
+        <div class="flex gap-1 mt-4"><i data-lucide="star" class="w-4 h-4 star-filled"></i><i data-lucide="star" class="w-4 h-4 star-filled"></i><i data-lucide="star" class="w-4 h-4 star-filled"></i><i data-lucide="star" class="w-4 h-4 star-filled"></i><i data-lucide="star" class="w-4 h-4 star-filled"></i></div>
+      </div>
+
+      <div class="fade-up gradient-border rounded-2xl p-6">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-9 h-9 bg-indigo/10 rounded-full flex items-center justify-center"><span class="text-indigo font-bold text-sm">I</span></div>
+          <div><p class="font-semibold text-white text-sm">Inna</p><p class="text-white/20 text-xs">Parent &middot; Daughter age 10</p></div>
+        </div>
+        <p class="text-white/40 text-sm leading-relaxed">"My daughter only had <span class="text-white/70">THREE lessons and I can already see progress!</span> Most attentive, patient, and fun teacher ever! His encouragement is irresistible!"</p>
+        <div class="flex gap-1 mt-4"><i data-lucide="star" class="w-4 h-4 star-filled"></i><i data-lucide="star" class="w-4 h-4 star-filled"></i><i data-lucide="star" class="w-4 h-4 star-filled"></i><i data-lucide="star" class="w-4 h-4 star-filled"></i><i data-lucide="star" class="w-4 h-4 star-filled"></i></div>
+      </div>
+
+      <div class="fade-up gradient-border rounded-2xl p-6">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-9 h-9 bg-indigo/10 rounded-full flex items-center justify-center"><span class="text-indigo font-bold text-sm">S</span></div>
+          <div><p class="font-semibold text-white text-sm">Sina</p><p class="text-white/20 text-xs">Advanced Student</p></div>
+        </div>
+        <p class="text-white/40 text-sm leading-relaxed">"Not just teach &mdash; <span class="text-white/70">guiding you in building a structured study routine</span> that fits your needs. Always kind, encouraging, and full of positive energy."</p>
+        <div class="flex gap-1 mt-4"><i data-lucide="star" class="w-4 h-4 star-filled"></i><i data-lucide="star" class="w-4 h-4 star-filled"></i><i data-lucide="star" class="w-4 h-4 star-filled"></i><i data-lucide="star" class="w-4 h-4 star-filled"></i><i data-lucide="star" class="w-4 h-4 star-filled"></i></div>
+      </div>
+
+      <div class="fade-up gradient-border rounded-2xl p-6">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-9 h-9 bg-indigo/10 rounded-full flex items-center justify-center"><span class="text-indigo font-bold text-sm">C</span></div>
+          <div><p class="font-semibold text-white text-sm">Chasity</p><p class="text-white/20 text-xs">Consistent Learner</p></div>
+        </div>
+        <p class="text-white/40 text-sm leading-relaxed">"<span class="text-white/70">Structured learning plan tailored to my goals.</span> Prompt and thoughtful with homework. His patience gives me confidence to try, make mistakes, and keep improving."</p>
+        <div class="flex gap-1 mt-4"><i data-lucide="star" class="w-4 h-4 star-filled"></i><i data-lucide="star" class="w-4 h-4 star-filled"></i><i data-lucide="star" class="w-4 h-4 star-filled"></i><i data-lucide="star" class="w-4 h-4 star-filled"></i><i data-lucide="star" class="w-4 h-4 star-filled"></i></div>
+      </div>
+
+      <div class="fade-up gradient-border rounded-2xl p-6">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-9 h-9 bg-indigo/10 rounded-full flex items-center justify-center"><span class="text-indigo font-bold text-sm">M</span></div>
+          <div><p class="font-semibold text-white text-sm">Magdalena</p><p class="text-white/20 text-xs">Intermediate</p></div>
+        </div>
+        <p class="text-white/40 text-sm leading-relaxed">"<span class="text-white/70">Corrected me things no other Korean teachers corrected before</span>: every detail, every sound of pronunciation."</p>
+        <div class="flex gap-1 mt-4"><i data-lucide="star" class="w-4 h-4 star-filled"></i><i data-lucide="star" class="w-4 h-4 star-filled"></i><i data-lucide="star" class="w-4 h-4 star-filled"></i><i data-lucide="star" class="w-4 h-4 star-filled"></i><i data-lucide="star" class="w-4 h-4 star-filled"></i></div>
+      </div>
+
+      <div class="fade-up gradient-border rounded-2xl p-6">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-9 h-9 bg-indigo/10 rounded-full flex items-center justify-center"><span class="text-indigo font-bold text-sm">C</span></div>
+          <div><p class="font-semibold text-white text-sm">Clayton</p><p class="text-white/20 text-xs">New Student</p></div>
+        </div>
+        <p class="text-white/40 text-sm leading-relaxed">"He <span class="text-white/70">surpassed all of my expectations</span>. Extremely engaging. I wish the lesson could have been twice as long!"</p>
+        <div class="flex gap-1 mt-4"><i data-lucide="star" class="w-4 h-4 star-filled"></i><i data-lucide="star" class="w-4 h-4 star-filled"></i><i data-lucide="star" class="w-4 h-4 star-filled"></i><i data-lucide="star" class="w-4 h-4 star-filled"></i><i data-lucide="star" class="w-4 h-4 star-filled"></i></div>
+      </div>
+    </div>
+
+    <!-- Trust badges -->
+    <div class="fade-up flex flex-wrap justify-center gap-4 mt-12">
+      <div class="flex items-center gap-2 bg-white/[0.03] rounded-lg px-4 py-2 border border-dark-border">
+        <i data-lucide="shield-check" class="w-4 h-4 text-indigo"></i><span class="text-sm text-white/40">Super Tutor 7/7</span>
+      </div>
+      <div class="flex items-center gap-2 bg-white/[0.03] rounded-lg px-4 py-2 border border-dark-border">
+        <i data-lucide="clock" class="w-4 h-4 text-indigo"></i><span class="text-sm text-white/40">100% Response</span>
+      </div>
+      <div class="flex items-center gap-2 bg-white/[0.03] rounded-lg px-4 py-2 border border-dark-border">
+        <i data-lucide="calendar-check" class="w-4 h-4 text-indigo"></i><span class="text-sm text-white/40">0 Absences</span>
+      </div>
+      <div class="flex items-center gap-2 bg-white/[0.03] rounded-lg px-4 py-2 border border-dark-border">
+        <i data-lucide="trophy" class="w-4 h-4 text-cyan"></i><span class="text-sm text-white/40">Top 0.03%</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 6: PRICING ===== -->
+<section id="pricing" class="py-24 md:py-32 bg-dark grid-bg">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="text-center mb-16">
+      <p class="fade-up text-cyan font-medium text-sm tracking-widest uppercase mb-4">Packages</p>
+      <h2 class="fade-up section-title text-3xl md:text-5xl font-black text-white mb-4 tracking-tight">
+        Choose Your Track
+      </h2>
+      <p class="fade-up text-white/30 text-lg max-w-2xl mx-auto">Every package includes a 50-minute 1:1 lesson.</p>
+      <div class="fade-up section-divider mx-auto mt-6"></div>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+      <!-- Essential -->
+      <div class="fade-up gradient-border rounded-2xl p-6">
+        <h3 class="text-lg font-bold text-white mb-2">Essential</h3>
+        <div class="flex items-baseline gap-1 mb-4">
+          <span class="stat-number text-4xl font-bold text-white">$30</span>
+          <span class="text-white/20 text-sm">/lesson</span>
+        </div>
+        <p class="text-white/30 text-sm mb-6">Quality 1:1 lessons with AI docs.</p>
+        <ul class="space-y-3 text-sm text-white/40">
+          <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-indigo mt-0.5 shrink-0"></i>50-min 1:1 lesson</li>
+          <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-indigo mt-0.5 shrink-0"></i>AI lesson summary</li>
+          <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-indigo mt-0.5 shrink-0"></i>Pronunciation coaching</li>
+          <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-indigo mt-0.5 shrink-0"></i>Cultural context</li>
+        </ul>
+        <a href="#contact" class="block mt-6 text-center py-3 rounded-xl border border-indigo/30 text-indigo font-semibold text-sm hover:bg-indigo/10 transition">Select</a>
+      </div>
+
+      <!-- Standard -->
+      <div class="fade-up border-beam gradient-border rounded-2xl p-6 relative" style="border-color: #6366F1;">
+        <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-indigo text-white text-xs font-bold px-3 py-1 rounded-full">POPULAR</div>
+        <h3 class="text-lg font-bold text-white mb-2">Standard</h3>
+        <div class="flex items-baseline gap-2 mb-1">
+          <span class="stat-number text-4xl font-bold text-white">$45</span>
+          <span class="text-white/20 text-sm">/lesson</span>
+        </div>
+        <p class="text-indigo text-xs font-medium mb-4">Promo &middot; Regular $55</p>
+        <p class="text-white/30 text-sm mb-6">Lessons + homework + engagement.</p>
+        <ul class="space-y-3 text-sm text-white/40">
+          <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-indigo mt-0.5 shrink-0"></i>Everything in Essential</li>
+          <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-cyan mt-0.5 shrink-0"></i><strong class="text-white/60">Light homework</strong> (FREE)</li>
+          <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-cyan mt-0.5 shrink-0"></i><strong class="text-white/60">Full 3-doc homework</strong></li>
+          <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-cyan mt-0.5 shrink-0"></i><strong class="text-white/60">Nudge & Quiz</strong> (FREE)</li>
+        </ul>
+        <a href="#contact" class="block mt-6 text-center py-3 rounded-xl bg-indigo text-white font-semibold text-sm hover:bg-indigo/80 transition">Select</a>
+      </div>
+
+      <!-- Premium -->
+      <div class="fade-up gradient-border rounded-2xl p-6">
+        <h3 class="text-lg font-bold text-white mb-2">Premium</h3>
+        <div class="flex items-baseline gap-2 mb-1">
+          <span class="stat-number text-4xl font-bold text-white">$60</span>
+          <span class="text-white/20 text-sm">/lesson</span>
+        </div>
+        <p class="text-indigo text-xs font-medium mb-4">Promo &middot; Regular $80</p>
+        <p class="text-white/30 text-sm mb-6">Full experience with daily support.</p>
+        <ul class="space-y-3 text-sm text-white/40">
+          <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-indigo mt-0.5 shrink-0"></i>Everything in Standard</li>
+          <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-cyan mt-0.5 shrink-0"></i><strong class="text-white/60">Daily feedback</strong></li>
+          <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-cyan mt-0.5 shrink-0"></i><strong class="text-white/60">Personal web app</strong></li>
+          <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-cyan mt-0.5 shrink-0"></i><strong class="text-white/60">Discord community</strong> (FREE)</li>
+        </ul>
+        <a href="#contact" class="block mt-6 text-center py-3 rounded-xl border border-indigo/30 text-indigo font-semibold text-sm hover:bg-indigo/10 transition">Select</a>
+      </div>
+
+      <!-- Custom -->
+      <div class="fade-up gradient-border rounded-2xl p-6">
+        <h3 class="text-lg font-bold text-white mb-2">Custom</h3>
+        <div class="flex items-baseline gap-1 mb-4">
+          <span class="stat-number text-4xl font-bold text-white">$30</span>
+          <span class="text-white/20 text-sm">+ opts</span>
+        </div>
+        <p class="text-white/30 text-sm mb-6">Build your own. Pick what you need.</p>
+        <ul class="space-y-3 text-sm text-white/40">
+          <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-indigo mt-0.5 shrink-0"></i>Base lesson included</li>
+          <li class="flex items-start gap-2"><i data-lucide="plus" class="w-4 h-4 text-white/15 mt-0.5 shrink-0"></i>Add any options</li>
+          <li class="flex items-start gap-2"><i data-lucide="plus" class="w-4 h-4 text-white/15 mt-0.5 shrink-0"></i>Mix & match freely</li>
+          <li class="flex items-start gap-2"><i data-lucide="plus" class="w-4 h-4 text-white/15 mt-0.5 shrink-0"></i>Change anytime</li>
+        </ul>
+        <a href="#contact" class="block mt-6 text-center py-3 rounded-xl border border-indigo/30 text-indigo font-semibold text-sm hover:bg-indigo/10 transition">Customize</a>
+      </div>
+    </div>
+
+    <!-- Options table -->
+    <div class="fade-up gradient-border rounded-2xl p-8">
+      <h3 class="text-xl font-bold text-white mb-6 text-center">Add-On Options</h3>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-dark-border">
+              <th class="text-left py-3 text-white/30 font-medium">Option</th>
+              <th class="text-center py-3 text-white/30 font-medium">Regular</th>
+              <th class="text-center py-3 text-cyan font-medium">Promo</th>
+              <th class="text-left py-3 text-white/30 font-medium hidden md:table-cell">Description</th>
+            </tr>
+          </thead>
+          <tbody class="text-white/40">
+            <tr class="border-b border-dark-border/50"><td class="py-3 font-medium text-white/60">Light Homework</td><td class="py-3 text-center">$5/lesson</td><td class="py-3 text-center font-bold text-cyan">FREE</td><td class="py-3 hidden md:table-cell">Weekly materials + light daily exercises</td></tr>
+            <tr class="border-b border-dark-border/50"><td class="py-3 font-medium text-white/60">Full Homework + Word DB</td><td class="py-3 text-center">$15-20/w</td><td class="py-3 text-center">$15-20/w</td><td class="py-3 hidden md:table-cell">3 documents + vocabulary tracking</td></tr>
+            <tr class="border-b border-dark-border/50"><td class="py-3 font-medium text-white/60">Writing Correction</td><td class="py-3 text-center">$10/lesson</td><td class="py-3 text-center">$10/lesson</td><td class="py-3 hidden md:table-cell">Essays, emails, business docs</td></tr>
+            <tr class="border-b border-dark-border/50"><td class="py-3 font-medium text-white/60">Nudge & Quiz</td><td class="py-3 text-center">$5/w</td><td class="py-3 text-center font-bold text-cyan">FREE</td><td class="py-3 hidden md:table-cell">2-3 weekly quizzes + reminders</td></tr>
+            <tr class="border-b border-dark-border/50"><td class="py-3 font-medium text-white/60">Daily Feedback</td><td class="py-3 text-center">$15/w</td><td class="py-3 text-center font-bold text-cyan">$10/w</td><td class="py-3 hidden md:table-cell">Voice + writing corrections daily</td></tr>
+            <tr class="border-b border-dark-border/50"><td class="py-3 font-medium text-white/60">Personal Web App</td><td class="py-3 text-center">$6/w</td><td class="py-3 text-center font-bold text-cyan">$5/w</td><td class="py-3 hidden md:table-cell">Sentence Builder + Flashcards + Mastery</td></tr>
+            <tr><td class="py-3 font-medium text-white/60">Discord Community</td><td class="py-3 text-center">$4/w</td><td class="py-3 text-center font-bold text-cyan">FREE</td><td class="py-3 hidden md:table-cell">Study group + challenges</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 7: FAQ ===== -->
+<section id="faq" class="py-24 md:py-32 bg-dark-card">
+  <div class="max-w-3xl mx-auto px-6">
+    <div class="text-center mb-16">
+      <p class="fade-up text-indigo font-medium text-sm tracking-widest uppercase mb-4">FAQ</p>
+      <h2 class="fade-up section-title text-3xl md:text-5xl font-black text-white mb-4 tracking-tight">Questions</h2>
+      <div class="fade-up section-divider mx-auto"></div>
+    </div>
+    <div class="space-y-3">
+      <div class="fade-up gradient-border rounded-xl overflow-hidden">
+        <button class="w-full flex items-center justify-between p-5 text-left" onclick="toggleFaq(this)">
+          <span class="font-semibold text-white/80 pr-4">I'm a complete beginner. Is that okay?</span>
+          <i data-lucide="chevron-down" class="w-5 h-5 text-white/20 shrink-0 faq-chevron"></i>
+        </button>
+        <div class="faq-answer"><div class="px-5 pb-5 text-white/40 text-sm leading-relaxed">Absolutely. Most students start from zero. We begin with pronunciation and basic survival phrases. Hangul takes about 4 hours to learn.</div></div>
+      </div>
+      <div class="fade-up gradient-border rounded-xl overflow-hidden">
+        <button class="w-full flex items-center justify-between p-5 text-left" onclick="toggleFaq(this)">
+          <span class="font-semibold text-white/80 pr-4">How long until I can have a basic conversation?</span>
+          <i data-lucide="chevron-down" class="w-5 h-5 text-white/20 shrink-0 faq-chevron"></i>
+        </button>
+        <div class="faq-answer"><div class="px-5 pb-5 text-white/40 text-sm leading-relaxed">With consistent daily homework and 1-2 lessons per week, most students handle basic conversations within 2-3 months.</div></div>
+      </div>
+      <div class="fade-up gradient-border rounded-xl overflow-hidden">
+        <button class="w-full flex items-center justify-between p-5 text-left" onclick="toggleFaq(this)">
+          <span class="font-semibold text-white/80 pr-4">What makes this different from Duolingo?</span>
+          <i data-lucide="chevron-down" class="w-5 h-5 text-white/20 shrink-0 faq-chevron"></i>
+        </button>
+        <div class="faq-answer"><div class="px-5 pb-5 text-white/40 text-sm leading-relaxed">Apps teach rules. I teach pronunciation, cultural context, and social nuance. Plus daily personal feedback and a 100% personalized practice app.</div></div>
+      </div>
+      <div class="fade-up gradient-border rounded-xl overflow-hidden">
+        <button class="w-full flex items-center justify-between p-5 text-left" onclick="toggleFaq(this)">
+          <span class="font-semibold text-white/80 pr-4">What if I'm busy and can't do homework daily?</span>
+          <i data-lucide="chevron-down" class="w-5 h-5 text-white/20 shrink-0 faq-chevron"></i>
+        </button>
+        <div class="faq-answer"><div class="px-5 pb-5 text-white/40 text-sm leading-relaxed">No pressure. Multiple tracks available: Intensive, Standard, and Light. Switch anytime.</div></div>
+      </div>
+      <div class="fade-up gradient-border rounded-xl overflow-hidden">
+        <button class="w-full flex items-center justify-between p-5 text-left" onclick="toggleFaq(this)">
+          <span class="font-semibold text-white/80 pr-4">Can I switch packages later?</span>
+          <i data-lucide="chevron-down" class="w-5 h-5 text-white/20 shrink-0 faq-chevron"></i>
+        </button>
+        <div class="faq-answer"><div class="px-5 pb-5 text-white/40 text-sm leading-relaxed">Yes, upgrade, downgrade, or customize anytime. Completely flexible.</div></div>
+      </div>
+      <div class="fade-up gradient-border rounded-xl overflow-hidden">
+        <button class="w-full flex items-center justify-between p-5 text-left" onclick="toggleFaq(this)">
+          <span class="font-semibold text-white/80 pr-4">What happens if I stop?</span>
+          <i data-lucide="chevron-down" class="w-5 h-5 text-white/20 shrink-0 faq-chevron"></i>
+        </button>
+        <div class="faq-answer"><div class="px-5 pb-5 text-white/40 text-sm leading-relaxed">You keep your web apps forever. I'll still send materials twice a month. That's what "Fly Korean" means.</div></div>
+      </div>
+      <div class="fade-up gradient-border rounded-xl overflow-hidden">
+        <button class="w-full flex items-center justify-between p-5 text-left" onclick="toggleFaq(this)">
+          <span class="font-semibold text-white/80 pr-4">K-pop / K-drama motivation valid?</span>
+          <i data-lucide="chevron-down" class="w-5 h-5 text-white/20 shrink-0 faq-chevron"></i>
+        </button>
+        <div class="faq-answer"><div class="px-5 pb-5 text-white/40 text-sm leading-relaxed">Absolutely! I use your favorite content as learning material. Every reason is a valid reason.</div></div>
+      </div>
+      <div class="fade-up gradient-border rounded-xl overflow-hidden">
+        <button class="w-full flex items-center justify-between p-5 text-left" onclick="toggleFaq(this)">
+          <span class="font-semibold text-white/80 pr-4">How does the web app work?</span>
+          <i data-lucide="chevron-down" class="w-5 h-5 text-white/20 shrink-0 faq-chevron"></i>
+        </button>
+        <div class="faq-answer"><div class="px-5 pb-5 text-white/40 text-sm leading-relaxed">Your own URL with Sentence Builder, Flashcards, mastery tracking, and TTS. New vocab auto-added after each lesson. Weak areas prioritized.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 8: CTA ===== -->
+<section id="contact" class="py-24 md:py-32 bg-dark grid-bg">
+  <div class="max-w-3xl mx-auto px-6">
+    <div class="text-center mb-12">
+      <p class="fade-up text-cyan font-medium text-sm tracking-widest uppercase mb-4">Get Started</p>
+      <h2 class="fade-up section-title text-3xl md:text-5xl font-black text-white mb-4 tracking-tight">Ready to Fly?</h2>
+      <p class="fade-up text-white/30 text-lg">Choose your package and begin.</p>
+    </div>
+
+    <div class="fade-up gradient-border rounded-2xl p-8">
+      <form id="signup-form" class="space-y-6">
+        <div>
+          <label class="block text-indigo text-sm font-medium mb-3">Select Package</label>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <button type="button" class="pkg-btn py-3 px-4 rounded-xl border border-dark-border text-white/40 text-sm font-medium hover:border-indigo/30 transition" data-pkg="essential">Essential<br><span class="text-xs text-white/20">$30</span></button>
+            <button type="button" class="pkg-btn py-3 px-4 rounded-xl border-2 border-indigo bg-indigo/10 text-white text-sm font-medium" data-pkg="standard">Standard<br><span class="text-xs text-cyan">$45</span></button>
+            <button type="button" class="pkg-btn py-3 px-4 rounded-xl border border-dark-border text-white/40 text-sm font-medium hover:border-indigo/30 transition" data-pkg="premium">Premium<br><span class="text-xs text-white/20">$60</span></button>
+            <button type="button" class="pkg-btn py-3 px-4 rounded-xl border border-dark-border text-white/40 text-sm font-medium hover:border-indigo/30 transition" data-pkg="custom">Custom<br><span class="text-xs text-white/20">$30+</span></button>
+          </div>
+        </div>
+
+        <div id="custom-options" class="hidden space-y-3">
+          <label class="block text-indigo text-sm font-medium mb-2">Select Add-Ons</label>
+          <div class="grid gap-2">
+            <label class="flex items-center gap-3 p-3 rounded-xl border border-dark-border hover:border-indigo/20 cursor-pointer transition"><input type="checkbox" name="opt1" class="w-4 h-4 accent-indigo"><span class="text-white/50 text-sm flex-1">Light Homework</span><span class="text-cyan text-sm font-medium">FREE</span></label>
+            <label class="flex items-center gap-3 p-3 rounded-xl border border-dark-border hover:border-indigo/20 cursor-pointer transition"><input type="checkbox" name="opt2" class="w-4 h-4 accent-indigo"><span class="text-white/50 text-sm flex-1">Full Homework + Word DB</span><span class="text-white/30 text-sm">$15-20/w</span></label>
+            <label class="flex items-center gap-3 p-3 rounded-xl border border-dark-border hover:border-indigo/20 cursor-pointer transition"><input type="checkbox" name="opt3" class="w-4 h-4 accent-indigo"><span class="text-white/50 text-sm flex-1">Writing Correction</span><span class="text-white/30 text-sm">$10/lesson</span></label>
+            <label class="flex items-center gap-3 p-3 rounded-xl border border-dark-border hover:border-indigo/20 cursor-pointer transition"><input type="checkbox" name="opt4" class="w-4 h-4 accent-indigo"><span class="text-white/50 text-sm flex-1">Nudge & Quiz</span><span class="text-cyan text-sm font-medium">FREE</span></label>
+            <label class="flex items-center gap-3 p-3 rounded-xl border border-dark-border hover:border-indigo/20 cursor-pointer transition"><input type="checkbox" name="opt5" class="w-4 h-4 accent-indigo"><span class="text-white/50 text-sm flex-1">Daily Feedback</span><span class="text-white/30 text-sm">$10/w</span></label>
+            <label class="flex items-center gap-3 p-3 rounded-xl border border-dark-border hover:border-indigo/20 cursor-pointer transition"><input type="checkbox" name="opt6" class="w-4 h-4 accent-indigo"><span class="text-white/50 text-sm flex-1">Personal Web App</span><span class="text-white/30 text-sm">$5/w</span></label>
+            <label class="flex items-center gap-3 p-3 rounded-xl border border-dark-border hover:border-indigo/20 cursor-pointer transition"><input type="checkbox" name="opt7" class="w-4 h-4 accent-indigo"><span class="text-white/50 text-sm flex-1">Discord Community</span><span class="text-cyan text-sm font-medium">FREE</span></label>
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-indigo text-sm font-medium mb-2">Name</label>
+            <input type="text" name="name" required placeholder="Your name" class="form-input-dark w-full px-4 py-3 rounded-xl text-white placeholder-white/20">
+          </div>
+          <div>
+            <label class="block text-indigo text-sm font-medium mb-2">Email</label>
+            <input type="email" name="email" required placeholder="your@email.com" class="form-input-dark w-full px-4 py-3 rounded-xl text-white placeholder-white/20">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-indigo text-sm font-medium mb-2">Message <span class="text-white/20">(optional)</span></label>
+          <textarea name="message" rows="3" placeholder="Goals, level, questions..." class="form-input-dark w-full px-4 py-3 rounded-xl text-white placeholder-white/20 resize-none"></textarea>
+        </div>
+
+        <button type="submit" class="w-full bg-indigo text-white py-4 rounded-xl font-bold text-lg hover:bg-indigo/80 transition shadow-lg shadow-indigo/20">Send My Interest</button>
+        <p class="text-white/20 text-xs text-center">I'll respond within 24 hours.</p>
+      </form>
+
+      <div id="form-success" class="hidden text-center py-12">
+        <div class="w-16 h-16 bg-indigo/20 rounded-full flex items-center justify-center mx-auto mb-4"><i data-lucide="check" class="w-8 h-8 text-indigo"></i></div>
+        <h3 class="text-2xl font-bold text-white mb-2">Thank you!</h3>
+        <p class="text-white/40">I'll get back to you within 24 hours.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-dark-card py-12 border-t border-dark-border">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-1"><span class="text-indigo text-xl font-black">fly</span><span class="text-white text-xl font-black">korean</span></div>
+      <div class="flex items-center gap-6 text-white/20 text-sm">
+        <a href="https://preply.com" target="_blank" class="hover:text-white/40 transition">Preply</a>
+        <span class="w-1 h-1 bg-white/10 rounded-full"></span>
+        <span>Super Tutor 7/7</span>
+        <span class="w-1 h-1 bg-white/10 rounded-full"></span>
+        <span>5.0 Rating</span>
+      </div>
+    </div>
+    <div class="mt-8 pt-8 border-t border-dark-border text-center text-white/10 text-xs">&copy; 2026 Fly Korean by Jay (Dongjae). All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+lucide.createIcons();
+
+document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+  document.getElementById('mobile-menu').classList.toggle('hidden');
+});
+document.querySelectorAll('#mobile-menu a').forEach(a => {
+  a.addEventListener('click', () => document.getElementById('mobile-menu').classList.add('hidden'));
+});
+
+// Particle background
+const canvas = document.getElementById('particles-canvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+
+function initParticles() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  particles = [];
+  const count = Math.min(80, Math.floor(window.innerWidth / 15));
+  for (let i = 0; i < count; i++) {
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.3,
+      r: Math.random() * 1.5 + 0.5,
+      alpha: Math.random() * 0.3 + 0.1,
+    });
+  }
+}
+
+function drawParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach((p, i) => {
+    p.x += p.vx; p.y += p.vy;
+    if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+    if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(99,102,241,${p.alpha})`;
+    ctx.fill();
+
+    // Connect nearby particles
+    for (let j = i + 1; j < particles.length; j++) {
+      const dx = p.x - particles[j].x;
+      const dy = p.y - particles[j].y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 120) {
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(particles[j].x, particles[j].y);
+        ctx.strokeStyle = `rgba(99,102,241,${0.05 * (1 - dist / 120)})`;
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      }
+    }
+  });
+  requestAnimationFrame(drawParticles);
+}
+
+initParticles();
+drawParticles();
+window.addEventListener('resize', initParticles);
+
+// GSAP
+gsap.registerPlugin(ScrollTrigger);
+
+gsap.utils.toArray('.fade-up').forEach(el => {
+  gsap.fromTo(el, { opacity: 0, y: 40 }, {
+    opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
+    scrollTrigger: { trigger: el, start: 'top 85%', once: true }
+  });
+});
+
+// Stat counters
+function animateCounters() {
+  document.querySelectorAll('[data-target]').forEach(el => {
+    const target = parseFloat(el.dataset.target);
+    const suffix = el.dataset.suffix || '';
+    const isDecimal = target % 1 !== 0;
+    gsap.fromTo(el, { innerText: 0 }, {
+      innerText: target, duration: 2, ease: 'power2.out',
+      snap: isDecimal ? 0.1 : 1,
+      onUpdate() {
+        const val = parseFloat(gsap.getProperty(el, 'innerText'));
+        el.textContent = isDecimal ? val.toFixed(1) + suffix : Math.round(val) + suffix;
+      }
+    });
+  });
+}
+ScrollTrigger.create({ trigger: '#hero', start: 'top center', once: true, onEnter: animateCounters });
+
+// FAQ
+function toggleFaq(btn) {
+  const answer = btn.nextElementSibling;
+  const chevron = btn.querySelector('.faq-chevron');
+  const isOpen = answer.classList.contains('open');
+  document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'));
+  document.querySelectorAll('.faq-chevron').forEach(c => c.classList.remove('open'));
+  if (!isOpen) { answer.classList.add('open'); chevron.classList.add('open'); }
+}
+
+// Package
+let selectedPackage = 'standard';
+document.querySelectorAll('.pkg-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.pkg-btn').forEach(b => {
+      b.classList.remove('border-indigo', 'bg-indigo/10', 'text-white');
+      b.classList.add('border-dark-border', 'text-white/40');
+      b.style.borderWidth = '1px';
+    });
+    btn.classList.remove('border-dark-border', 'text-white/40');
+    btn.classList.add('border-indigo', 'bg-indigo/10', 'text-white');
+    btn.style.borderWidth = '2px';
+    selectedPackage = btn.dataset.pkg;
+    document.getElementById('custom-options').classList.toggle('hidden', selectedPackage !== 'custom');
+  });
+});
+
+// Form
+document.getElementById('signup-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const form = e.target;
+  const fd = new FormData(form);
+  const data = {
+    timestamp: new Date().toISOString(),
+    name: fd.get('name'), email: fd.get('email'),
+    package: selectedPackage, message: fd.get('message') || '',
+    options: { opt1: fd.get('opt1')==='on', opt2: fd.get('opt2')==='on', opt3: fd.get('opt3')==='on', opt4: fd.get('opt4')==='on', opt5: fd.get('opt5')==='on', opt6: fd.get('opt6')==='on', opt7: fd.get('opt7')==='on' },
+    source: 'flykorean-dark'
+  };
+  try {
+    console.log('Form data:', data);
+    form.classList.add('hidden');
+    document.getElementById('form-success').classList.remove('hidden');
+  } catch(err) { alert('Something went wrong.'); }
+});
+</script>
+
+</body>
+</html>

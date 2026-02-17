@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fly Korean — Premium Korean Learning System</title>
+  <meta name="description" content="A premium Korean learning system by Jay. Super Tutor 7/7, 5.0 rating, 115+ students.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            royal: '#2D1B4E',
+            'royal-light': '#3D2B5E',
+            dancheong: { gold: '#D4A574', red: '#E74C3C', green: '#2E8B57', blue: '#3B5998' },
+            hanji: '#F5F0EB',
+            'hanji-dark': '#EDE5D8',
+          },
+          fontFamily: {
+            heading: ['Playfair Display', 'serif'],
+            body: ['Inter', 'sans-serif'],
+            korean: ['Noto Sans KR', 'sans-serif'],
+            stat: ['DM Sans', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=DM+Sans:wght@400;500;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: #F5F0EB; color: #2D1B4E; overflow-x: hidden; }
+
+    /* Dancheong gradient */
+    .dancheong-gradient {
+      background: linear-gradient(135deg, #2D1B4E 0%, #4A2D7A 30%, #3D2B5E 60%, #2D1B4E 100%);
+    }
+
+    /* Hanji texture */
+    .hanji-texture {
+      background-color: #F5F0EB;
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    }
+
+    /* Floating jamo */
+    .jamo-float {
+      position: absolute;
+      font-family: 'Noto Sans KR', sans-serif;
+      font-weight: 700;
+      user-select: none;
+      pointer-events: none;
+      opacity: 0.06;
+    }
+    @keyframes floatJamo {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      25% { transform: translateY(-15px) rotate(3deg); }
+      75% { transform: translateY(10px) rotate(-2deg); }
+    }
+    .jamo-float { animation: floatJamo 8s ease-in-out infinite; }
+
+    /* Card with hanji */
+    .hanji-card {
+      background: #F5F0EB;
+      border: 1px solid rgba(212,165,116,0.2);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    .hanji-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 50px rgba(45,27,78,0.1), 0 0 0 1px rgba(212,165,116,0.3);
+    }
+
+    /* Dancheong pattern border */
+    .dancheong-border {
+      border-image: linear-gradient(90deg, #E74C3C, #D4A574, #2E8B57, #3B5998, #E74C3C) 1;
+    }
+
+    /* Traditional divider */
+    .traditional-divider {
+      width: 80px; height: 4px;
+      background: linear-gradient(90deg, #E74C3C, #D4A574, #2E8B57);
+      border-radius: 2px;
+    }
+
+    .fade-up { opacity: 0; transform: translateY(40px); }
+
+    .nav-hanji { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+
+    .stat-number { font-family: 'DM Sans', sans-serif; }
+
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1); }
+    .faq-answer.open { max-height: 500px; }
+    .faq-chevron { transition: transform 0.3s ease; }
+    .faq-chevron.open { transform: rotate(180deg); }
+
+    .form-input {
+      background: rgba(255,255,255,0.8);
+      border: 1px solid rgba(212,165,116,0.3);
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .form-input:focus {
+      outline: none;
+      border-color: #E74C3C;
+      box-shadow: 0 0 0 3px rgba(231,76,60,0.1);
+    }
+
+    .scroll-indicator { animation: scrollBounce 2s ease-in-out infinite; }
+    @keyframes scrollBounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(8px)} }
+
+    /* Jamo assembly animation container */
+    .jamo-assembly { perspective: 800px; }
+
+    /* Star rating */
+    .star-filled { fill: #E74C3C; color: #E74C3C; }
+
+    @media (max-width: 768px) {
+      .hero-title { font-size: 2.5rem !important; }
+      .section-title { font-size: 2rem !important; }
+      .jamo-float { font-size: 2rem !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav class="fixed top-0 w-full z-50 nav-hanji bg-hanji/80 border-b border-dancheong-gold/20">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="#hero" class="flex items-center gap-2">
+      <span class="text-dancheong-red text-2xl font-bold font-heading">Fly</span>
+      <span class="text-royal text-2xl font-bold font-heading">Korean</span>
+      <span class="font-korean text-royal/40 text-sm ml-1">날다</span>
+    </a>
+    <div class="hidden md:flex items-center gap-8">
+      <a href="#story" class="text-royal/50 hover:text-royal text-sm font-medium transition">Story</a>
+      <a href="#philosophy" class="text-royal/50 hover:text-royal text-sm font-medium transition">Philosophy</a>
+      <a href="#system" class="text-royal/50 hover:text-royal text-sm font-medium transition">System</a>
+      <a href="#reviews" class="text-royal/50 hover:text-royal text-sm font-medium transition">Reviews</a>
+      <a href="#pricing" class="text-royal/50 hover:text-royal text-sm font-medium transition">Pricing</a>
+      <a href="#contact" class="bg-dancheong-red text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-dancheong-red/90 transition">Get Started</a>
+    </div>
+    <button id="mobile-menu-btn" class="md:hidden text-royal"><i data-lucide="menu" class="w-6 h-6"></i></button>
+  </div>
+  <div id="mobile-menu" class="hidden md:hidden bg-hanji border-t border-dancheong-gold/20 px-6 py-4">
+    <div class="flex flex-col gap-4">
+      <a href="#story" class="text-royal/50 text-sm">Story</a>
+      <a href="#philosophy" class="text-royal/50 text-sm">Philosophy</a>
+      <a href="#system" class="text-royal/50 text-sm">System</a>
+      <a href="#reviews" class="text-royal/50 text-sm">Reviews</a>
+      <a href="#pricing" class="text-royal/50 text-sm">Pricing</a>
+      <a href="#contact" class="bg-dancheong-red text-white px-5 py-2 rounded-full text-sm font-semibold text-center">Get Started</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== SECTION 1: HERO ===== -->
+<section id="hero" class="dancheong-gradient min-h-screen flex items-center relative overflow-hidden">
+  <!-- Floating jamo -->
+  <span class="jamo-float text-white text-6xl" style="top:8%;left:5%;animation-delay:0s">ㅎ</span>
+  <span class="jamo-float text-white text-5xl" style="top:15%;right:8%;animation-delay:1s">ㄴ</span>
+  <span class="jamo-float text-white text-7xl" style="top:40%;left:3%;animation-delay:2s">ㄱ</span>
+  <span class="jamo-float text-white text-4xl" style="top:60%;right:5%;animation-delay:0.5s">ㅁ</span>
+  <span class="jamo-float text-white text-6xl" style="bottom:15%;left:10%;animation-delay:1.5s">ㅅ</span>
+  <span class="jamo-float text-white text-5xl" style="bottom:20%;right:12%;animation-delay:3s">ㅇ</span>
+  <span class="jamo-float text-white text-7xl" style="top:30%;left:40%;animation-delay:2.5s">ㄹ</span>
+  <span class="jamo-float text-white text-4xl" style="top:70%;left:50%;animation-delay:4s">ㅂ</span>
+
+  <div class="max-w-7xl mx-auto px-6 py-32 relative z-10 w-full">
+    <div class="text-center">
+      <div class="fade-up inline-flex items-center gap-2 bg-white/10 border border-dancheong-gold/20 rounded-full px-4 py-1.5 mb-8">
+        <span class="w-2 h-2 bg-dancheong-red rounded-full"></span>
+        <span class="text-dancheong-gold text-sm font-medium">Super Tutor 7/7 on Preply</span>
+      </div>
+
+      <h1 class="fade-up hero-title font-heading text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-3 leading-tight">
+        Learn to Fly.
+      </h1>
+      <h1 class="fade-up font-heading text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight">
+        <span class="text-dancheong-gold italic">한국어로.</span>
+      </h1>
+
+      <p class="fade-up text-white/50 text-lg md:text-xl max-w-2xl mx-auto mb-12 font-light">
+        A premium Korean learning system rooted in culture, powered by technology, designed to set you free.
+      </p>
+
+      <div class="fade-up grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto mb-12">
+        <div class="text-center p-4 bg-white/5 rounded-xl border border-white/10">
+          <div class="stat-number text-3xl md:text-4xl font-bold text-dancheong-gold" data-target="5.0">0</div>
+          <div class="text-white/40 text-xs mt-1">Rating (22 reviews)</div>
+        </div>
+        <div class="text-center p-4 bg-white/5 rounded-xl border border-white/10">
+          <div class="stat-number text-3xl md:text-4xl font-bold text-dancheong-gold" data-target="115" data-suffix="+">0</div>
+          <div class="text-white/40 text-xs mt-1">Active Students</div>
+        </div>
+        <div class="text-center p-4 bg-white/5 rounded-xl border border-white/10">
+          <div class="stat-number text-3xl md:text-4xl font-bold text-dancheong-gold" data-target="507" data-suffix="+">0</div>
+          <div class="text-white/40 text-xs mt-1">Lessons in 90 Days</div>
+        </div>
+        <div class="text-center p-4 bg-white/5 rounded-xl border border-white/10">
+          <div class="stat-number text-3xl md:text-4xl font-bold text-dancheong-red" data-target="65.8" data-suffix="%">0</div>
+          <div class="text-white/40 text-xs mt-1">Conversion Rate</div>
+        </div>
+      </div>
+
+      <div class="fade-up flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="#pricing" class="bg-dancheong-red text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-dancheong-red/90 transition shadow-lg shadow-dancheong-red/20">
+          Explore Packages
+        </a>
+        <a href="#system" class="bg-white/10 border border-dancheong-gold/30 text-dancheong-gold px-8 py-4 rounded-full text-lg font-medium hover:bg-white/20 transition">
+          See the System
+        </a>
+      </div>
+    </div>
+
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 scroll-indicator">
+      <i data-lucide="chevron-down" class="w-6 h-6 text-dancheong-gold/40"></i>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 2: STORY ===== -->
+<section id="story" class="py-24 md:py-32 hanji-texture">
+  <div class="max-w-4xl mx-auto px-6">
+    <div class="text-center mb-16">
+      <p class="fade-up text-dancheong-red font-medium text-sm tracking-widest uppercase mb-4">My Story &middot; 나의 이야기</p>
+      <h2 class="fade-up section-title font-heading text-3xl md:text-5xl font-bold text-royal mb-4">
+        Why I Teach Korean
+      </h2>
+      <div class="fade-up traditional-divider mx-auto"></div>
+    </div>
+
+    <div class="space-y-8 text-lg leading-relaxed text-royal/70">
+      <p class="fade-up">
+        In March 2025, I walked away from my business. I was completely burnt out. For the first time in my life, I started traveling. As I wandered through different countries, I met incredible people genuinely curious about Korea.
+      </p>
+
+      <div class="fade-up bg-white rounded-2xl p-8 shadow-sm border-l-4" style="border-image: linear-gradient(to bottom, #E74C3C, #D4A574) 1;">
+        <div class="space-y-4 text-royal/60 italic font-heading text-xl">
+          <p>"Why do Koreans always ask about age?" <span class="font-korean text-sm not-italic text-royal/30">&mdash; 왜 나이를 물어봐요?</span></p>
+          <p>"Why does the verb come at the very end?" <span class="font-korean text-sm not-italic text-royal/30">&mdash; 왜 동사가 마지막에?</span></p>
+          <p>"Why do you write addresses backwards?" <span class="font-korean text-sm not-italic text-royal/30">&mdash; 왜 주소가 거꾸로?</span></p>
+        </div>
+      </div>
+
+      <p class="fade-up">
+        Before teaching Korean, I ran a coaching center in Korea for four years. I was ranked <strong class="text-dancheong-red">170th out of 450,000 tutors</strong> &mdash; the top 0.03%.
+      </p>
+
+      <div class="fade-up dancheong-gradient rounded-2xl p-8 text-center relative overflow-hidden">
+        <div class="absolute inset-0 opacity-5" style="background-image: url(&quot;data:image/svg+xml,%3Csvg width='40' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='40' height='40' fill='none' stroke='%23D4A574' stroke-width='0.5' rx='2'/%3E%3Ccircle cx='20' cy='20' r='8' fill='none' stroke='%23E74C3C' stroke-width='0.5'/%3E%3C/svg%3E&quot;);"></div>
+        <p class="text-dancheong-gold font-heading text-2xl md:text-3xl italic leading-relaxed relative z-10">
+          "The best teacher makes themselves unnecessary.<br>
+          I build the system. You learn to fly."
+        </p>
+        <p class="font-korean text-white/40 mt-4 text-sm relative z-10">좋은 선생은 스스로 불필요하게 만든다</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 3: PHILOSOPHY ===== -->
+<section id="philosophy" class="py-24 md:py-32 bg-white">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="text-center mb-16">
+      <p class="fade-up text-dancheong-red font-medium text-sm tracking-widest uppercase mb-4">Philosophy &middot; 교육 철학</p>
+      <h2 class="fade-up section-title font-heading text-3xl md:text-5xl font-bold text-royal mb-4">
+        Three Pillars of Mastery
+      </h2>
+      <div class="fade-up traditional-divider mx-auto"></div>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-8">
+      <div class="fade-up hanji-card rounded-2xl p-8 text-center">
+        <div class="w-16 h-16 bg-dancheong-red/10 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-dancheong-red/20">
+          <i data-lucide="mic" class="w-8 h-8 text-dancheong-red"></i>
+        </div>
+        <h3 class="font-heading text-2xl font-bold text-royal mb-2">Pronunciation First</h3>
+        <p class="font-korean text-royal/30 text-sm mb-4">발음이 먼저</p>
+        <p class="text-royal/60 leading-relaxed text-sm">
+          Even with 10 words, correct pronunciation makes Koreans understand you. Korean has three consonant levels that English doesn't have.
+        </p>
+        <div class="mt-6 p-4 bg-white rounded-xl border border-dancheong-gold/10">
+          <div class="space-y-2 text-left text-sm">
+            <div class="flex items-center gap-3">
+              <span class="font-korean text-lg text-royal font-bold">가</span>
+              <span class="text-royal/50">Plain &mdash; soft, relaxed</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="font-korean text-lg text-royal font-bold">카</span>
+              <span class="text-royal/50">Aspirated &mdash; strong air</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="font-korean text-lg text-dancheong-red font-bold">까</span>
+              <span class="text-royal/50">Tensed &mdash; tight, no air</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fade-up hanji-card rounded-2xl p-8 text-center">
+        <div class="w-16 h-16 bg-dancheong-green/10 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-dancheong-green/20">
+          <i data-lucide="puzzle" class="w-8 h-8 text-dancheong-green"></i>
+        </div>
+        <h3 class="font-heading text-2xl font-bold text-royal mb-2">Sentence Logic</h3>
+        <p class="font-korean text-royal/30 text-sm mb-4">문장 구조의 논리</p>
+        <p class="text-royal/60 leading-relaxed text-sm">
+          Understand <em>why</em> Korean sentences work the way they do. Create your own sentences, not just textbook phrases.
+        </p>
+        <div class="mt-6 p-4 bg-white rounded-xl border border-dancheong-gold/10 text-left text-sm">
+          <p class="text-royal/30 text-xs mb-2">English: action first</p>
+          <p class="text-royal font-medium mb-3">I <span class="text-dancheong-red">bought</span> a bag in Paris</p>
+          <p class="text-royal/30 text-xs mb-2">Korean: context first</p>
+          <p class="font-korean text-royal font-medium">저는 파리에서 가방을 <span class="text-dancheong-red">샀어요</span></p>
+        </div>
+      </div>
+
+      <div class="fade-up hanji-card rounded-2xl p-8 text-center">
+        <div class="w-16 h-16 bg-dancheong-blue/10 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-dancheong-blue/20">
+          <i data-lucide="heart" class="w-8 h-8 text-dancheong-blue"></i>
+        </div>
+        <h3 class="font-heading text-2xl font-bold text-royal mb-2">Cultural Context</h3>
+        <p class="font-korean text-royal/30 text-sm mb-4">문화적 맥락</p>
+        <p class="text-royal/60 leading-relaxed text-sm">
+          Korean is deeply contextual. The same phrase changes meaning by situation. I teach you to read the room.
+        </p>
+        <div class="mt-6 p-4 bg-white rounded-xl border border-dancheong-gold/10 text-left text-sm">
+          <p class="text-royal/30 text-xs mb-2">7 levels of "Thank you"</p>
+          <div class="space-y-1">
+            <div class="flex justify-between"><span class="font-korean">고마워</span><span class="text-royal/30 text-xs">friends</span></div>
+            <div class="flex justify-between"><span class="font-korean">감사해요</span><span class="text-royal/30 text-xs">polite</span></div>
+            <div class="flex justify-between"><span class="font-korean">감사합니다</span><span class="text-royal/30 text-xs">formal</span></div>
+            <div class="flex justify-between"><span class="font-korean text-dancheong-red">감사드립니다</span><span class="text-royal/30 text-xs">very formal</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 4: THE SYSTEM ===== -->
+<section id="system" class="py-24 md:py-32 dancheong-gradient text-white">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="text-center mb-16">
+      <p class="fade-up text-dancheong-gold font-medium text-sm tracking-widest uppercase mb-4">The System &middot; 시스템</p>
+      <h2 class="fade-up section-title font-heading text-3xl md:text-5xl font-bold text-white mb-4">
+        What Makes This Different
+      </h2>
+      <p class="fade-up text-white/50 text-lg max-w-2xl mx-auto">A complete learning ecosystem rooted in Korean culture and powered by technology.</p>
+      <div class="fade-up traditional-divider mx-auto mt-6"></div>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="fade-up hanji-card rounded-2xl p-8 bg-white/5 border-white/10 hover:bg-white/10">
+        <div class="w-12 h-12 bg-dancheong-gold/20 rounded-xl flex items-center justify-center mb-5">
+          <i data-lucide="file-text" class="w-6 h-6 text-dancheong-gold"></i>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-3">AI Lesson Documentation</h3>
+        <p class="text-white/50 leading-relaxed text-sm">After every lesson, AI generates a detailed 7-section summary: corrections, vocabulary, homework notes, and progress tracking.</p>
+        <div class="mt-4 flex items-center gap-2 text-dancheong-gold/60 text-xs"><i data-lucide="zap" class="w-3 h-3"></i><span>Automated after every lesson</span></div>
+      </div>
+
+      <div class="fade-up hanji-card rounded-2xl p-8 bg-white/5 border-white/10 hover:bg-white/10">
+        <div class="w-12 h-12 bg-dancheong-gold/20 rounded-xl flex items-center justify-center mb-5">
+          <i data-lucide="book-open" class="w-6 h-6 text-dancheong-gold"></i>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-3">3-Document Homework</h3>
+        <p class="text-white/50 leading-relaxed text-sm"><strong class="text-white/70">Sentence Practice</strong> (125 exercises) + <strong class="text-white/70">Reading</strong> (4 passages) + <strong class="text-white/70">Lesson Materials</strong> (20-25 vocab + patterns).</p>
+        <div class="mt-4 flex items-center gap-2 text-dancheong-gold/60 text-xs"><i data-lucide="layers" class="w-3 h-3"></i><span>Built from your lesson content</span></div>
+      </div>
+
+      <div class="fade-up hanji-card rounded-2xl p-8 bg-white/5 border-white/10 hover:bg-white/10">
+        <div class="w-12 h-12 bg-dancheong-gold/20 rounded-xl flex items-center justify-center mb-5">
+          <i data-lucide="smartphone" class="w-6 h-6 text-dancheong-gold"></i>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-3">Personal Web App</h3>
+        <p class="text-white/50 leading-relaxed text-sm">Sentence Builder, Flashcards, Mastery Tracking. TTS pronunciation. Weak areas first. Auto-updated after lessons.</p>
+        <div class="mt-4 flex items-center gap-2 text-dancheong-gold/60 text-xs"><i data-lucide="sparkles" class="w-3 h-3"></i><span>100% personalized</span></div>
+      </div>
+
+      <div class="fade-up hanji-card rounded-2xl p-8 bg-white/5 border-white/10 hover:bg-white/10">
+        <div class="w-12 h-12 bg-dancheong-gold/20 rounded-xl flex items-center justify-center mb-5">
+          <i data-lucide="message-circle" class="w-6 h-6 text-dancheong-gold"></i>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-3">Daily Feedback</h3>
+        <p class="text-white/50 leading-relaxed text-sm">Send voice recordings. Get pronunciation corrections, tips, and encouragement within 12-24 hours. Improve every day.</p>
+        <div class="mt-4 flex items-center gap-2 text-dancheong-gold/60 text-xs"><i data-lucide="clock" class="w-3 h-3"></i><span>12-24 hour response</span></div>
+      </div>
+
+      <div class="fade-up hanji-card rounded-2xl p-8 bg-white/5 border-white/10 hover:bg-white/10">
+        <div class="w-12 h-12 bg-dancheong-gold/20 rounded-xl flex items-center justify-center mb-5">
+          <i data-lucide="bell" class="w-6 h-6 text-dancheong-gold"></i>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-3">Nudge & Quiz Messages</h3>
+        <p class="text-white/50 leading-relaxed text-sm">Personal Duolingo-like reminders. 2-3 weekly messages with vocabulary quizzes, study reminders, and encouragement.</p>
+        <div class="mt-4 flex items-center gap-2 text-dancheong-gold/60 text-xs"><i data-lucide="repeat" class="w-3 h-3"></i><span>2-3x per week</span></div>
+      </div>
+
+      <div class="fade-up hanji-card rounded-2xl p-8 bg-white/5 border-white/10 hover:bg-white/10">
+        <div class="w-12 h-12 bg-dancheong-gold/20 rounded-xl flex items-center justify-center mb-5">
+          <i data-lucide="database" class="w-6 h-6 text-dancheong-gold"></i>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-3">Word DB & Tracking</h3>
+        <p class="text-white/50 leading-relaxed text-sm">Every word saved to your personal database. Weak areas identified and prioritized in homework, quizzes, and app.</p>
+        <div class="mt-4 flex items-center gap-2 text-dancheong-gold/60 text-xs"><i data-lucide="trending-up" class="w-3 h-3"></i><span>Automatic weakness detection</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 5: REVIEWS ===== -->
+<section id="reviews" class="py-24 md:py-32 hanji-texture">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="text-center mb-16">
+      <p class="fade-up text-dancheong-red font-medium text-sm tracking-widest uppercase mb-4">Reviews &middot; 후기</p>
+      <h2 class="fade-up section-title font-heading text-3xl md:text-5xl font-bold text-royal mb-4">What Students Say</h2>
+      <div class="fade-up flex items-center justify-center gap-6 mt-6">
+        <div class="text-center"><div class="stat-number text-2xl font-bold text-royal">5.0</div><div class="text-royal/30 text-xs">Rating</div></div>
+        <div class="w-px h-8 bg-royal/10"></div>
+        <div class="text-center"><div class="stat-number text-2xl font-bold text-royal">22</div><div class="text-royal/30 text-xs">Reviews</div></div>
+        <div class="w-px h-8 bg-royal/10"></div>
+        <div class="text-center"><div class="stat-number text-2xl font-bold text-dancheong-red">100%</div><div class="text-royal/30 text-xs">5 Stars</div></div>
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="fade-up hanji-card bg-white rounded-2xl p-6">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-10 h-10 bg-dancheong-red/10 rounded-full flex items-center justify-center"><span class="text-dancheong-red font-bold">L</span></div>
+          <div><p class="font-semibold text-royal text-sm">Loriana</p><p class="text-royal/30 text-xs">Advanced &middot; 7+ years</p></div>
+        </div>
+        <p class="text-royal/60 text-sm leading-relaxed">"The <strong class="text-royal">best Korean tutor I have had in my 7+ years</strong> of learning Korean. He prepares extensively, checks in throughout the week."</p>
+        <div class="flex gap-1 mt-4"><i data-lucide="star" class="w-4 h-4 star-filled"></i><i data-lucide="star" class="w-4 h-4 star-filled"></i><i data-lucide="star" class="w-4 h-4 star-filled"></i><i data-lucide="star" class="w-4 h-4 star-filled"></i><i data-lucide="star" class="w-4 h-4 star-filled"></i></div>
+      </div>
+      <div class="fade-up hanji-card bg-white rounded-2xl p-6">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-10 h-10 bg-dancheong-red/10 rounded-full flex items-center justify-center"><span class="text-dancheong-red font-bold">I</span></div>
+          <div><p class="font-semibold text-royal text-sm">Inna</p><p class="text-royal/30 text-xs">Parent &middot; Daughter age 10</p></div>
+        </div>
+        <p class="text-royal/60 text-sm leading-relaxed">"My daughter only had <strong class="text-royal">THREE lessons and I can already see progress!</strong> Most attentive, patient, and fun teacher! His encouragement is irresistible!"</p>
+        <div class="flex gap-1 mt-4"><i data-lucide="star" class="w-4 h-4 star-filled"></i><i data-lucide="star" class="w-4 h-4 star-filled"></i><i data-lucide="star" class="w-4 h-4 star-filled"></i><i data-lucide="star" class="w-4 h-4 star-filled"></i><i data-lucide="star" class="w-4 h-4 star-filled"></i></div>
+      </div>
+      <div class="fade-up hanji-card bg-white rounded-2xl p-6">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-10 h-10 bg-dancheong-red/10 rounded-full flex items-center justify-center"><span class="text-dancheong-red font-bold">S</span></div>
+          <div><p class="font-semibold text-royal text-sm">Sina</p><p class="text-royal/30 text-xs">Advanced Student</p></div>
+        </div>
+        <p class="text-royal/60 text-sm leading-relaxed">"Not just teach &mdash; <strong class="text-royal">guiding you in building a structured study routine</strong> that fits your needs. Kind, encouraging, positive energy."</p>
+        <div class="flex gap-1 mt-4"><i data-lucide="star" class="w-4 h-4 star-filled"></i><i data-lucide="star" class="w-4 h-4 star-filled"></i><i data-lucide="star" class="w-4 h-4 star-filled"></i><i data-lucide="star" class="w-4 h-4 star-filled"></i><i data-lucide="star" class="w-4 h-4 star-filled"></i></div>
+      </div>
+      <div class="fade-up hanji-card bg-white rounded-2xl p-6">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-10 h-10 bg-dancheong-red/10 rounded-full flex items-center justify-center"><span class="text-dancheong-red font-bold">J</span></div>
+          <div><p class="font-semibold text-royal text-sm">Jowita</p><p class="text-royal/30 text-xs">Beginner</p></div>
+        </div>
+        <p class="text-royal/60 text-sm leading-relaxed">"<strong class="text-royal">Planned the entire learning process during the first meeting</strong>, which gave me a strong sense of direction and confidence. Well-organized learning materials!"</p>
+        <div class="flex gap-1 mt-4"><i data-lucide="star" class="w-4 h-4 star-filled"></i><i data-lucide="star" class="w-4 h-4 star-filled"></i><i data-lucide="star" class="w-4 h-4 star-filled"></i><i data-lucide="star" class="w-4 h-4 star-filled"></i><i data-lucide="star" class="w-4 h-4 star-filled"></i></div>
+      </div>
+      <div class="fade-up hanji-card bg-white rounded-2xl p-6">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-10 h-10 bg-dancheong-red/10 rounded-full flex items-center justify-center"><span class="text-dancheong-red font-bold">M</span></div>
+          <div><p class="font-semibold text-royal text-sm">Magdalena</p><p class="text-royal/30 text-xs">Intermediate</p></div>
+        </div>
+        <p class="text-royal/60 text-sm leading-relaxed">"<strong class="text-royal">Corrected me things no other Korean teachers corrected before</strong>: every detail, every sound of pronunciation."</p>
+        <div class="flex gap-1 mt-4"><i data-lucide="star" class="w-4 h-4 star-filled"></i><i data-lucide="star" class="w-4 h-4 star-filled"></i><i data-lucide="star" class="w-4 h-4 star-filled"></i><i data-lucide="star" class="w-4 h-4 star-filled"></i><i data-lucide="star" class="w-4 h-4 star-filled"></i></div>
+      </div>
+      <div class="fade-up hanji-card bg-white rounded-2xl p-6">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-10 h-10 bg-dancheong-red/10 rounded-full flex items-center justify-center"><span class="text-dancheong-red font-bold">C</span></div>
+          <div><p class="font-semibold text-royal text-sm">Clayton</p><p class="text-royal/30 text-xs">New Student</p></div>
+        </div>
+        <p class="text-royal/60 text-sm leading-relaxed">"He <strong class="text-royal">surpassed all of my expectations</strong>. Extremely engaging. I wish the lesson could have been twice as long!"</p>
+        <div class="flex gap-1 mt-4"><i data-lucide="star" class="w-4 h-4 star-filled"></i><i data-lucide="star" class="w-4 h-4 star-filled"></i><i data-lucide="star" class="w-4 h-4 star-filled"></i><i data-lucide="star" class="w-4 h-4 star-filled"></i><i data-lucide="star" class="w-4 h-4 star-filled"></i></div>
+      </div>
+    </div>
+
+    <div class="fade-up flex flex-wrap justify-center gap-4 mt-12">
+      <div class="flex items-center gap-2 bg-white rounded-full px-4 py-2 border border-dancheong-gold/20"><i data-lucide="shield-check" class="w-4 h-4 text-dancheong-red"></i><span class="text-sm text-royal/60">Super Tutor 7/7</span></div>
+      <div class="flex items-center gap-2 bg-white rounded-full px-4 py-2 border border-dancheong-gold/20"><i data-lucide="clock" class="w-4 h-4 text-dancheong-red"></i><span class="text-sm text-royal/60">100% Response</span></div>
+      <div class="flex items-center gap-2 bg-white rounded-full px-4 py-2 border border-dancheong-gold/20"><i data-lucide="calendar-check" class="w-4 h-4 text-dancheong-red"></i><span class="text-sm text-royal/60">0 Absences</span></div>
+      <div class="flex items-center gap-2 bg-white rounded-full px-4 py-2 border border-dancheong-gold/20"><i data-lucide="trophy" class="w-4 h-4 text-dancheong-gold"></i><span class="text-sm text-royal/60">Top 0.03%</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 6: PRICING ===== -->
+<section id="pricing" class="py-24 md:py-32 bg-white">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="text-center mb-16">
+      <p class="fade-up text-dancheong-red font-medium text-sm tracking-widest uppercase mb-4">Packages &middot; 패키지</p>
+      <h2 class="fade-up section-title font-heading text-3xl md:text-5xl font-bold text-royal mb-4">Choose Your Track</h2>
+      <p class="fade-up text-royal/50 text-lg max-w-2xl mx-auto">Every package includes a 50-minute 1:1 lesson.</p>
+      <div class="fade-up traditional-divider mx-auto mt-6"></div>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+      <div class="fade-up hanji-card bg-hanji rounded-2xl p-6">
+        <h3 class="font-heading text-xl font-bold text-royal mb-2">Essential</h3>
+        <div class="flex items-baseline gap-1 mb-4"><span class="stat-number text-4xl font-bold text-royal">$30</span><span class="text-royal/30 text-sm">/lesson</span></div>
+        <p class="text-royal/50 text-sm mb-6">Quality 1:1 lessons with AI docs.</p>
+        <ul class="space-y-3 text-sm text-royal/60">
+          <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-dancheong-red mt-0.5 shrink-0"></i>50-min 1:1 lesson</li>
+          <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-dancheong-red mt-0.5 shrink-0"></i>AI lesson summary</li>
+          <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-dancheong-red mt-0.5 shrink-0"></i>Pronunciation coaching</li>
+          <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-dancheong-red mt-0.5 shrink-0"></i>Cultural context</li>
+        </ul>
+        <a href="#contact" class="block mt-6 text-center py-3 rounded-xl border-2 border-dancheong-red text-dancheong-red font-semibold text-sm hover:bg-dancheong-red hover:text-white transition">Select</a>
+      </div>
+
+      <div class="fade-up hanji-card bg-hanji rounded-2xl p-6 relative" style="box-shadow: 0 0 0 2px #E74C3C, 0 20px 60px rgba(231,76,60,0.15);">
+        <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-dancheong-red text-white text-xs font-bold px-3 py-1 rounded-full">POPULAR</div>
+        <h3 class="font-heading text-xl font-bold text-royal mb-2">Standard</h3>
+        <div class="flex items-baseline gap-2 mb-1"><span class="stat-number text-4xl font-bold text-royal">$45</span><span class="text-royal/30 text-sm">/lesson</span></div>
+        <p class="text-dancheong-red text-xs font-medium mb-4">Promo &middot; Regular $55</p>
+        <p class="text-royal/50 text-sm mb-6">Lessons + homework + engagement.</p>
+        <ul class="space-y-3 text-sm text-royal/60">
+          <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-dancheong-red mt-0.5 shrink-0"></i>Everything in Essential</li>
+          <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-dancheong-gold mt-0.5 shrink-0"></i><strong>Light homework</strong> (FREE)</li>
+          <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-dancheong-gold mt-0.5 shrink-0"></i><strong>Full 3-doc homework</strong></li>
+          <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-dancheong-gold mt-0.5 shrink-0"></i><strong>Nudge & Quiz</strong> (FREE)</li>
+        </ul>
+        <a href="#contact" class="block mt-6 text-center py-3 rounded-xl bg-dancheong-red text-white font-semibold text-sm hover:bg-dancheong-red/90 transition">Select</a>
+      </div>
+
+      <div class="fade-up hanji-card bg-hanji rounded-2xl p-6">
+        <h3 class="font-heading text-xl font-bold text-royal mb-2">Premium</h3>
+        <div class="flex items-baseline gap-2 mb-1"><span class="stat-number text-4xl font-bold text-royal">$60</span><span class="text-royal/30 text-sm">/lesson</span></div>
+        <p class="text-dancheong-red text-xs font-medium mb-4">Promo &middot; Regular $80</p>
+        <p class="text-royal/50 text-sm mb-6">Full experience with daily support.</p>
+        <ul class="space-y-3 text-sm text-royal/60">
+          <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-dancheong-red mt-0.5 shrink-0"></i>Everything in Standard</li>
+          <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-dancheong-gold mt-0.5 shrink-0"></i><strong>Daily feedback</strong></li>
+          <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-dancheong-gold mt-0.5 shrink-0"></i><strong>Personal web app</strong></li>
+          <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-dancheong-gold mt-0.5 shrink-0"></i><strong>Discord community</strong> (FREE)</li>
+        </ul>
+        <a href="#contact" class="block mt-6 text-center py-3 rounded-xl border-2 border-dancheong-red text-dancheong-red font-semibold text-sm hover:bg-dancheong-red hover:text-white transition">Select</a>
+      </div>
+
+      <div class="fade-up hanji-card bg-hanji rounded-2xl p-6">
+        <h3 class="font-heading text-xl font-bold text-royal mb-2">Custom</h3>
+        <div class="flex items-baseline gap-1 mb-4"><span class="stat-number text-4xl font-bold text-royal">$30</span><span class="text-royal/30 text-sm">+ opts</span></div>
+        <p class="text-royal/50 text-sm mb-6">Build your own. Pick what you need.</p>
+        <ul class="space-y-3 text-sm text-royal/60">
+          <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-dancheong-red mt-0.5 shrink-0"></i>Base lesson included</li>
+          <li class="flex items-start gap-2"><i data-lucide="plus" class="w-4 h-4 text-royal/20 mt-0.5 shrink-0"></i>Add any options</li>
+          <li class="flex items-start gap-2"><i data-lucide="plus" class="w-4 h-4 text-royal/20 mt-0.5 shrink-0"></i>Mix & match</li>
+          <li class="flex items-start gap-2"><i data-lucide="plus" class="w-4 h-4 text-royal/20 mt-0.5 shrink-0"></i>Change anytime</li>
+        </ul>
+        <a href="#contact" class="block mt-6 text-center py-3 rounded-xl border-2 border-dancheong-red text-dancheong-red font-semibold text-sm hover:bg-dancheong-red hover:text-white transition">Customize</a>
+      </div>
+    </div>
+
+    <!-- Options table -->
+    <div class="fade-up bg-hanji rounded-2xl p-8 border border-dancheong-gold/10">
+      <h3 class="font-heading text-2xl font-bold text-royal mb-6 text-center">Add-On Options</h3>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead><tr class="border-b border-dancheong-gold/20"><th class="text-left py-3 text-royal/40 font-medium">Option</th><th class="text-center py-3 text-royal/40 font-medium">Regular</th><th class="text-center py-3 text-dancheong-red font-medium">Promo</th><th class="text-left py-3 text-royal/40 font-medium hidden md:table-cell">Description</th></tr></thead>
+          <tbody class="text-royal/60">
+            <tr class="border-b border-dancheong-gold/10"><td class="py-3 font-medium text-royal">Light Homework</td><td class="py-3 text-center">$5/lesson</td><td class="py-3 text-center font-bold text-dancheong-red">FREE</td><td class="py-3 hidden md:table-cell">Weekly materials + light exercises</td></tr>
+            <tr class="border-b border-dancheong-gold/10"><td class="py-3 font-medium text-royal">Full Homework + Word DB</td><td class="py-3 text-center">$15-20/w</td><td class="py-3 text-center">$15-20/w</td><td class="py-3 hidden md:table-cell">3 documents + vocab tracking</td></tr>
+            <tr class="border-b border-dancheong-gold/10"><td class="py-3 font-medium text-royal">Writing Correction</td><td class="py-3 text-center">$10/lesson</td><td class="py-3 text-center">$10/lesson</td><td class="py-3 hidden md:table-cell">Essays, emails, business docs</td></tr>
+            <tr class="border-b border-dancheong-gold/10"><td class="py-3 font-medium text-royal">Nudge & Quiz</td><td class="py-3 text-center">$5/w</td><td class="py-3 text-center font-bold text-dancheong-red">FREE</td><td class="py-3 hidden md:table-cell">2-3 weekly quizzes + reminders</td></tr>
+            <tr class="border-b border-dancheong-gold/10"><td class="py-3 font-medium text-royal">Daily Feedback</td><td class="py-3 text-center">$15/w</td><td class="py-3 text-center font-bold text-dancheong-red">$10/w</td><td class="py-3 hidden md:table-cell">Voice + writing corrections daily</td></tr>
+            <tr class="border-b border-dancheong-gold/10"><td class="py-3 font-medium text-royal">Personal Web App</td><td class="py-3 text-center">$6/w</td><td class="py-3 text-center font-bold text-dancheong-red">$5/w</td><td class="py-3 hidden md:table-cell">Sentence Builder + Flashcards</td></tr>
+            <tr><td class="py-3 font-medium text-royal">Discord Community</td><td class="py-3 text-center">$4/w</td><td class="py-3 text-center font-bold text-dancheong-red">FREE</td><td class="py-3 hidden md:table-cell">Study group + challenges</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 7: FAQ ===== -->
+<section id="faq" class="py-24 md:py-32 hanji-texture">
+  <div class="max-w-3xl mx-auto px-6">
+    <div class="text-center mb-16">
+      <p class="fade-up text-dancheong-red font-medium text-sm tracking-widest uppercase mb-4">FAQ &middot; 자주 묻는 질문</p>
+      <h2 class="fade-up section-title font-heading text-3xl md:text-5xl font-bold text-royal mb-4">Questions</h2>
+      <div class="fade-up traditional-divider mx-auto"></div>
+    </div>
+    <div class="space-y-4">
+      <div class="fade-up bg-white rounded-xl border border-dancheong-gold/10 overflow-hidden"><button class="w-full flex items-center justify-between p-5 text-left" onclick="toggleFaq(this)"><span class="font-semibold text-royal pr-4">I'm a complete beginner. Is that okay?</span><i data-lucide="chevron-down" class="w-5 h-5 text-royal/20 shrink-0 faq-chevron"></i></button><div class="faq-answer"><div class="px-5 pb-5 text-royal/60 text-sm leading-relaxed">Absolutely. Most students start from zero. We begin with pronunciation. Hangul takes about 4 hours to learn.</div></div></div>
+      <div class="fade-up bg-white rounded-xl border border-dancheong-gold/10 overflow-hidden"><button class="w-full flex items-center justify-between p-5 text-left" onclick="toggleFaq(this)"><span class="font-semibold text-royal pr-4">How long until basic conversation?</span><i data-lucide="chevron-down" class="w-5 h-5 text-royal/20 shrink-0 faq-chevron"></i></button><div class="faq-answer"><div class="px-5 pb-5 text-royal/60 text-sm leading-relaxed">With consistent homework and 1-2 lessons/week, most students handle basic conversations in 2-3 months.</div></div></div>
+      <div class="fade-up bg-white rounded-xl border border-dancheong-gold/10 overflow-hidden"><button class="w-full flex items-center justify-between p-5 text-left" onclick="toggleFaq(this)"><span class="font-semibold text-royal pr-4">Different from Duolingo?</span><i data-lucide="chevron-down" class="w-5 h-5 text-royal/20 shrink-0 faq-chevron"></i></button><div class="faq-answer"><div class="px-5 pb-5 text-royal/60 text-sm leading-relaxed">Apps teach rules. I teach pronunciation, cultural context, social nuance + daily personal feedback + personalized app.</div></div></div>
+      <div class="fade-up bg-white rounded-xl border border-dancheong-gold/10 overflow-hidden"><button class="w-full flex items-center justify-between p-5 text-left" onclick="toggleFaq(this)"><span class="font-semibold text-royal pr-4">What if I'm busy?</span><i data-lucide="chevron-down" class="w-5 h-5 text-royal/20 shrink-0 faq-chevron"></i></button><div class="faq-answer"><div class="px-5 pb-5 text-royal/60 text-sm leading-relaxed">No pressure. Multiple tracks: Intensive, Standard, Light. Switch anytime.</div></div></div>
+      <div class="fade-up bg-white rounded-xl border border-dancheong-gold/10 overflow-hidden"><button class="w-full flex items-center justify-between p-5 text-left" onclick="toggleFaq(this)"><span class="font-semibold text-royal pr-4">Can I switch packages?</span><i data-lucide="chevron-down" class="w-5 h-5 text-royal/20 shrink-0 faq-chevron"></i></button><div class="faq-answer"><div class="px-5 pb-5 text-royal/60 text-sm leading-relaxed">Yes. Upgrade, downgrade, or customize anytime. Completely flexible.</div></div></div>
+      <div class="fade-up bg-white rounded-xl border border-dancheong-gold/10 overflow-hidden"><button class="w-full flex items-center justify-between p-5 text-left" onclick="toggleFaq(this)"><span class="font-semibold text-royal pr-4">What if I stop?</span><i data-lucide="chevron-down" class="w-5 h-5 text-royal/20 shrink-0 faq-chevron"></i></button><div class="faq-answer"><div class="px-5 pb-5 text-royal/60 text-sm leading-relaxed">You keep web apps forever. I still send materials twice a month. That's what "Fly Korean" means.</div></div></div>
+      <div class="fade-up bg-white rounded-xl border border-dancheong-gold/10 overflow-hidden"><button class="w-full flex items-center justify-between p-5 text-left" onclick="toggleFaq(this)"><span class="font-semibold text-royal pr-4">K-pop / K-drama motivation?</span><i data-lucide="chevron-down" class="w-5 h-5 text-royal/20 shrink-0 faq-chevron"></i></button><div class="faq-answer"><div class="px-5 pb-5 text-royal/60 text-sm leading-relaxed">Absolutely! I use your favorite content as material. Every reason is valid.</div></div></div>
+      <div class="fade-up bg-white rounded-xl border border-dancheong-gold/10 overflow-hidden"><button class="w-full flex items-center justify-between p-5 text-left" onclick="toggleFaq(this)"><span class="font-semibold text-royal pr-4">How does the web app work?</span><i data-lucide="chevron-down" class="w-5 h-5 text-royal/20 shrink-0 faq-chevron"></i></button><div class="faq-answer"><div class="px-5 pb-5 text-royal/60 text-sm leading-relaxed">Your own URL with Sentence Builder, Flashcards, mastery tracking, TTS. New vocab auto-added after lessons.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 8: CTA ===== -->
+<section id="contact" class="py-24 md:py-32 dancheong-gradient text-white">
+  <div class="max-w-3xl mx-auto px-6">
+    <div class="text-center mb-12">
+      <p class="fade-up text-dancheong-gold font-medium text-sm tracking-widest uppercase mb-4">시작하기 &middot; Get Started</p>
+      <h2 class="fade-up section-title font-heading text-3xl md:text-5xl font-bold text-white mb-4">Ready to Fly?</h2>
+      <p class="fade-up text-white/50 text-lg font-korean">날 준비 되셨나요?</p>
+    </div>
+
+    <div class="fade-up bg-white/5 border border-white/10 rounded-2xl p-8 backdrop-blur-sm">
+      <form id="signup-form" class="space-y-6">
+        <div>
+          <label class="block text-dancheong-gold text-sm font-medium mb-3">Select Package</label>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <button type="button" class="pkg-btn py-3 px-4 rounded-xl border border-white/20 text-white/50 text-sm font-medium hover:border-dancheong-gold/30 transition" data-pkg="essential">Essential<br><span class="text-xs text-white/30">$30</span></button>
+            <button type="button" class="pkg-btn py-3 px-4 rounded-xl border-2 border-dancheong-red bg-dancheong-red/10 text-white text-sm font-medium" data-pkg="standard">Standard<br><span class="text-xs text-dancheong-gold">$45</span></button>
+            <button type="button" class="pkg-btn py-3 px-4 rounded-xl border border-white/20 text-white/50 text-sm font-medium hover:border-dancheong-gold/30 transition" data-pkg="premium">Premium<br><span class="text-xs text-white/30">$60</span></button>
+            <button type="button" class="pkg-btn py-3 px-4 rounded-xl border border-white/20 text-white/50 text-sm font-medium hover:border-dancheong-gold/30 transition" data-pkg="custom">Custom<br><span class="text-xs text-white/30">$30+</span></button>
+          </div>
+        </div>
+        <div id="custom-options" class="hidden space-y-3">
+          <label class="block text-dancheong-gold text-sm font-medium mb-2">Add-Ons</label>
+          <div class="grid gap-2">
+            <label class="flex items-center gap-3 p-3 rounded-xl border border-white/10 hover:border-white/20 cursor-pointer"><input type="checkbox" name="opt1" class="w-4 h-4 accent-red-500"><span class="text-white/60 text-sm flex-1">Light Homework</span><span class="text-dancheong-gold text-sm font-medium">FREE</span></label>
+            <label class="flex items-center gap-3 p-3 rounded-xl border border-white/10 hover:border-white/20 cursor-pointer"><input type="checkbox" name="opt2" class="w-4 h-4 accent-red-500"><span class="text-white/60 text-sm flex-1">Full Homework + Word DB</span><span class="text-white/40 text-sm">$15-20/w</span></label>
+            <label class="flex items-center gap-3 p-3 rounded-xl border border-white/10 hover:border-white/20 cursor-pointer"><input type="checkbox" name="opt3" class="w-4 h-4 accent-red-500"><span class="text-white/60 text-sm flex-1">Writing Correction</span><span class="text-white/40 text-sm">$10/lesson</span></label>
+            <label class="flex items-center gap-3 p-3 rounded-xl border border-white/10 hover:border-white/20 cursor-pointer"><input type="checkbox" name="opt4" class="w-4 h-4 accent-red-500"><span class="text-white/60 text-sm flex-1">Nudge & Quiz</span><span class="text-dancheong-gold text-sm font-medium">FREE</span></label>
+            <label class="flex items-center gap-3 p-3 rounded-xl border border-white/10 hover:border-white/20 cursor-pointer"><input type="checkbox" name="opt5" class="w-4 h-4 accent-red-500"><span class="text-white/60 text-sm flex-1">Daily Feedback</span><span class="text-white/40 text-sm">$10/w</span></label>
+            <label class="flex items-center gap-3 p-3 rounded-xl border border-white/10 hover:border-white/20 cursor-pointer"><input type="checkbox" name="opt6" class="w-4 h-4 accent-red-500"><span class="text-white/60 text-sm flex-1">Personal Web App</span><span class="text-white/40 text-sm">$5/w</span></label>
+            <label class="flex items-center gap-3 p-3 rounded-xl border border-white/10 hover:border-white/20 cursor-pointer"><input type="checkbox" name="opt7" class="w-4 h-4 accent-red-500"><span class="text-white/60 text-sm flex-1">Discord Community</span><span class="text-dancheong-gold text-sm font-medium">FREE</span></label>
+          </div>
+        </div>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div><label class="block text-dancheong-gold text-sm font-medium mb-2">Name</label><input type="text" name="name" required placeholder="Your name" class="form-input w-full px-4 py-3 rounded-xl bg-white/10 border-white/20 text-white placeholder-white/30"></div>
+          <div><label class="block text-dancheong-gold text-sm font-medium mb-2">Email</label><input type="email" name="email" required placeholder="your@email.com" class="form-input w-full px-4 py-3 rounded-xl bg-white/10 border-white/20 text-white placeholder-white/30"></div>
+        </div>
+        <div><label class="block text-dancheong-gold text-sm font-medium mb-2">Message <span class="text-white/30">(optional)</span></label><textarea name="message" rows="3" placeholder="Goals, level, questions..." class="form-input w-full px-4 py-3 rounded-xl bg-white/10 border-white/20 text-white placeholder-white/30 resize-none"></textarea></div>
+        <button type="submit" class="w-full bg-dancheong-red text-white py-4 rounded-xl font-bold text-lg hover:bg-dancheong-red/90 transition shadow-lg shadow-dancheong-red/20">Send My Interest</button>
+        <p class="text-white/30 text-xs text-center">I'll respond within 24 hours.</p>
+      </form>
+      <div id="form-success" class="hidden text-center py-12">
+        <div class="w-16 h-16 bg-dancheong-red/20 rounded-full flex items-center justify-center mx-auto mb-4"><i data-lucide="check" class="w-8 h-8 text-dancheong-red"></i></div>
+        <h3 class="text-2xl font-bold text-white mb-2">감사합니다!</h3>
+        <p class="text-white/50">I'll get back to you within 24 hours.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-royal py-12">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-2"><span class="text-dancheong-red text-xl font-bold font-heading">Fly</span><span class="text-white text-xl font-bold font-heading">Korean</span><span class="font-korean text-white/30 text-sm ml-1">날다</span></div>
+      <div class="flex items-center gap-6 text-white/30 text-sm">
+        <a href="https://preply.com" target="_blank" class="hover:text-white/50 transition">Preply</a><span class="w-1 h-1 bg-white/15 rounded-full"></span><span>Super Tutor 7/7</span><span class="w-1 h-1 bg-white/15 rounded-full"></span><span>5.0 Rating</span>
+      </div>
+    </div>
+    <div class="mt-8 pt-8 border-t border-white/10 text-center text-white/15 text-xs">&copy; 2026 Fly Korean by Jay (Dongjae). All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+lucide.createIcons();
+document.getElementById('mobile-menu-btn').addEventListener('click',()=>document.getElementById('mobile-menu').classList.toggle('hidden'));
+document.querySelectorAll('#mobile-menu a').forEach(a=>a.addEventListener('click',()=>document.getElementById('mobile-menu').classList.add('hidden')));
+
+gsap.registerPlugin(ScrollTrigger);
+gsap.utils.toArray('.fade-up').forEach(el=>{gsap.fromTo(el,{opacity:0,y:40},{opacity:1,y:0,duration:0.8,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 85%',once:true}});});
+
+// Jamo parallax
+gsap.utils.toArray('.jamo-float').forEach(el=>{gsap.to(el,{y:-80,scrollTrigger:{trigger:'#hero',start:'top top',end:'bottom top',scrub:1}});});
+
+// Stat counters
+function animateCounters(){document.querySelectorAll('[data-target]').forEach(el=>{const t=parseFloat(el.dataset.target),s=el.dataset.suffix||'',d=t%1!==0;gsap.fromTo(el,{innerText:0},{innerText:t,duration:2,ease:'power2.out',snap:d?0.1:1,onUpdate(){const v=parseFloat(gsap.getProperty(el,'innerText'));el.textContent=d?v.toFixed(1)+s:Math.round(v)+s}})});}
+ScrollTrigger.create({trigger:'#hero',start:'top center',once:true,onEnter:animateCounters});
+
+function toggleFaq(btn){const a=btn.nextElementSibling,c=btn.querySelector('.faq-chevron'),o=a.classList.contains('open');document.querySelectorAll('.faq-answer').forEach(x=>x.classList.remove('open'));document.querySelectorAll('.faq-chevron').forEach(x=>x.classList.remove('open'));if(!o){a.classList.add('open');c.classList.add('open');}}
+
+let selectedPackage='standard';
+document.querySelectorAll('.pkg-btn').forEach(btn=>{btn.addEventListener('click',()=>{document.querySelectorAll('.pkg-btn').forEach(b=>{b.classList.remove('border-dancheong-red','bg-dancheong-red/10','text-white');b.classList.add('border-white/20','text-white/50');b.style.borderWidth='1px';});btn.classList.remove('border-white/20','text-white/50');btn.classList.add('border-dancheong-red','bg-dancheong-red/10','text-white');btn.style.borderWidth='2px';selectedPackage=btn.dataset.pkg;document.getElementById('custom-options').classList.toggle('hidden',selectedPackage!=='custom');});});
+
+document.getElementById('signup-form').addEventListener('submit',async(e)=>{e.preventDefault();const f=e.target,fd=new FormData(f);const data={timestamp:new Date().toISOString(),name:fd.get('name'),email:fd.get('email'),package:selectedPackage,message:fd.get('message')||'',options:{opt1:fd.get('opt1')==='on',opt2:fd.get('opt2')==='on',opt3:fd.get('opt3')==='on',opt4:fd.get('opt4')==='on',opt5:fd.get('opt5')==='on',opt6:fd.get('opt6')==='on',opt7:fd.get('opt7')==='on'},source:'flykorean-cultural'};try{console.log('Form data:',data);f.classList.add('hidden');document.getElementById('form-success').classList.remove('hidden');}catch(err){alert('Something went wrong.');}});
+</script>
+</body>
+</html>

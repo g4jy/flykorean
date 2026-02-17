@@ -182,6 +182,107 @@
     @media (max-width: 768px) {
       .story-img { height: 200px; }
     }
+
+    /* === Magazine Cards (9:16 portrait flip) === */
+    .mag-card { perspective: 1000px; cursor: pointer; aspect-ratio: 9/16; }
+    .mag-card-inner {
+      position: relative; width: 100%; height: 100%;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      transform-style: preserve-3d;
+    }
+    .mag-card.flipped .mag-card-inner { transform: rotateY(180deg); }
+    .mag-card-front, .mag-card-back {
+      position: absolute; inset: 0; backface-visibility: hidden;
+      border-radius: 16px; overflow: hidden;
+    }
+    .mag-card-back { transform: rotateY(180deg); }
+    .mag-tag {
+      position: absolute; top: 12px; left: 12px; z-index: 10;
+      padding: 4px 10px; border-radius: 6px;
+      background: rgba(255,255,255,0.15); backdrop-filter: blur(8px);
+      color: white; font-size: 0.65rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    @media (max-width: 768px) { .mag-card { aspect-ratio: 3/4; } }
+
+    /* === Philosophy Tabs === */
+    .philo-tab {
+      cursor: pointer; padding: 1rem 1.5rem; border-radius: 12px 12px 0 0;
+      border: 1px solid transparent; border-bottom: none;
+      transition: all 0.3s ease; background: transparent;
+    }
+    .philo-tab:hover { background: rgba(212,165,116,0.08); }
+    .philo-tab.active {
+      background: var(--warm-white); border-color: rgba(212,165,116,0.2);
+      box-shadow: 0 -4px 12px rgba(92,64,51,0.06);
+    }
+    .philo-panel { display: none; }
+    .philo-panel.active { display: block; animation: fadeIn 0.4s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* === Journey Pyramid === */
+    .pyramid-level {
+      opacity: 0; transform: translateY(10px);
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .pyramid-level.visible { opacity: 1; transform: translateY(0); }
+    .pyramid-bar {
+      height: 52px; border-radius: 8px; display: flex; align-items: center;
+      padding: 0 1.25rem; transition: all 0.3s ease; position: relative;
+    }
+    .pyramid-bar:hover { filter: brightness(1.05); transform: scale(1.02); }
+    .pyramid-tip {
+      animation: pyramidGlow 2s ease-in-out infinite alternate;
+    }
+    @keyframes pyramidGlow {
+      from { box-shadow: 0 0 15px rgba(232,132,92,0.2); }
+      to { box-shadow: 0 0 30px rgba(232,132,92,0.4); }
+    }
+
+    /* === Story Media Auto-Slideshow === */
+    .story-media {
+      position: relative; overflow: hidden; border-radius: 16px;
+      min-height: 200px;
+    }
+    .story-media-item {
+      position: absolute; inset: 0; border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transition: opacity 1s ease-in-out;
+    }
+    .story-media-item.slide-active { opacity: 1; }
+    .story-media-dots {
+      position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%);
+      display: flex; gap: 6px; z-index: 5;
+    }
+    .story-media-dots span {
+      width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.4);
+      transition: background 0.3s;
+    }
+    .story-media-dots span.dot-active { background: rgba(255,255,255,0.9); }
+
+    /* === NEW: Video Facade === */
+    .video-facade {
+      position: relative; aspect-ratio: 16/9; background: var(--cream-dark);
+      border-radius: 16px; overflow: hidden; cursor: pointer;
+      border: 2px dashed rgba(212,165,116,0.3); transition: border-color 0.3s;
+    }
+    .video-facade:hover { border-color: var(--coral); }
+    .video-facade .play-btn {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+      width: 64px; height: 64px; background: rgba(232,132,92,0.9); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-size: 1.5rem; padding-left: 4px;
+      transition: transform 0.3s, background 0.3s;
+    }
+    .video-facade:hover .play-btn { transform: translate(-50%,-50%) scale(1.1); background: var(--coral); }
+
+    /* === NEW: Photo Placeholder === */
+    .photo-placeholder {
+      background: var(--cream-dark); border: 2px dashed rgba(212,165,116,0.4);
+      border-radius: 16px; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 0.5rem;
+      min-height: 200px; color: var(--brown-light); font-size: 0.8rem;
+    }
   </style>
 </head>
 <body>
@@ -197,6 +298,7 @@
       </a>
       <div class="hidden md:flex items-center gap-8 text-sm text-brown-light">
         <a href="#story" class="hover:text-coral transition">Story</a>
+        <a href="#been-there" class="hover:text-coral transition">Been There?</a>
         <a href="#philosophy" class="hover:text-coral transition">Philosophy</a>
         <a href="#system" class="hover:text-coral transition">System</a>
         <a href="#reviews" class="hover:text-coral transition">Reviews</a>
@@ -211,6 +313,7 @@
   <div class="mobile-menu" id="mobileMenu">
     <div class="flex flex-col items-center gap-8 text-xl">
       <a href="#story" onclick="toggleMenu()" class="text-brown hover:text-coral">Story</a>
+      <a href="#been-there" onclick="toggleMenu()" class="text-brown hover:text-coral">Been There?</a>
       <a href="#philosophy" onclick="toggleMenu()" class="text-brown hover:text-coral">Philosophy</a>
       <a href="#system" onclick="toggleMenu()" class="text-brown hover:text-coral">System</a>
       <a href="#reviews" onclick="toggleMenu()" class="text-brown hover:text-coral">Reviews</a>
@@ -221,6 +324,7 @@
 
   <!-- ==================== HERO ==================== -->
   <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
+    <!-- REPLACE: Use your own hero photo as background-image here -->
     <div class="parallax-bg" id="heroBg" style="background-image: url('https://images.unsplash.com/photo-1534274867514-d5b47ef89ed7?w=1920&q=80&auto=format&fit=crop');"></div>
     <div class="absolute inset-0" style="background: linear-gradient(135deg, rgba(255,248,243,0.92) 0%, rgba(255,248,243,0.85) 40%, rgba(245,237,227,0.8) 100%);"></div>
 
@@ -242,21 +346,23 @@
         Built by a tutor who believes the best teachers make themselves unnecessary.
       </p>
 
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 max-w-3xl mx-auto mb-10 reveal" style="transition-delay:0.4s">
-        <div class="warm-card p-4 md:p-6 text-center">
+      <!-- AUTO-UPDATE: Pull these numbers from Preply Insights page monthly.
+           4.8 rating, 115 active, 507 lessons/90d, 65.8% conversion -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 max-w-3xl mx-auto mb-10 reveal" style="transition-delay:0.35s">
+        <div class="warm-card p-4 md:p-6 flex flex-col items-center justify-center">
           <div class="flex justify-center mb-1"><span class="star text-lg">&#9733;</span><span class="star text-lg">&#9733;</span><span class="star text-lg">&#9733;</span><span class="star text-lg">&#9733;</span><span class="star text-lg">&#9733;</span></div>
           <div class="font-mono text-3xl md:text-4xl font-bold text-navy">4.8</div>
           <div class="text-xs text-brown-light mt-1">Rating (80+ reviews)</div>
         </div>
-        <div class="warm-card p-4 md:p-6 text-center">
+        <div class="warm-card p-4 md:p-6 flex flex-col items-center justify-center">
           <div class="font-mono text-3xl md:text-4xl font-bold text-navy" data-count="115">0</div>
           <div class="text-xs text-brown-light mt-1">Active Students</div>
         </div>
-        <div class="warm-card p-4 md:p-6 text-center">
+        <div class="warm-card p-4 md:p-6 flex flex-col items-center justify-center">
           <div class="font-mono text-3xl md:text-4xl font-bold text-navy" data-count="507">0</div>
           <div class="text-xs text-brown-light mt-1">Lessons in 90 Days</div>
         </div>
-        <div class="warm-card p-4 md:p-6 text-center">
+        <div class="warm-card p-4 md:p-6 flex flex-col items-center justify-center">
           <div class="font-mono text-3xl md:text-4xl font-bold gradient-text" data-count="65.8" data-suffix="%">0</div>
           <div class="text-xs text-brown-light mt-1">Trial &rarr; Subscription</div>
         </div>
@@ -279,6 +385,11 @@
         <h2 class="font-serif text-3xl md:text-5xl font-bold text-navy">Why I Teach Korean</h2>
       </div>
 
+      <!-- Story intro -->
+      <div class="max-w-2xl mx-auto mb-10 reveal">
+        <p class="text-brown/60 text-base leading-relaxed text-center">Before you decide if I'm the right teacher for you, I want you to know who I am. Not a polished sales pitch &mdash; the real story. The parts I'm proud of and the parts that were hard. Because the way I teach today comes directly from everything below.</p>
+      </div>
+
       <div class="swiper storySwiper reveal">
         <div class="swiper-wrapper">
           <!-- Chapter 1: The Rise -->
@@ -294,7 +405,25 @@
                     <p class="text-brown/50 text-base leading-relaxed italic">Students didn't just pass exams. They started believing in themselves. That was the part I loved most.</p>
                   </div>
                   <div class="space-y-4">
-                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&q=80&auto=format&fit=crop" alt="Collaborative learning" class="story-img img-fade-left">
+                    <!-- Photo carousel: coaching center days -->
+                    <div class="story-media">
+                      <div class="story-media-item photo-placeholder" style="min-height:180px">
+                        <!-- PHOTO: You working with students at the coaching center -->
+                        <span class="text-xs text-brown-light/40">Coaching center photo 1</span>
+                      </div>
+                      <div class="story-media-item photo-placeholder" style="min-height:180px">
+                        <!-- PHOTO: Your office or workspace from those days -->
+                        <span class="text-xs text-brown-light/40">Coaching center photo 2</span>
+                      </div>
+                      <div class="story-media-item photo-placeholder" style="min-height:180px">
+                        <!-- PHOTO: Ranking certificate or student results -->
+                        <span class="text-xs text-brown-light/40">Coaching center photo 3</span>
+                      </div>
+                    </div>
+                    <!-- VIDEO: autoplay muted loop, like a GIF -->
+                    <video class="w-full rounded-2xl" autoplay muted loop playsinline poster="">
+                      <!-- REPLACE: src="your-coaching-center-clip.mp4" -->
+                    </video>
                     <div class="warm-card p-6 text-center">
                       <div class="font-mono text-5xl font-bold gradient-text mb-1">0.03%</div>
                       <p class="text-brown-light text-sm">Top ranking among 450,000 tutors</p>
@@ -321,7 +450,16 @@
                     <p class="text-brown/50 text-base leading-relaxed italic">I took less pay to spend more hours. I hired staff. Office rent, materials, custom curricula &mdash; all out of my own pocket. The work was meaningful. The math was not.</p>
                   </div>
                   <div class="space-y-4">
-                    <img src="https://images.unsplash.com/photo-1516534775068-ba3e7458af70?w=600&q=80&auto=format&fit=crop" alt="Contemplation" class="story-img img-fade-left" style="filter: saturate(0.7);">
+                    <div class="story-media">
+                      <div class="story-media-item photo-placeholder" style="min-height:180px">
+                        <!-- PHOTO: Reflective moment, the weight of caring -->
+                        <span class="text-xs text-brown-light/40">The weight of caring</span>
+                      </div>
+                      <div class="story-media-item photo-placeholder" style="min-height:180px">
+                        <!-- PHOTO: Late nights at the office, or paperwork -->
+                        <span class="text-xs text-brown-light/40">Late nights</span>
+                      </div>
+                    </div>
                     <div class="warm-card p-6 border-l-4 border-coral">
                       <p class="text-brown/50 text-sm italic">"Some days I was a teacher. Other days, a counselor. Always, the person who cared too much to say no."</p>
                     </div>
@@ -344,7 +482,12 @@
                     <p class="text-brown/50 text-base leading-relaxed italic">Sometimes walking away is the hardest thing a teacher does.</p>
                   </div>
                   <div class="space-y-4">
-                    <img src="https://images.unsplash.com/photo-1500099817043-86d46000d58f?w=600&q=80&auto=format&fit=crop" alt="Letting go" class="story-img img-fade-left" style="filter: saturate(0.6) brightness(0.95);">
+                    <div class="story-media">
+                      <div class="story-media-item photo-placeholder" style="min-height:180px">
+                        <!-- PHOTO: Something representing letting go or a turning point -->
+                        <span class="text-xs text-brown-light/40">The breaking point</span>
+                      </div>
+                    </div>
                     <div class="warm-card p-6 border-l-4 border-brown-light/30">
                       <p class="text-2xl mb-2">&#128148;</p>
                       <p class="text-brown/50 text-sm italic">"I didn't forget why I started. I remembered too well. That's what burned me out."</p>
@@ -368,7 +511,20 @@
                     <p class="text-brown/50 text-base leading-relaxed italic">And then something unexpected started happening.</p>
                   </div>
                   <div>
-                    <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=600&q=80&auto=format&fit=crop" alt="Journey through nature" class="story-img img-fade-left">
+                    <div class="story-media">
+                      <div class="story-media-item photo-placeholder" style="min-height:200px">
+                        <!-- PHOTO: Travel photo from Vietnam -->
+                        <span class="text-xs text-brown-light/40">Vietnam</span>
+                      </div>
+                      <div class="story-media-item photo-placeholder" style="min-height:200px">
+                        <!-- PHOTO: Travel photo from Thailand -->
+                        <span class="text-xs text-brown-light/40">Thailand</span>
+                      </div>
+                      <div class="story-media-item photo-placeholder" style="min-height:200px">
+                        <!-- PHOTO: Quiet recovery moment -->
+                        <span class="text-xs text-brown-light/40">Recovery</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -393,7 +549,23 @@
                     <p class="text-brown/50 text-base leading-relaxed italic">The spark was back. But this time, I knew I needed to do it differently.</p>
                   </div>
                   <div class="space-y-4">
-                    <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&q=80&auto=format&fit=crop" alt="Sharing knowledge" class="story-img img-fade-left">
+                    <div class="story-media">
+                      <div class="story-media-item photo-placeholder" style="min-height:180px">
+                        <!-- PHOTO: Teaching travelers Korean phrases -->
+                        <span class="text-xs text-brown-light/40">Teaching travelers</span>
+                      </div>
+                      <div class="story-media-item photo-placeholder" style="min-height:180px">
+                        <!-- PHOTO: Group gathering where you shared Korean -->
+                        <span class="text-xs text-brown-light/40">Group dinner</span>
+                      </div>
+                      <div class="story-media-item photo-placeholder" style="min-height:180px">
+                        <!-- PHOTO: The spark moment -->
+                        <span class="text-xs text-brown-light/40">The spark</span>
+                      </div>
+                    </div>
+                    <video class="w-full rounded-2xl" autoplay muted loop playsinline poster="">
+                      <!-- REPLACE: src="your-teaching-travelers-clip.mp4" -->
+                    </video>
                     <div class="warm-card p-6 border-l-4 border-gold">
                       <p class="text-brown/50 text-sm italic">"Teaching Korean to curious travelers reminded me why I became a teacher in the first place &mdash; that moment when something clicks."</p>
                     </div>
@@ -416,7 +588,16 @@
                     <p class="text-brown/50 text-base leading-relaxed italic">That mismatch is exactly why someone like me needs to exist. Not because I'm smarter. Because I care enough to build the infrastructure to back it up.</p>
                   </div>
                   <div class="space-y-4">
-                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&q=80&auto=format&fit=crop" alt="Building systems" class="story-img img-fade-left">
+                    <div class="story-media">
+                      <div class="story-media-item photo-placeholder" style="min-height:180px">
+                        <!-- PHOTO: You at your desk building systems -->
+                        <span class="text-xs text-brown-light/40">Building systems</span>
+                      </div>
+                      <div class="story-media-item photo-placeholder" style="min-height:180px">
+                        <!-- PHOTO: Screenshot of your workspace or tools -->
+                        <span class="text-xs text-brown-light/40">The workspace</span>
+                      </div>
+                    </div>
                     <div class="grid grid-cols-2 gap-3">
                       <div class="warm-card p-4 text-center">
                         <p class="text-teal text-xs font-bold mb-1">THE PROBLEM</p>
@@ -447,7 +628,23 @@
                     <a href="#pricing" class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-coral text-white font-semibold hover:bg-coral-light transition-all">Join the Mission <span>&rarr;</span></a>
                   </div>
                   <div class="space-y-4">
-                    <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&q=80&auto=format&fit=crop" alt="Building the future" class="story-img img-fade-left">
+                    <div class="story-media">
+                      <div class="story-media-item photo-placeholder" style="min-height:180px">
+                        <!-- PHOTO: You looking forward, at your current workspace -->
+                        <span class="text-xs text-brown-light/40">The vision</span>
+                      </div>
+                      <div class="story-media-item photo-placeholder" style="min-height:180px">
+                        <!-- PHOTO: Your current teaching setup -->
+                        <span class="text-xs text-brown-light/40">Current setup</span>
+                      </div>
+                      <div class="story-media-item photo-placeholder" style="min-height:180px">
+                        <!-- PHOTO: Screenshot of a student's web app or homework -->
+                        <span class="text-xs text-brown-light/40">Student tools</span>
+                      </div>
+                    </div>
+                    <video class="w-full rounded-2xl" autoplay muted loop playsinline poster="">
+                      <!-- REPLACE: src="your-fly-korean-vision-clip.mp4" -->
+                    </video>
                     <div class="warm-card p-5 border-l-4 border-coral">
                       <p class="font-serif text-lg italic text-brown mb-2">"A great tutor makes themselves unnecessary."</p>
                       <p class="text-brown-light text-sm">My goal is to teach you to fly &mdash; then let you go.</p>
@@ -485,214 +682,528 @@
 
   <div class="section-divider"></div>
 
+  <!-- ==================== LEARNING JOURNEY ==================== -->
+  <section id="journey" class="py-20 md:py-28 bg-cream-dark relative overflow-hidden">
+    <div class="max-w-3xl mx-auto px-6">
+      <div class="text-center mb-16 reveal">
+        <p class="text-coral text-sm font-semibold tracking-widest uppercase mb-3">The Learning Journey</p>
+        <h2 class="font-serif text-3xl md:text-5xl font-bold text-navy mb-4">You Already Made<br>the Best Choice</h2>
+        <p class="text-brown-light max-w-2xl mx-auto">Millions love Korean culture. The pyramid below shows how few actually commit.</p>
+      </div>
+
+      <!-- Pyramid Visualization -->
+      <div class="flex flex-col items-center gap-2 mb-16 reveal" id="journeyPyramid">
+        <!-- Level 5: Tip (You're here) -->
+        <div class="pyramid-level w-full" style="max-width: 180px;">
+          <div class="pyramid-bar pyramid-tip bg-gradient-to-r from-coral to-gold text-white justify-center text-center rounded-t-2xl border-2 border-coral" style="height: 60px;">
+            <div>
+              <p class="font-display font-extrabold text-sm leading-tight">You're here</p>
+              <p class="text-[0.6rem] text-white/80">1:1 tutoring</p>
+            </div>
+          </div>
+        </div>
+        <!-- Level 4 -->
+        <div class="pyramid-level w-full" style="max-width: 320px;">
+          <div class="pyramid-bar" style="background: rgba(232,132,92,0.12); border: 1px solid rgba(232,132,92,0.2);">
+            <div class="flex items-center justify-between w-full">
+              <div><p class="text-sm font-semibold text-brown/70">Seeking real learning</p><p class="text-[0.6rem] text-brown-light/60">Group classes, textbooks, courses</p></div>
+              <span class="font-mono text-xs text-coral/60 font-bold">~5%</span>
+            </div>
+          </div>
+        </div>
+        <!-- Level 3 -->
+        <div class="pyramid-level w-full" style="max-width: 480px;">
+          <div class="pyramid-bar" style="background: rgba(212,165,116,0.1); border: 1px solid rgba(212,165,116,0.15);">
+            <div class="flex items-center justify-between w-full">
+              <div><p class="text-sm font-semibold text-brown/60">Trying tools</p><p class="text-[0.6rem] text-brown-light/50">YouTube, Duolingo, HelloTalk, TikTok</p></div>
+              <span class="font-mono text-xs text-gold/60 font-bold">~15%</span>
+            </div>
+          </div>
+        </div>
+        <!-- Level 2 -->
+        <div class="pyramid-level w-full" style="max-width: 600px;">
+          <div class="pyramid-bar" style="background: rgba(139,115,85,0.06); border: 1px solid rgba(139,115,85,0.1);">
+            <div class="flex items-center justify-between w-full">
+              <div><p class="text-sm font-semibold text-brown/50">Getting curious</p><p class="text-[0.6rem] text-brown-light/40">Looking up words, saving phrases</p></div>
+              <span class="font-mono text-xs text-brown-light/40 font-bold">~30%</span>
+            </div>
+          </div>
+        </div>
+        <!-- Level 1: Base -->
+        <div class="pyramid-level w-full" style="max-width: 720px;">
+          <div class="pyramid-bar rounded-b-2xl" style="background: rgba(139,115,85,0.04); border: 1px solid rgba(139,115,85,0.06);">
+            <div class="flex items-center justify-between w-full">
+              <div><p class="text-sm font-semibold text-brown/40">Just watching</p><p class="text-[0.6rem] text-brown-light/30">K-dramas, K-pop, food content</p></div>
+              <span class="font-mono text-xs text-brown-light/30 font-bold">Millions</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Emotional copy -->
+      <div class="warm-card p-8 md:p-10 text-center max-w-xl mx-auto reveal">
+        <h3 class="font-serif text-xl md:text-2xl font-bold text-navy mb-4">If you're reading this, you're already in the top 1%.</h3>
+        <p class="text-brown/60 text-sm leading-relaxed">Most people never get past watching dramas. You did. You searched, compared, and chose 1:1 learning. That takes genuine commitment. You deserve a tutor who matches that energy.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ==================== BEEN THERE? ==================== -->
+  <section id="been-there" class="py-20 md:py-28 bg-cream">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center mb-12 reveal">
+        <p class="text-gold text-sm font-semibold tracking-widest uppercase mb-3">Been There?</p>
+        <h2 class="font-serif text-3xl md:text-5xl font-bold text-navy mb-4">Sound Familiar?</h2>
+        <p class="text-brown-light max-w-2xl mx-auto">Click any card to see the other side of the story.</p>
+      </div>
+
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 reveal">
+        <!-- Card 1: Apps & Streaks -->
+        <div class="mag-card" onclick="this.classList.toggle('flipped')">
+          <div class="mag-card-inner">
+            <div class="mag-card-front">
+              <!-- PHOTO: Person staring at phone with frustrated expression, or a Duolingo screenshot -->
+              <div class="absolute inset-0 bg-cream-dark rounded-2xl"></div>
+              <div class="absolute inset-0 rounded-2xl" style="background: linear-gradient(to top, rgba(26,26,46,0.85) 0%, rgba(26,26,46,0.3) 50%, transparent 100%);"></div>
+              <span class="mag-tag">Apps</span>
+              <div class="absolute bottom-0 left-0 right-0 p-4 md:p-5">
+                <h3 class="text-white font-display font-extrabold text-base md:text-lg leading-tight mb-1">847-day streak, zero conversation.</h3>
+                <p class="text-white/60 text-xs">Recognition is not production.</p>
+              </div>
+              <p class="absolute top-1/2 left-0 right-0 text-center text-white/30 text-xs">Tap to flip</p>
+            </div>
+            <div class="mag-card-back">
+              <div class="absolute inset-0 bg-navy/95 rounded-2xl"></div>
+              <div class="relative z-10 p-4 md:p-5 h-full flex flex-col">
+                <p class="text-white/40 text-xs italic mb-2">I get it. You were consistent. You showed up every day. And still &mdash; nothing to show for it.</p>
+                <p class="text-coral text-xs font-bold tracking-widest uppercase mb-2">THE ROOT CAUSE</p>
+                <p class="text-white/70 text-xs leading-relaxed mb-3">Apps train <em>recognition</em>, not <em>production</em>. You can match words but can't build a sentence from scratch.</p>
+                <p class="text-white text-xs font-bold mb-1.5">How I solve this differently:</p>
+                <ul class="text-white/70 text-xs space-y-1 mb-auto">
+                  <li class="flex items-start gap-1.5"><span class="text-coral mt-0.5 flex-shrink-0">&#9656;</span> Personal web app with drag-and-drop sentence construction</li>
+                  <li class="flex items-start gap-1.5"><span class="text-coral mt-0.5 flex-shrink-0">&#9656;</span> Mastery tracking: weak words surface first, automatically</li>
+                  <li class="flex items-start gap-1.5"><span class="text-coral mt-0.5 flex-shrink-0">&#9656;</span> Every vocab word comes from YOUR actual lessons</li>
+                </ul>
+                <p class="text-white/50 text-xs italic border-t border-white/10 pt-2 mt-3">"I learn more in one lesson than a month of apps." &mdash; K**h</p>
+                <a href="#system-app" class="text-coral text-xs font-semibold mt-1 hover:underline">See the app &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: Self-study & Textbooks -->
+        <div class="mag-card" onclick="this.classList.toggle('flipped')">
+          <div class="mag-card-inner">
+            <div class="mag-card-front">
+              <!-- PHOTO: Stack of Korean textbooks or a dusty bookshelf -->
+              <div class="absolute inset-0 bg-cream-dark rounded-2xl"></div>
+              <div class="absolute inset-0 rounded-2xl" style="background: linear-gradient(to top, rgba(26,26,46,0.85) 0%, rgba(26,26,46,0.3) 50%, transparent 100%);"></div>
+              <span class="mag-tag">Self-Study</span>
+              <div class="absolute bottom-0 left-0 right-0 p-4 md:p-5">
+                <h3 class="text-white font-display font-extrabold text-base md:text-lg leading-tight mb-1">6 textbooks, all stuck on Chapter 1.</h3>
+                <p class="text-white/60 text-xs">Books can't adapt to you.</p>
+              </div>
+              <p class="absolute top-1/2 left-0 right-0 text-center text-white/30 text-xs">Tap to flip</p>
+            </div>
+            <div class="mag-card-back">
+              <div class="absolute inset-0 bg-navy/95 rounded-2xl"></div>
+              <div class="relative z-10 p-4 md:p-5 h-full flex flex-col">
+                <p class="text-white/40 text-xs italic mb-2">You bought the books. You highlighted them. You started Chapter 1 six times. It's not your fault.</p>
+                <p class="text-teal text-xs font-bold tracking-widest uppercase mb-2">THE ROOT CAUSE</p>
+                <p class="text-white/70 text-xs leading-relaxed mb-3">Textbooks teach for <em>everyone</em>. The topics don't match your life. The pace doesn't match your brain. So you quit.</p>
+                <p class="text-white text-xs font-bold mb-1.5">How I solve this differently:</p>
+                <ul class="text-white/70 text-xs space-y-1 mb-auto">
+                  <li class="flex items-start gap-1.5"><span class="text-teal mt-0.5 flex-shrink-0">&#9656;</span> 3-doc homework built from YOUR lesson conversations</li>
+                  <li class="flex items-start gap-1.5"><span class="text-teal mt-0.5 flex-shrink-0">&#9656;</span> 125 exercises per set, spaced across 5 days</li>
+                  <li class="flex items-start gap-1.5"><span class="text-teal mt-0.5 flex-shrink-0">&#9656;</span> Reading passages using your actual vocabulary</li>
+                </ul>
+                <p class="text-white/50 text-xs italic border-t border-white/10 pt-2 mt-3">"You explained in 5 minutes what my textbook spent 20 pages on." &mdash; J***e</p>
+                <a href="#system-homework" class="text-teal text-xs font-semibold mt-1 hover:underline">See the homework system &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3: Unstructured Tutors -->
+        <div class="mag-card" onclick="this.classList.toggle('flipped')">
+          <div class="mag-card-inner">
+            <div class="mag-card-front">
+              <!-- PHOTO: Generic video call screenshot, or a chat with no structure -->
+              <div class="absolute inset-0 bg-cream-dark rounded-2xl"></div>
+              <div class="absolute inset-0 rounded-2xl" style="background: linear-gradient(to top, rgba(26,26,46,0.85) 0%, rgba(26,26,46,0.3) 50%, transparent 100%);"></div>
+              <span class="mag-tag">Tutors</span>
+              <div class="absolute bottom-0 left-0 right-0 p-4 md:p-5">
+                <h3 class="text-white font-display font-extrabold text-base md:text-lg leading-tight mb-1">Paid $25 for an hour of chatting.</h3>
+                <p class="text-white/60 text-xs">No homework, no tracking, no plan.</p>
+              </div>
+              <p class="absolute top-1/2 left-0 right-0 text-center text-white/30 text-xs">Tap to flip</p>
+            </div>
+            <div class="mag-card-back">
+              <div class="absolute inset-0 bg-navy/95 rounded-2xl"></div>
+              <div class="relative z-10 p-4 md:p-5 h-full flex flex-col">
+                <p class="text-white/40 text-xs italic mb-2">You paid for a teacher. What you got was a conversation partner. No plan, no homework, no record of what you learned.</p>
+                <p class="text-gold text-xs font-bold tracking-widest uppercase mb-2">THE ROOT CAUSE</p>
+                <p class="text-white/70 text-xs leading-relaxed mb-3">Most tutors have no system. They improvise each lesson. That's why after months, you can't point to concrete progress.</p>
+                <p class="text-white text-xs font-bold mb-1.5">How I solve this differently:</p>
+                <ul class="text-white/70 text-xs space-y-1 mb-auto">
+                  <li class="flex items-start gap-1.5"><span class="text-gold mt-0.5 flex-shrink-0">&#9656;</span> AI-generated 7-section lesson summary after every session</li>
+                  <li class="flex items-start gap-1.5"><span class="text-gold mt-0.5 flex-shrink-0">&#9656;</span> Corrections, vocabulary, and progress &mdash; documented permanently</li>
+                  <li class="flex items-start gap-1.5"><span class="text-gold mt-0.5 flex-shrink-0">&#9656;</span> Next lesson builds directly on the last one, every time</li>
+                </ul>
+                <p class="text-white/50 text-xs italic border-t border-white/10 pt-2 mt-3">"You showed me more structure in 50 minutes than 6 months of searching." &mdash; A***a</p>
+                <a href="#system-docs" class="text-gold text-xs font-semibold mt-1 hover:underline">See the documentation &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4: Group Classes -->
+        <div class="mag-card" onclick="this.classList.toggle('flipped')">
+          <div class="mag-card-inner">
+            <div class="mag-card-front">
+              <!-- PHOTO: Crowded classroom, or someone looking lost in a group -->
+              <div class="absolute inset-0 bg-cream-dark rounded-2xl"></div>
+              <div class="absolute inset-0 rounded-2xl" style="background: linear-gradient(to top, rgba(26,26,46,0.85) 0%, rgba(26,26,46,0.3) 50%, transparent 100%);"></div>
+              <span class="mag-tag">Group</span>
+              <div class="absolute bottom-0 left-0 right-0 p-4 md:p-5">
+                <h3 class="text-white font-display font-extrabold text-base md:text-lg leading-tight mb-1">Half the class was ahead, teacher couldn't slow down.</h3>
+                <p class="text-white/60 text-xs">Your pace gets sacrificed.</p>
+              </div>
+              <p class="absolute top-1/2 left-0 right-0 text-center text-white/30 text-xs">Tap to flip</p>
+            </div>
+            <div class="mag-card-back">
+              <div class="absolute inset-0 bg-navy/95 rounded-2xl"></div>
+              <div class="relative z-10 p-4 md:p-5 h-full flex flex-col">
+                <p class="text-white/40 text-xs italic mb-2">Everyone learned at a different speed. The teacher couldn't stop for you. You fell behind and never caught up.</p>
+                <p class="text-coral text-xs font-bold tracking-widest uppercase mb-2">THE ROOT CAUSE</p>
+                <p class="text-white/70 text-xs leading-relaxed mb-3">Group classes optimize for the <em>average</em>. If you're faster or slower, you lose either way.</p>
+                <p class="text-white text-xs font-bold mb-1.5">How I solve this differently:</p>
+                <ul class="text-white/70 text-xs space-y-1 mb-auto">
+                  <li class="flex items-start gap-1.5"><span class="text-coral mt-0.5 flex-shrink-0">&#9656;</span> Every lesson adapts to where you are <em>that day</em></li>
+                  <li class="flex items-start gap-1.5"><span class="text-coral mt-0.5 flex-shrink-0">&#9656;</span> Weak area tracking adjusts homework and practice automatically</li>
+                  <li class="flex items-start gap-1.5"><span class="text-coral mt-0.5 flex-shrink-0">&#9656;</span> Daily feedback loop &mdash; corrections within hours, not next week</li>
+                </ul>
+                <p class="text-white/50 text-xs italic border-t border-white/10 pt-2 mt-3">"You always adapt each lesson to where I am that day." &mdash; K**h</p>
+                <a href="#system-feedback" class="text-coral text-xs font-semibold mt-1 hover:underline">See the feedback loop &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
   <!-- ==================== PHILOSOPHY ==================== -->
   <section id="philosophy" class="py-20 md:py-28 bg-cream-dark relative overflow-hidden">
-    <!-- Background image with subtle overlay -->
     <div class="absolute inset-0 opacity-[0.04]" style="background-image: url('https://images.unsplash.com/photo-1590736969955-71cc94901144?w=1920&q=60&auto=format&fit=crop'); background-size: cover; background-position: center;"></div>
-    <!-- 📸 IMAGE SUGGESTION: Korean calligraphy, brush strokes, or traditional elements -->
     <div class="max-w-7xl mx-auto px-6">
-      <div class="text-center mb-16 reveal">
+      <div class="text-center mb-6 reveal">
         <p class="text-gold text-sm font-semibold tracking-widest uppercase mb-3">Teaching Philosophy</p>
         <h2 class="font-serif text-3xl md:text-5xl font-bold text-navy mb-4">Three Pillars of Korean Mastery</h2>
         <p class="text-brown-light max-w-2xl mx-auto">These aren't just teaching methods. They're the foundation of how Korean actually works &mdash; and why most textbooks get it wrong.</p>
       </div>
 
-      <!-- Section images -->
-      <div class="grid md:grid-cols-2 gap-6 mb-12 reveal">
-        <div class="rounded-2xl overflow-hidden h-48 relative">
-          <img src="https://images.unsplash.com/photo-1606567595334-d39972c85dbe?w=800&q=80&auto=format&fit=crop" alt="Korean calligraphy" class="w-full h-full object-cover">
-          <div class="absolute inset-0 bg-gradient-to-t from-cream-dark via-transparent to-transparent"></div>
-        </div>
-        <div class="rounded-2xl overflow-hidden h-48 relative">
-          <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&q=80&auto=format&fit=crop" alt="Korean culture" class="w-full h-full object-cover">
-          <div class="absolute inset-0 bg-gradient-to-t from-cream-dark via-transparent to-transparent"></div>
+      <!-- Why these three? -->
+      <div class="max-w-2xl mx-auto mb-10 reveal">
+        <div class="warm-card p-5 md:p-6 text-center">
+          <p class="text-brown/60 text-sm leading-relaxed mb-3">Most courses teach these separately. But in real Korean, they're inseparable. You can't fix pronunciation without understanding sound change rules (Pronunciation). Sound changes follow sentence patterns (Sentence Logic). And sentence patterns change completely based on who you're talking to (Cultural Context).</p>
+          <div class="flex items-center justify-center gap-3 text-xs text-brown-light/60">
+            <span class="px-3 py-1 rounded-full bg-coral/8 text-coral font-bold">Sounds</span>
+            <span>&harr;</span>
+            <span class="px-3 py-1 rounded-full bg-teal/8 text-teal font-bold">Logic</span>
+            <span>&harr;</span>
+            <span class="px-3 py-1 rounded-full bg-gold/8 text-gold font-bold">Context</span>
+          </div>
         </div>
       </div>
 
-      <div class="grid md:grid-cols-3 gap-8">
-        <!-- Pillar 1: Pronunciation -->
-        <div class="warm-card tilt-card p-8 reveal">
-          <div class="w-14 h-14 rounded-2xl bg-coral/10 flex items-center justify-center mb-6">
-            <svg class="w-7 h-7 text-coral" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/></svg>
-          </div>
-          <h3 class="font-display text-xl font-bold text-navy mb-3">Pronunciation First</h3>
-          <p class="text-brown/60 text-sm leading-relaxed mb-4">Most teachers start with grammar. I start with pronunciation. Even with just 10 words, if you pronounce them correctly, Koreans will think you lived in Korea. Korean is forgiving on grammar but <strong class="text-navy">unforgiving on sounds</strong>.</p>
+      <!-- Tab Bar -->
+      <div class="flex flex-wrap justify-center gap-1 mb-0 reveal" id="philoTabs">
+        <button class="philo-tab active flex items-center gap-2" onclick="switchPhiloTab(1)">
+          <svg class="w-5 h-5 text-coral" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/></svg>
+          <span class="font-display font-bold text-sm">Pronunciation</span>
+        </button>
+        <button class="philo-tab flex items-center gap-2" onclick="switchPhiloTab(2)">
+          <svg class="w-5 h-5 text-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>
+          <span class="font-display font-bold text-sm">Sentence Logic</span>
+        </button>
+        <button class="philo-tab flex items-center gap-2" onclick="switchPhiloTab(3)">
+          <svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
+          <span class="font-display font-bold text-sm">Cultural Context</span>
+        </button>
+      </div>
 
-          <!-- Consonants -->
-          <div class="bg-cream-dark rounded-xl p-5 mb-4">
-            <p class="text-coral text-xs font-bold mb-3">CONSONANTS: THREE LEVELS</p>
-            <p class="text-brown-light text-xs mb-4">English has nothing like this. Same letter shape, three completely different sounds.</p>
-            <div class="space-y-3">
-              <div class="flex items-center gap-4 p-3 rounded-lg bg-white/60">
-                <span class="font-kr text-2xl font-bold text-navy w-10 text-center">&#44032;</span>
-                <div><p class="text-sm text-brown font-medium">Plain <span class="font-kr text-xs">(&#50696;&#49324;&#49548;&#47532;)</span></p><p class="text-xs text-brown-light">Soft, relaxed &mdash; like "g" in "go" but gentler</p></div>
+      <!-- Tab Panels -->
+      <div class="warm-card p-6 md:p-8 rounded-t-none reveal">
+
+        <!-- Panel 1: Pronunciation -->
+        <div class="philo-panel active" id="philoPanel1">
+          <div class="flex items-center gap-3 mb-2">
+            <h3 class="font-display text-xl font-bold text-navy">Sounds Before Grammar</h3>
+          </div>
+          <p class="text-brown/60 text-sm leading-relaxed mb-2 max-w-3xl">Korean is forgiving on grammar but <strong class="text-navy">unforgiving on sounds</strong>. Even with just 10 words, correct pronunciation makes Koreans think you lived in Korea.</p>
+          <p class="text-brown/40 text-xs italic mb-6 max-w-3xl">"Korean people care about pronunciation rather than grammar. If you sound right, they'll understand you."</p>
+
+          <!-- Consonants: 3-column -->
+          <p class="text-coral text-xs font-bold mb-3 tracking-widest uppercase">Consonants: Three Levels of &#12593;/&#12619;/&#12594;</p>
+          <div class="grid md:grid-cols-3 gap-4 mb-6">
+            <div class="bg-cream-dark rounded-xl p-5 text-center">
+              <!-- DIAGRAM: Side-view mouth diagram showing airflow for plain &#12593; (soft, minimal air) -->
+              <div class="w-20 h-20 mx-auto mb-3 rounded-full bg-white/60 border-2 border-dashed border-brown/15 flex items-center justify-center">
+                <span class="font-kr text-3xl font-bold text-navy">&#44032;</span>
               </div>
-              <div class="flex items-center gap-4 p-3 rounded-lg bg-white/60">
-                <span class="font-kr text-2xl font-bold text-teal w-10 text-center">&#52852;</span>
-                <div><p class="text-sm text-brown font-medium">Aspirated <span class="font-kr text-xs">(&#44144;&#49468;&#49548;&#47532;)</span></p><p class="text-xs text-brown-light">Strong burst of air &mdash; hold your hand in front</p></div>
-              </div>
-              <div class="flex items-center gap-4 p-3 rounded-lg bg-white/60">
-                <span class="font-kr text-2xl font-bold text-coral w-10 text-center">&#44620;</span>
-                <div><p class="text-sm text-brown font-medium">Tensed <span class="font-kr text-xs">(&#46108;&#49548;&#47532;)</span></p><p class="text-xs text-brown-light">Tight throat, no air &mdash; like the "k" in "sky"</p></div>
-              </div>
+              <p class="font-display font-bold text-navy text-sm mb-1">Plain <span class="font-kr text-xs">(&#50696;&#49324;&#49548;&#47532;)</span></p>
+              <p class="text-xs text-brown-light mb-2">Soft, relaxed &mdash; like "g" in "go"</p>
+              <p class="text-xs text-brown/50">Minimal air release. Vocal cords relaxed.</p>
+              <p class="text-xs text-teal mt-2 font-medium font-kr">&#44032;&#48169; (bag) &bull; &#44256;&#44592; (meat)</p>
             </div>
-            <p class="text-brown-light/50 text-xs mt-4 italic">Confuse these, and "coffee" <span class="font-kr">(&#52964;&#54588;)</span> becomes "nose bleed" <span class="font-kr">(&#53076;&#54588;)</span>. Seriously.</p>
-          </div>
-
-          <!-- Vowels -->
-          <div class="bg-cream-dark rounded-xl p-5 mb-4">
-            <p class="text-coral text-xs font-bold mb-3">VOWELS: JAW &amp; LIP POSITIONS</p>
-            <p class="text-brown-light text-xs mb-4">I teach you to <em>feel</em> each vowel physically. No guessing &mdash; your jaw and lips tell me exactly what you're saying.</p>
-            <div class="space-y-3">
-              <div class="flex items-center gap-4 p-3 rounded-lg bg-white/60">
-                <span class="font-kr text-2xl font-bold text-coral w-10 text-center">&#50500;</span>
-                <div><p class="text-sm text-brown font-medium">Open wide</p><p class="text-xs text-brown-light">Drop your jaw as far as it goes &mdash; like saying "ah" at the doctor</p></div>
+            <div class="bg-cream-dark rounded-xl p-5 text-center">
+              <!-- DIAGRAM: Side-view mouth diagram showing strong airflow for aspirated &#12619; -->
+              <div class="w-20 h-20 mx-auto mb-3 rounded-full bg-white/60 border-2 border-dashed border-teal/25 flex items-center justify-center">
+                <span class="font-kr text-3xl font-bold text-teal">&#52852;</span>
               </div>
-              <div class="flex items-center gap-4 p-3 rounded-lg bg-white/60">
-                <span class="font-kr text-2xl font-bold text-gold w-10 text-center">&#50612;</span>
-                <div><p class="text-sm text-brown font-medium">Jaw halfway</p><p class="text-xs text-brown-light">Between &#50500; and &#50724; &mdash; relax your jaw, like the "u" in "fun"</p></div>
-              </div>
-              <div class="flex items-center gap-4 p-3 rounded-lg bg-white/60">
-                <span class="font-kr text-2xl font-bold text-teal w-10 text-center">&#50724;</span>
-                <div><p class="text-sm text-brown font-medium">Round your lips</p><p class="text-xs text-brown-light">Tiny circle with your lips &mdash; like blowing out a candle</p></div>
-              </div>
-              <div class="flex items-center gap-4 p-3 rounded-lg bg-white/60">
-                <span class="font-kr text-2xl font-bold text-navy w-10 text-center">&#50864;</span>
-                <div><p class="text-sm text-brown font-medium">Push lips forward</p><p class="text-xs text-brown-light">Like &#50724; but tighter &mdash; say "oo" in "food" with pursed lips</p></div>
-              </div>
+              <p class="font-display font-bold text-navy text-sm mb-1">Aspirated <span class="font-kr text-xs">(&#44144;&#49468;&#49548;&#47532;)</span></p>
+              <p class="text-xs text-brown-light mb-2">Strong burst of air &mdash; hold hand in front</p>
+              <p class="text-xs text-brown/50">Puff of air you can feel on your palm.</p>
+              <p class="text-xs text-teal mt-2 font-medium font-kr">&#52852;&#54168; (cafe) &bull; &#52852;&#46300; (card)</p>
             </div>
-            <p class="text-brown-light/50 text-xs mt-4 italic">Just by watching your jaw and lips, I can tell exactly which vowel you're trying to say &mdash; and where it's going wrong.</p>
+            <div class="bg-cream-dark rounded-xl p-5 text-center">
+              <!-- DIAGRAM: Side-view mouth diagram showing tensed &#12594; (tight throat, no air) -->
+              <div class="w-20 h-20 mx-auto mb-3 rounded-full bg-white/60 border-2 border-dashed border-coral/25 flex items-center justify-center">
+                <span class="font-kr text-3xl font-bold text-coral">&#44620;</span>
+              </div>
+              <p class="font-display font-bold text-navy text-sm mb-1">Tensed <span class="font-kr text-xs">(&#46108;&#49548;&#47532;)</span></p>
+              <p class="text-xs text-brown-light mb-2">Tight throat, no air released</p>
+              <p class="text-xs text-brown/50">Squeeze your throat, stop all airflow.</p>
+              <p class="text-xs text-coral mt-2 font-medium font-kr">&#44620;&#54588; wrong! &#52964;&#54588; = coffee</p>
+            </div>
           </div>
 
-          <!-- Natural Speech -->
-          <div class="bg-cream-dark rounded-xl p-5">
-            <p class="text-coral text-xs font-bold mb-3">NATURAL SPEECH: SOUND BLENDING</p>
-            <p class="text-brown-light text-xs mb-4">Textbooks teach crisp pronunciation. Real Koreans blend sounds together. I teach you both.</p>
-            <div class="flex items-center gap-3 p-3 rounded-lg bg-white/60">
-              <div class="text-center"><p class="font-kr text-lg font-bold text-navy">&#47579;&#51080;&#50612;&#50836;</p><p class="text-[0.6rem] text-brown-light">Textbook</p></div>
+          <!-- Vowels: Jaw & Lip Grid -->
+          <p class="text-coral text-xs font-bold mb-3 tracking-widest uppercase">Vowels: Jaw &amp; Lip Positions</p>
+          <div class="grid grid-cols-3 md:grid-cols-6 gap-3 mb-6">
+            <div class="bg-cream-dark rounded-xl p-3 text-center">
+              <span class="font-kr text-2xl font-bold text-coral">&#50500;</span>
+              <p class="text-[0.6rem] text-brown-light mt-1">Jaw: wide open</p>
+              <p class="text-[0.6rem] text-brown/40">Lips: neutral</p>
+            </div>
+            <div class="bg-cream-dark rounded-xl p-3 text-center">
+              <span class="font-kr text-2xl font-bold text-gold">&#50612;</span>
+              <p class="text-[0.6rem] text-brown-light mt-1">Jaw: half open</p>
+              <p class="text-[0.6rem] text-brown/40">Lips: neutral</p>
+            </div>
+            <div class="bg-cream-dark rounded-xl p-3 text-center">
+              <span class="font-kr text-2xl font-bold text-teal">&#50724;</span>
+              <p class="text-[0.6rem] text-brown-light mt-1">Jaw: half</p>
+              <p class="text-[0.6rem] text-brown/40">Lips: rounded</p>
+            </div>
+            <div class="bg-cream-dark rounded-xl p-3 text-center">
+              <span class="font-kr text-2xl font-bold text-navy">&#50864;</span>
+              <p class="text-[0.6rem] text-brown-light mt-1">Jaw: closed</p>
+              <p class="text-[0.6rem] text-brown/40">Lips: pursed</p>
+            </div>
+            <div class="bg-cream-dark rounded-xl p-3 text-center">
+              <span class="font-kr text-2xl font-bold text-brown">&#51004;</span>
+              <p class="text-[0.6rem] text-brown-light mt-1">Jaw: closed</p>
+              <p class="text-[0.6rem] text-brown/40">Lips: spread wide</p>
+            </div>
+            <div class="bg-cream-dark rounded-xl p-3 text-center">
+              <span class="font-kr text-2xl font-bold text-coral">&#51060;</span>
+              <p class="text-[0.6rem] text-brown-light mt-1">Jaw: closed</p>
+              <p class="text-[0.6rem] text-brown/40">Lips: smile shape</p>
+            </div>
+          </div>
+
+          <!-- Sound Changes -->
+          <p class="text-coral text-xs font-bold mb-3 tracking-widest uppercase">Sound Changes: Written &#8800; Spoken</p>
+          <div class="grid md:grid-cols-2 gap-3 mb-4">
+            <div class="flex items-center gap-3 p-3 rounded-xl bg-cream-dark">
+              <span class="font-kr text-base font-bold text-navy">&#47579;&#51080;&#50612;&#50836;</span>
               <span class="text-coral text-lg">&rarr;</span>
-              <div class="text-center"><p class="font-kr text-lg font-bold text-coral">&#47560;&#49884;&#49492;&#50836;</p><p class="text-[0.6rem] text-brown-light">Natural</p></div>
+              <span class="font-kr text-base font-bold text-coral">&#47560;&#49884;&#49492;&#50836;</span>
+              <span class="text-xs text-brown-light ml-auto">"delicious"</span>
             </div>
-            <p class="text-brown-light/50 text-xs mt-3 italic">Sounds merge and flow. I teach you to lean into natural blending, not fight it.</p>
+            <div class="flex items-center gap-3 p-3 rounded-xl bg-cream-dark">
+              <span class="font-kr text-base font-bold text-navy">&#54620;&#44397;&#50612;</span>
+              <span class="text-coral text-lg">&rarr;</span>
+              <span class="font-kr text-base font-bold text-coral">&#54620;&#44396;&#44144;</span>
+              <span class="text-xs text-brown-light ml-auto">"Korean language"</span>
+            </div>
           </div>
+          <!-- AUDIO: Add your own audio recordings here later -->
+          <p class="text-brown-light/40 text-xs italic">I teach you to lean into natural blending, not fight it.</p>
         </div>
 
-        <!-- Pillar 2: Sentence Logic -->
-        <div class="warm-card tilt-card p-8 reveal" style="transition-delay:0.15s">
-          <div class="w-14 h-14 rounded-2xl bg-teal/10 flex items-center justify-center mb-6">
-            <svg class="w-7 h-7 text-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>
+        <!-- Panel 2: Sentence Logic -->
+        <div class="philo-panel" id="philoPanel2">
+          <div class="flex items-center gap-3 mb-2">
+            <h3 class="font-display text-xl font-bold text-navy">Think Korean, Not Translate</h3>
           </div>
-          <h3 class="font-display text-xl font-bold text-navy mb-3">Sentence Logic</h3>
-          <p class="text-brown/60 text-sm leading-relaxed mb-4">Don't memorize patterns. Understand <em>why</em>. English goes small&rarr;big. Korean goes big&rarr;small. English leads with action. Korean saves the verb for last. Once you see the logic, you stop translating and start <em>thinking</em> in Korean.</p>
+          <p class="text-brown/60 text-sm leading-relaxed mb-2 max-w-3xl">English goes small&rarr;big. Korean goes big&rarr;small. Once you see the logic, you stop translating and start <em>thinking</em> in Korean.</p>
+          <p class="text-brown/40 text-xs italic mb-6 max-w-3xl">"If I say something &#51452;&#49464;&#50836;, they will give me something. Pattern over grammar."</p>
 
-          <!-- Word Order -->
-          <div class="bg-cream-dark rounded-xl p-5 mb-4">
-            <p class="text-teal text-xs font-bold mb-3">WORD ORDER: SHOPPING</p>
-            <p class="text-brown-light text-xs mb-4">Same sentence, two completely different ways of thinking.</p>
-            <div class="mb-4">
-              <p class="text-xs text-brown-light mb-2">English: Who &rarr; Action &rarr; What &rarr; Where</p>
-              <div class="flex flex-wrap gap-1">
-                <span class="px-3 py-1.5 rounded bg-blue-100 text-blue-700 text-sm font-medium">I</span>
-                <span class="px-3 py-1.5 rounded bg-red-100 text-red-700 text-sm font-medium">bought</span>
-                <span class="px-3 py-1.5 rounded bg-green-100 text-green-700 text-sm font-medium">a bag</span>
-                <span class="px-3 py-1.5 rounded bg-purple-100 text-purple-700 text-sm font-medium">in Paris</span>
-              </div>
-            </div>
-            <div>
-              <p class="text-xs text-brown-light mb-2">Korean: Who &rarr; Where &rarr; What &rarr; Action</p>
-              <div class="flex flex-wrap gap-1">
-                <span class="px-3 py-1.5 rounded bg-blue-100 text-blue-700 text-sm font-medium font-kr">&#51200;&#45716;</span>
-                <span class="px-3 py-1.5 rounded bg-purple-100 text-purple-700 text-sm font-medium font-kr">&#54028;&#47532;&#50640;&#49436;</span>
-                <span class="px-3 py-1.5 rounded bg-green-100 text-green-700 text-sm font-medium font-kr">&#44032;&#48169;&#51012;</span>
-                <span class="px-3 py-1.5 rounded bg-red-100 text-red-700 text-sm font-medium font-kr">&#49380;&#50836;</span>
-              </div>
-            </div>
+          <!-- Context block: The 3 key features on top -->
+          <div class="grid grid-cols-3 gap-3 mb-6">
+            <div class="bg-cream-dark rounded-xl p-3 text-center"><p class="text-teal text-[0.65rem] font-bold mb-1">WORD ORDER</p><p class="text-brown/50 text-xs">Korean reverses English order &mdash; verb always last</p></div>
+            <div class="bg-cream-dark rounded-xl p-3 text-center"><p class="text-teal text-[0.65rem] font-bold mb-1">ENDINGS &amp; CONJUGATION</p><p class="text-brown/50 text-xs">One root, many endings &mdash; tense, mood, formality</p></div>
+            <div class="bg-cream-dark rounded-xl p-3 text-center"><p class="text-teal text-[0.65rem] font-bold mb-1">PARTICLES</p><p class="text-brown/50 text-xs">Small markers that define who does what to whom</p></div>
           </div>
 
-          <!-- Tense Change -->
-          <div class="bg-cream-dark rounded-xl p-5 mb-4">
-            <p class="text-teal text-xs font-bold mb-3">TENSE: JUST THE ENDING CHANGES</p>
-            <p class="text-brown-light text-xs mb-4">In Korean, tense lives at the end. Everything else stays exactly the same.</p>
-            <div class="space-y-2">
-              <div class="flex items-center gap-3 p-2.5 rounded-lg bg-white/60">
-                <span class="font-kr text-sm font-bold text-navy w-20 text-right">&#49324;&#50836;</span>
-                <span class="text-xs text-brown-light">&rarr; buy (present)</span>
+          <!-- 3 detailed blocks below -->
+          <div class="grid md:grid-cols-3 gap-4 mb-6">
+            <div class="bg-cream-dark rounded-xl p-5">
+              <p class="text-teal text-xs font-bold mb-3">WORD ORDER: SHOPPING</p>
+              <div class="mb-4">
+                <p class="text-xs text-brown-light mb-2">English: Who &rarr; Action &rarr; What &rarr; Where</p>
+                <div class="flex flex-wrap gap-1">
+                  <span class="px-3 py-1.5 rounded bg-blue-100 text-blue-700 text-sm font-medium">I</span>
+                  <span class="px-3 py-1.5 rounded bg-red-100 text-red-700 text-sm font-medium">bought</span>
+                  <span class="px-3 py-1.5 rounded bg-green-100 text-green-700 text-sm font-medium">a bag</span>
+                  <span class="px-3 py-1.5 rounded bg-purple-100 text-purple-700 text-sm font-medium">in Paris</span>
+                </div>
               </div>
-              <div class="flex items-center gap-3 p-2.5 rounded-lg bg-white/60">
-                <span class="font-kr text-sm font-bold text-coral w-20 text-right">&#49388;&#50612;&#50836;</span>
-                <span class="text-xs text-brown-light">&rarr; bought (past)</span>
-              </div>
-              <div class="flex items-center gap-3 p-2.5 rounded-lg bg-white/60">
-                <span class="font-kr text-sm font-bold text-teal w-20 text-right">&#49332; &#44144;&#50696;&#50836;</span>
-                <span class="text-xs text-brown-light">&rarr; will buy (future)</span>
+              <div>
+                <p class="text-xs text-brown-light mb-2">Korean: Who &rarr; Where &rarr; What &rarr; Action</p>
+                <div class="flex flex-wrap gap-1">
+                  <span class="px-3 py-1.5 rounded bg-blue-100 text-blue-700 text-sm font-medium font-kr">&#51200;&#45716;</span>
+                  <span class="px-3 py-1.5 rounded bg-purple-100 text-purple-700 text-sm font-medium font-kr">&#54028;&#47532;&#50640;&#49436;</span>
+                  <span class="px-3 py-1.5 rounded bg-green-100 text-green-700 text-sm font-medium font-kr">&#44032;&#48169;&#51012;</span>
+                  <span class="px-3 py-1.5 rounded bg-red-100 text-red-700 text-sm font-medium font-kr">&#49380;&#50836;</span>
+                </div>
               </div>
             </div>
-            <p class="text-brown-light/50 text-xs mt-3 italic">Learn one pattern &rarr; apply it to every verb. That's the power of Korean logic.</p>
+
+            <div class="bg-cream-dark rounded-xl p-5">
+              <p class="text-teal text-xs font-bold mb-3">TENSE: JUST THE ENDING CHANGES</p>
+              <div class="space-y-2">
+                <div class="flex items-center gap-3 p-2.5 rounded-lg bg-white/60">
+                  <span class="font-kr text-sm font-bold text-navy w-20 text-right">&#49324;&#50836;</span>
+                  <span class="text-xs text-brown-light">&rarr; buy (present)</span>
+                </div>
+                <div class="flex items-center gap-3 p-2.5 rounded-lg bg-white/60">
+                  <span class="font-kr text-sm font-bold text-coral w-20 text-right">&#49388;&#50612;&#50836;</span>
+                  <span class="text-xs text-brown-light">&rarr; bought (past)</span>
+                </div>
+                <div class="flex items-center gap-3 p-2.5 rounded-lg bg-white/60">
+                  <span class="font-kr text-sm font-bold text-teal w-20 text-right">&#49332; &#44144;&#50696;&#50836;</span>
+                  <span class="text-xs text-brown-light">&rarr; will buy (future)</span>
+                </div>
+              </div>
+              <p class="text-brown-light/50 text-xs mt-3 italic">Learn one pattern &rarr; apply it to every verb.</p>
+            </div>
+
+            <div class="bg-cream-dark rounded-xl p-5">
+              <p class="text-teal text-xs font-bold mb-3">NUANCE: THREE WAYS TO SAY "WILL DO"</p>
+              <div class="space-y-2">
+                <div class="p-2.5 rounded-lg bg-white/60">
+                  <p class="font-kr text-sm font-bold text-navy">&#54624; &#44144;&#50696;&#50836;</p>
+                  <p class="text-xs text-brown-light">Neutral plan &mdash; "I will do it"</p>
+                </div>
+                <div class="p-2.5 rounded-lg bg-white/60">
+                  <p class="font-kr text-sm font-bold text-teal">&#54624;&#44172;&#50836;</p>
+                  <p class="text-xs text-brown-light">Promise &mdash; "I'll do it (for you)"</p>
+                </div>
+                <div class="p-2.5 rounded-lg bg-white/60">
+                  <p class="font-kr text-sm font-bold text-coral">&#54616;&#47140;&#44256; &#54644;&#50836;</p>
+                  <p class="text-xs text-brown-light">Intention &mdash; "I'm planning to do it"</p>
+                </div>
+              </div>
+              <p class="text-brown-light/50 text-xs mt-3 italic">Same "meaning" &mdash; completely different nuance.</p>
+            </div>
           </div>
 
-          <!-- Address & Date -->
           <div class="bg-cream-dark rounded-xl p-5">
             <p class="text-teal text-xs font-bold mb-3">BIG &rarr; SMALL: ADDRESSES &amp; DATES</p>
-            <p class="text-brown-light text-xs mb-4">The big-to-small rule applies to everything &mdash; not just sentences.</p>
-            <div class="space-y-3">
+            <div class="grid md:grid-cols-2 gap-3">
               <div class="p-3 rounded-lg bg-white/60">
-                <p class="text-xs text-brown-light mb-1">English address: <strong>42 Oak Street, Seoul, Korea</strong></p>
-                <p class="text-xs text-teal">Korean address: <strong class="font-kr">&#54620;&#44397;, &#49436;&#50872;, &#50724;&#53356; &#49828;&#53944;&#47551; 42</strong></p>
+                <p class="text-xs text-brown-light mb-1">English: <strong>42 Oak Street, Seoul, Korea</strong></p>
+                <p class="text-xs text-teal">Korean: <strong class="font-kr">&#54620;&#44397;, &#49436;&#50872;, &#50724;&#53356; &#49828;&#53944;&#47551; 42</strong></p>
               </div>
               <div class="p-3 rounded-lg bg-white/60">
-                <p class="text-xs text-brown-light mb-1">English date: <strong>February 13, 2026</strong></p>
-                <p class="text-xs text-teal">Korean date: <strong class="font-kr">2026&#45380; 2&#50900; 13&#51068;</strong> (Year &rarr; Month &rarr; Day)</p>
+                <p class="text-xs text-brown-light mb-1">English: <strong>February 13, 2026</strong></p>
+                <p class="text-xs text-teal">Korean: <strong class="font-kr">2026&#45380; 2&#50900; 13&#51068;</strong></p>
               </div>
             </div>
-            <p class="text-brown-light/50 text-xs mt-3 italic">Koreans think from the biggest context down to the smallest detail. Once you see it, you can't unsee it.</p>
           </div>
         </div>
 
-        <!-- Pillar 3: Cultural Context -->
-        <div class="warm-card tilt-card p-8 reveal" style="transition-delay:0.3s">
-          <div class="w-14 h-14 rounded-2xl bg-gold/10 flex items-center justify-center mb-6">
-            <svg class="w-7 h-7 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
+        <!-- Panel 3: Cultural Context -->
+        <div class="philo-panel" id="philoPanel3">
+          <div class="flex items-center gap-3 mb-2">
+            <h3 class="font-display text-xl font-bold text-navy">Three Cultural Pillars</h3>
           </div>
-          <h3 class="font-display text-xl font-bold text-navy mb-3">Cultural Context</h3>
-          <p class="text-brown/60 text-sm leading-relaxed mb-4">Korean isn't just a language &mdash; it's a <strong class="text-navy">social operating system</strong>. The same sentence can be polite, casual, or insulting based on context. I don't just teach words &mdash; I teach the <em>cultural forces</em> that shaped them.</p>
+          <p class="text-brown/60 text-sm leading-relaxed mb-2 max-w-3xl">Korean isn't just a language &mdash; it's a social operating system. The same sentence can be polite, casual, or insulting based on context. Understanding <em>why</em> Korean works this way is the key to speaking naturally, not just correctly.</p>
+          <p class="text-brown/40 text-xs italic mb-6 max-w-3xl">"Korea and Japan are high contextual societies &mdash; less verbal, more non-verbal."</p>
 
-          <!-- Formality Levels -->
-          <div class="bg-cream-dark rounded-xl p-5 mb-4">
-            <p class="text-gold text-xs font-bold mb-3">FORMALITY: 7 LEVELS OF "THANK YOU"</p>
-            <p class="text-brown-light text-xs mb-4">Use the wrong level, and you'll insult someone while trying to be polite.</p>
-            <div class="space-y-2">
-              <div class="flex items-center justify-between p-2 rounded bg-white/60"><span class="font-kr text-sm">&#44256;&#47560;&#50892;</span><span class="text-xs text-green-600">Close friends only</span></div>
-              <div class="flex items-center justify-between p-2 rounded bg-white/60"><span class="font-kr text-sm">&#44256;&#47560;&#50892;&#50836;</span><span class="text-xs text-green-500">Casual polite</span></div>
-              <div class="flex items-center justify-between p-2 rounded bg-white/60"><span class="font-kr text-sm">&#44048;&#49324;&#54644;&#50836;</span><span class="text-xs text-yellow-600">Polite</span></div>
-              <div class="flex items-center justify-between p-2 rounded bg-white/60"><span class="font-kr text-sm">&#44048;&#49324;&#54633;&#45768;&#45796;</span><span class="text-xs text-orange-600">Formal</span></div>
-              <div class="flex items-center justify-between p-2 rounded bg-white/60"><span class="font-kr text-sm">&#44048;&#49324;&#46300;&#47549;&#45768;&#45796;</span><span class="text-xs text-red-600">Very formal / Business</span></div>
+          <div class="grid md:grid-cols-3 gap-4 mb-6">
+            <!-- High Context Society -->
+            <div class="bg-cream-dark rounded-xl p-5">
+              <p class="text-gold text-xs font-bold mb-1 tracking-widest uppercase">High Context Society</p>
+              <p class="font-kr text-xs text-gold/60 mb-3">&#45458;&#51008; &#47589;&#46973; &#47928;&#54868;</p>
+              <p class="text-brown/60 text-xs leading-relaxed mb-2"><strong class="text-navy">Why it matters:</strong> Korea's 5,000-year history as a densely populated, homogeneous society created a culture where people share unspoken context. Words are just the tip of the iceberg.</p>
+              <p class="text-brown/60 text-xs leading-relaxed mb-3">Context matters more than words. What's <em>not</em> said is as important as what is.</p>
+              <div class="p-3 rounded-lg bg-white/60 mb-3">
+                <p class="text-xs text-gold font-medium mb-1">Quiz: Your friend says <span class="font-kr">"&#44312;&#52268;&#50500;&#50836;"</span>. What do they mean?</p>
+                <p class="text-xs text-brown-light">A) Fine &nbsp; B) Upset but won't say &nbsp; C) Depends on context</p>
+                <p class="text-xs text-teal mt-1 italic">Answer: C &mdash; I teach you to read the difference.</p>
+              </div>
+              <p class="text-brown/50 text-xs"><strong class="font-kr">&#45576;&#52824;</strong> &mdash; reading social cues is a trainable skill.</p>
             </div>
-          </div>
 
-          <!-- Why Age Matters -->
-          <div class="bg-cream-dark rounded-xl p-5 mb-4">
-            <p class="text-gold text-xs font-bold mb-3">WHY KOREANS ASK YOUR AGE</p>
-            <p class="text-brown-light text-xs mb-4">It's not nosiness &mdash; it's a <em>linguistic necessity</em>.</p>
-            <p class="text-brown/60 text-xs leading-relaxed mb-3">Korean has different verb endings, vocabulary, and even pronouns based on the age relationship. Without knowing your age, a Korean speaker literally <strong class="text-navy">doesn't know which words to use</strong>. It's like asking "should I use 'you' or 'thou'?" but for <em>every sentence</em>.</p>
-            <div class="flex items-center gap-3 p-2.5 rounded-lg bg-white/60">
-              <div class="text-center"><p class="font-kr text-sm font-bold text-navy">&#48165; &#47673;&#50632;&#50612;?</p><p class="text-[0.6rem] text-brown-light">To younger</p></div>
-              <span class="text-gold">vs</span>
-              <div class="text-center"><p class="font-kr text-sm font-bold text-coral">&#49885;&#49324; &#54616;&#49512;&#49845;&#45768;&#44620;?</p><p class="text-[0.6rem] text-brown-light">To elder</p></div>
+            <!-- Honorific System -->
+            <div class="bg-cream-dark rounded-xl p-5">
+              <p class="text-gold text-xs font-bold mb-1 tracking-widest uppercase">Honorific System</p>
+              <p class="font-kr text-xs text-gold/60 mb-3">&#45458;&#51076;&#47568;</p>
+              <p class="text-brown/60 text-xs leading-relaxed mb-2"><strong class="text-navy">Why it exists:</strong> Confucian values embedded hierarchy into the language itself. It's not optional politeness &mdash; it's grammatically mandatory. Using the wrong level is like speaking broken Korean.</p>
+              <p class="text-brown/60 text-xs leading-relaxed mb-3">The "Korean brain simulation" &mdash; instantly calculating which words to use:</p>
+              <div class="flex flex-wrap gap-1 mb-3">
+                <span class="px-2 py-1 rounded bg-gold/10 text-gold text-[0.6rem] font-bold">Age &rarr;</span>
+                <span class="px-2 py-1 rounded bg-gold/15 text-gold text-[0.6rem] font-bold">Relationship &rarr;</span>
+                <span class="px-2 py-1 rounded bg-gold/20 text-gold text-[0.6rem] font-bold">Context &rarr;</span>
+                <span class="px-2 py-1 rounded bg-coral/15 text-coral text-[0.6rem] font-bold">Formality Level</span>
+              </div>
+              <div class="space-y-1.5 mb-3">
+                <div class="flex items-center justify-between p-1.5 rounded bg-white/60"><span class="font-kr text-xs">&#44256;&#47560;&#50892;</span><span class="text-[0.6rem] text-green-600">Friends</span></div>
+                <div class="flex items-center justify-between p-1.5 rounded bg-white/60"><span class="font-kr text-xs">&#44048;&#49324;&#54644;&#50836;</span><span class="text-[0.6rem] text-yellow-600">Polite</span></div>
+                <div class="flex items-center justify-between p-1.5 rounded bg-white/60"><span class="font-kr text-xs">&#44048;&#49324;&#54633;&#45768;&#45796;</span><span class="text-[0.6rem] text-orange-600">Formal</span></div>
+                <div class="flex items-center justify-between p-1.5 rounded bg-white/60"><span class="font-kr text-xs">&#44048;&#49324;&#46300;&#47549;&#45768;&#45796;</span><span class="text-[0.6rem] text-red-600">Very formal</span></div>
+              </div>
+              <div class="flex items-center gap-2 p-2 rounded-lg bg-white/60">
+                <div class="text-center"><p class="font-kr text-xs font-bold text-navy">&#48165; &#47673;&#50632;&#50612;?</p><p class="text-[0.55rem] text-brown-light">Younger</p></div>
+                <span class="text-gold text-xs">vs</span>
+                <div class="text-center"><p class="font-kr text-xs font-bold text-coral">&#49885;&#49324; &#54616;&#49512;&#49845;&#45768;&#44620;?</p><p class="text-[0.55rem] text-brown-light">Elder</p></div>
+              </div>
             </div>
-            <p class="text-brown-light/50 text-xs mt-3 italic">Both mean "Have you eaten?" &mdash; the same care, completely different grammar.</p>
-          </div>
 
-          <!-- 눈치 -->
-          <div class="bg-cream-dark rounded-xl p-5">
-            <p class="text-gold text-xs font-bold mb-3"><span class="font-kr">&#45576;&#52824;</span> &mdash; READING THE ROOM</p>
-            <p class="text-brown/60 text-xs leading-relaxed mb-3">Koreans value what's <em>not</em> said as much as what is. <span class="font-kr">&#45576;&#52824;</span> is the ability to read the room, sense tension, and respond appropriately without being told. It's trainable &mdash; and I teach it through situational quizzes.</p>
-            <div class="p-3 rounded-lg bg-white/60">
-              <p class="text-xs text-gold font-medium mb-1">Quiz: Your Korean friend says <span class="font-kr">"&#44312;&#52268;&#50500;&#50836;"</span> (It's okay). What do they really mean?</p>
-              <p class="text-xs text-brown-light">A) They're fine &nbsp; B) They're upset but won't say it &nbsp; C) Depends on context</p>
-              <p class="text-xs text-teal mt-1 italic">Answer: C &mdash; and I'll teach you exactly how to read the difference.</p>
+            <!-- Group-Oriented Society -->
+            <div class="bg-cream-dark rounded-xl p-5">
+              <p class="text-gold text-xs font-bold mb-1 tracking-widest uppercase">Group-Oriented Society</p>
+              <p class="font-kr text-xs text-gold/60 mb-3">&#51665;&#45800;&#51452;&#51032;</p>
+              <p class="text-brown/60 text-xs leading-relaxed mb-2"><strong class="text-navy">Why it matters:</strong> Korea's agricultural roots required collective survival. This "we-first" thinking became baked into the language. You literally can't say "my country" naturally in Korean.</p>
+              <p class="text-brown/60 text-xs leading-relaxed mb-3">"We" comes before "I" in Korean thinking. Even grammar reflects this.</p>
+              <div class="space-y-2 mb-3">
+                <div class="p-2.5 rounded-lg bg-white/60">
+                  <p class="font-kr text-sm font-bold text-navy">&#50864;&#47532; &#45208;&#46972;</p>
+                  <p class="text-xs text-brown-light">"Our country" (not "my country")</p>
+                </div>
+                <div class="p-2.5 rounded-lg bg-white/60">
+                  <p class="font-kr text-sm font-bold text-navy">&#50864;&#47532; &#50628;&#47560;</p>
+                  <p class="text-xs text-brown-light">"Our mom" (not "my mom")</p>
+                </div>
+                <div class="p-2.5 rounded-lg bg-white/60">
+                  <p class="font-kr text-sm font-bold text-navy">&#50864;&#47532; &#54924;&#49324;</p>
+                  <p class="text-xs text-brown-light">"Our company" (not "my company")</p>
+                </div>
+              </div>
+              <p class="text-brown/50 text-xs">Why Koreans ask your age: not nosiness &mdash; <strong>linguistic necessity</strong> for the group hierarchy.</p>
             </div>
           </div>
         </div>
+
       </div>
     </div>
   </section>
@@ -713,12 +1224,24 @@
       <div class="text-center mb-16 reveal">
         <p class="text-teal text-sm font-semibold tracking-widest uppercase mb-3">The System</p>
         <h2 class="font-serif text-3xl md:text-5xl font-bold text-navy mb-4">Your Problems. Already Solved.</h2>
-        <p class="text-brown-light max-w-2xl mx-auto">Every feature exists because real students had a real problem. Here's how the system solves them &mdash; before you even have to ask.</p>
+        <p class="text-brown-light max-w-2xl mx-auto">Every feature exists because a real student had this exact problem. Here's what happens at every stage of your learning.</p>
+      </div>
+
+      <!-- Time-based phase labels -->
+      <div class="flex flex-wrap justify-center gap-3 mb-10 reveal">
+        <span class="px-4 py-2 rounded-full bg-purple-500/10 text-purple-500 text-xs font-bold border border-purple-500/15">Trial Lesson</span>
+        <span class="text-brown-light/30 self-center">&rarr;</span>
+        <span class="px-4 py-2 rounded-full bg-gold/10 text-gold text-xs font-bold border border-gold/15">Before Each Lesson</span>
+        <span class="text-brown-light/30 self-center">&rarr;</span>
+        <span class="px-4 py-2 rounded-full bg-teal/10 text-teal text-xs font-bold border border-teal/15">During Lesson</span>
+        <span class="text-brown-light/30 self-center">&rarr;</span>
+        <span class="px-4 py-2 rounded-full bg-coral/10 text-coral text-xs font-bold border border-coral/15">After Lesson</span>
       </div>
 
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- Card 1: AI Lesson Docs -->
-        <div class="warm-card p-6 reveal">
+        <div id="system-docs" class="warm-card p-6 reveal">
+          <div class="flex items-center justify-between mb-3"><span class="px-2 py-0.5 rounded text-[0.6rem] font-bold bg-coral/10 text-coral">After Lesson</span></div>
           <div class="flex items-center gap-3 mb-4">
             <div class="w-10 h-10 rounded-xl bg-teal/10 flex items-center justify-center">
               <svg class="w-5 h-5 text-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
@@ -741,7 +1264,8 @@
         </div>
 
         <!-- Card 2: 3-Doc Homework -->
-        <div class="warm-card p-6 reveal" style="transition-delay:0.1s">
+        <div id="system-homework" class="warm-card p-6 reveal" style="transition-delay:0.1s">
+          <div class="flex items-center justify-between mb-3"><span class="px-2 py-0.5 rounded text-[0.6rem] font-bold bg-coral/10 text-coral">After Lesson</span></div>
           <div class="flex items-center gap-3 mb-4">
             <div class="w-10 h-10 rounded-xl bg-gold/10 flex items-center justify-center">
               <svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
@@ -758,7 +1282,8 @@
         </div>
 
         <!-- Card 3: Personal Web App -->
-        <div class="warm-card p-6 reveal" style="transition-delay:0.2s">
+        <div id="system-app" class="warm-card p-6 reveal" style="transition-delay:0.2s">
+          <div class="flex items-center justify-between mb-3"><span class="px-2 py-0.5 rounded text-[0.6rem] font-bold bg-gold/10 text-gold">Before &amp; Between Lessons</span></div>
           <div class="flex items-center gap-3 mb-4">
             <div class="w-10 h-10 rounded-xl bg-coral/10 flex items-center justify-center">
               <svg class="w-5 h-5 text-coral" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
@@ -777,7 +1302,8 @@
         </div>
 
         <!-- Card 4: Daily Feedback -->
-        <div class="warm-card p-6 reveal">
+        <div id="system-feedback" class="warm-card p-6 reveal">
+          <div class="flex items-center justify-between mb-3"><span class="px-2 py-0.5 rounded text-[0.6rem] font-bold bg-gold/10 text-gold">Between Lessons</span></div>
           <div class="flex items-center gap-3 mb-4">
             <div class="w-10 h-10 rounded-xl bg-green-500/10 flex items-center justify-center">
               <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
@@ -794,6 +1320,7 @@
 
         <!-- Card 5: Nudge & Quiz -->
         <div class="warm-card p-6 reveal" style="transition-delay:0.1s">
+          <div class="flex items-center justify-between mb-3"><span class="px-2 py-0.5 rounded text-[0.6rem] font-bold bg-gold/10 text-gold">Between Lessons</span></div>
           <div class="flex items-center gap-3 mb-4">
             <div class="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center">
               <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
@@ -810,6 +1337,7 @@
 
         <!-- Card 6: Word DB -->
         <div class="warm-card p-6 reveal" style="transition-delay:0.2s">
+          <div class="flex items-center justify-between mb-3"><span class="px-2 py-0.5 rounded text-[0.6rem] font-bold bg-teal/10 text-teal">During &amp; After Lesson</span></div>
           <div class="flex items-center gap-3 mb-4">
             <div class="w-10 h-10 rounded-xl bg-indigo-500/10 flex items-center justify-center">
               <svg class="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"/></svg>
@@ -868,11 +1396,83 @@
     </div>
   </section>
 
-  <!-- CTA: After Reviews -->
-  <div class="py-14 bg-cream-dark text-center reveal">
-    <p class="font-serif text-2xl md:text-3xl font-bold text-navy mb-3">Ready to Join 115+ Students?</p>
-    <p class="text-brown/60 text-sm mb-6 max-w-lg mx-auto">Book a trial lesson and experience the Fly Korean system firsthand. No commitment required.</p>
-    <a href="#contact" class="magnetic-btn inline-flex items-center gap-2 px-10 py-4 rounded-full bg-gradient-to-r from-coral to-gold text-white font-bold text-lg shadow-lg hover:shadow-xl hover:shadow-coral/30 transition-all hover:-translate-y-1">Book a Trial Lesson <span>&rarr;</span></a>
+  <!-- CTA: After Reviews — Availability Schedule -->
+  <div class="py-14 bg-cream-dark reveal" id="availability">
+    <div class="max-w-3xl mx-auto px-6">
+      <div class="text-center mb-8">
+        <p class="font-serif text-2xl md:text-3xl font-bold text-navy mb-3">Availability &amp; Scheduling</p>
+        <p class="text-brown/60 text-sm max-w-lg mx-auto">I work with a limited number of students to give each one my full attention. Here's my actual schedule.</p>
+      </div>
+
+      <!-- Weekly Schedule Grid -->
+      <!-- UPDATE: Change filled/open slots each month -->
+      <div class="warm-card p-5 md:p-6 mb-6">
+        <div class="grid grid-cols-7 gap-1 text-center text-xs mb-3">
+          <div class="font-bold text-navy py-1">Mon</div>
+          <div class="font-bold text-brown-light/40 py-1 line-through">Tue</div>
+          <div class="font-bold text-navy py-1">Wed</div>
+          <div class="font-bold text-navy py-1">Thu</div>
+          <div class="font-bold text-navy py-1">Fri</div>
+          <div class="font-bold text-navy py-1">Sat</div>
+          <div class="font-bold text-teal py-1">Sun</div>
+        </div>
+        <div class="grid grid-cols-7 gap-1 text-center text-[0.6rem] mb-2">
+          <!-- Morning slots -->
+          <div class="py-2 rounded bg-coral/10 text-coral font-medium">AM<br>3 slots</div>
+          <div class="py-2 rounded bg-brown/5 text-brown-light/30">OFF</div>
+          <div class="py-2 rounded bg-coral/10 text-coral font-medium">AM<br>3 slots</div>
+          <div class="py-2 rounded bg-coral/10 text-coral font-medium">AM<br>3 slots</div>
+          <div class="py-2 rounded bg-coral/10 text-coral font-medium">AM<br>3 slots</div>
+          <div class="py-2 rounded bg-coral/10 text-coral font-medium">AM<br>3 slots</div>
+          <div class="py-2 rounded bg-teal/10 text-teal font-medium" rowspan="2">Group<br>Lesson</div>
+        </div>
+        <div class="grid grid-cols-7 gap-1 text-center text-[0.6rem]">
+          <!-- Afternoon slots -->
+          <div class="py-2 rounded bg-gold/10 text-gold font-medium">PM<br>3 slots</div>
+          <div class="py-2 rounded bg-brown/5 text-brown-light/30">OFF</div>
+          <div class="py-2 rounded bg-gold/10 text-gold font-medium">PM<br>3 slots</div>
+          <div class="py-2 rounded bg-gold/10 text-gold font-medium">PM<br>3 slots</div>
+          <div class="py-2 rounded bg-gold/10 text-gold font-medium">PM<br>3 slots</div>
+          <div class="py-2 rounded bg-gold/10 text-gold font-medium">PM<br>3 slots</div>
+          <div class="py-2 rounded bg-teal/5 text-teal/40 font-medium">-</div>
+        </div>
+        <div class="flex flex-wrap justify-center gap-4 mt-4 text-xs text-brown-light/60">
+          <span>~30 slots / week</span>
+          <span>|</span>
+          <span>~120 slots / 4 weeks</span>
+          <span>|</span>
+          <span>Tuesday = day off</span>
+          <span>|</span>
+          <span>Sunday = group only</span>
+        </div>
+      </div>
+
+      <!-- Contract options -->
+      <div class="grid md:grid-cols-2 gap-4 mb-8">
+        <div class="warm-card p-5 text-center">
+          <p class="text-coral text-xs font-bold tracking-widest uppercase mb-2">4-Week Contract</p>
+          <p class="font-mono text-2xl font-bold text-navy mb-1">Flexible</p>
+          <p class="text-brown/50 text-xs">Renew monthly. Change package anytime. Cancel with 1-week notice.</p>
+        </div>
+        <div class="warm-card p-5 text-center border-coral/20">
+          <p class="text-teal text-xs font-bold tracking-widest uppercase mb-2">3-Month Contract</p>
+          <p class="font-mono text-2xl font-bold text-teal mb-1">Best Value</p>
+          <p class="text-brown/50 text-xs">Lock in your promo price. Priority scheduling. Guaranteed slot.</p>
+        </div>
+      </div>
+
+      <!-- Waitlist notice -->
+      <div class="warm-card p-5 text-center mb-8 border-dashed border-gold/30" id="waitlistNotice" style="display:none;">
+        <p class="text-gold text-xs font-bold tracking-widest uppercase mb-2">Currently Full</p>
+        <p class="text-brown/60 text-sm mb-3">All slots are taken for this period. Join the waitlist to be first in line when a spot opens.</p>
+        <p class="text-brown-light/50 text-xs">Next reservation window opens at the start of each 4-week cycle. Waitlist members get 24-hour early access.</p>
+      </div>
+      <!-- UPDATE: Toggle waitlist visibility by setting display:block when fully booked -->
+
+      <div class="text-center">
+        <a href="#contact" class="magnetic-btn inline-flex items-center gap-2 px-10 py-4 rounded-full bg-gradient-to-r from-coral to-gold text-white font-bold text-lg shadow-lg hover:shadow-xl hover:shadow-coral/30 transition-all hover:-translate-y-1">Check Availability <span>&rarr;</span></a>
+      </div>
+    </div>
   </div>
 
   <div class="section-divider"></div>
@@ -898,8 +1498,8 @@
         <!-- Essential -->
         <div class="pkg-card" onclick="selectPackage('essential')">
           <h3 class="font-display text-xl font-bold text-navy mb-3">Essential</h3>
-          <div class="mb-1"><span class="price-old text-brown-light text-lg font-mono">$40</span><span class="font-mono text-4xl font-bold text-navy ml-2" id="price-essential">$30</span><span class="text-brown-light text-sm">/session</span></div>
-          <p class="text-xs text-teal mb-1" id="weekly-essential">$30/week</p>
+          <div class="mb-1"><span class="price-old text-brown-light text-lg font-mono">$45</span><span class="font-mono text-4xl font-bold text-navy ml-2" id="price-essential">$35</span><span class="text-brown-light text-sm">/session</span></div>
+          <p class="text-xs text-teal mb-1" id="weekly-essential">$35/week</p>
           <p class="text-brown-light text-xs mb-4">The foundation. Quality 1:1 lessons.</p>
           <ul class="space-y-2 mb-6">
             <li class="flex items-start gap-2 text-sm text-brown/60"><span class="text-teal mt-0.5">&#10003;</span> 50-min 1:1 lesson</li>
@@ -913,15 +1513,15 @@
         <!-- Standard -->
         <div class="pkg-card popular" onclick="selectPackage('standard')">
           <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-gold text-white text-xs font-bold">MOST POPULAR</div>
-          <h3 class="font-display text-xl font-bold text-navy mb-3 mt-2">Standard</h3>
-          <div class="mb-1"><span class="price-old text-brown-light text-lg font-mono">$65</span><span class="font-mono text-4xl font-bold text-gold ml-2" id="price-standard">$45</span><span class="text-brown-light text-sm">/session</span></div>
-          <p class="text-xs text-teal mb-1" id="weekly-standard">$45/week</p>
+          <h3 class="font-display text-xl font-bold text-navy mb-1 mt-2">Standard</h3>
+          <p class="text-xs text-purple-500 font-medium mb-2">Bonus: Free Nudge &amp; Quiz messages</p>
+          <div class="mb-1"><span class="price-old text-brown-light text-lg font-mono">$70</span><span class="font-mono text-4xl font-bold text-gold ml-2" id="price-standard">$50</span><span class="text-brown-light text-sm">/session</span></div>
+          <p class="text-xs text-teal mb-1" id="weekly-standard">$50/week</p>
           <p class="text-brown-light text-xs mb-4">Lessons + homework + engagement.</p>
           <ul class="space-y-2 mb-6">
             <li class="flex items-start gap-2 text-sm text-brown/60"><span class="text-teal mt-0.5">&#10003;</span> Everything in Essential</li>
             <li class="flex items-start gap-2 text-sm text-brown/80"><span class="text-gold mt-0.5">&#10003;</span> <strong>Light homework</strong> <span class="text-teal text-xs">(FREE)</span></li>
             <li class="flex items-start gap-2 text-sm text-brown/80"><span class="text-gold mt-0.5">&#10003;</span> <strong>Full 3-doc homework</strong> + Word DB</li>
-            <li class="flex items-start gap-2 text-sm text-brown/80"><span class="text-gold mt-0.5">&#10003;</span> <strong>Nudge & Quiz</strong> <span class="text-teal text-xs">(FREE)</span></li>
           </ul>
           <button class="w-full py-3 rounded-xl bg-gold text-white text-sm font-bold hover:opacity-90 transition-all">Select</button>
         </div>
@@ -929,8 +1529,8 @@
         <!-- Premium -->
         <div class="pkg-card" onclick="selectPackage('premium')">
           <h3 class="font-display text-xl font-bold text-navy mb-3">Premium</h3>
-          <div class="mb-1"><span class="price-old text-brown-light text-lg font-mono">$90</span><span class="font-mono text-4xl font-bold text-coral ml-2" id="price-premium">$70</span><span class="text-brown-light text-sm">/session</span></div>
-          <p class="text-xs text-teal mb-1" id="weekly-premium">$70/week</p>
+          <div class="mb-1"><span class="price-old text-brown-light text-lg font-mono">$95</span><span class="font-mono text-4xl font-bold text-coral ml-2" id="price-premium">$75</span><span class="text-brown-light text-sm">/session</span></div>
+          <p class="text-xs text-teal mb-1" id="weekly-premium">$75/week</p>
           <p class="text-brown-light text-xs mb-4">The full experience. Daily support + app.</p>
           <ul class="space-y-2 mb-6">
             <li class="flex items-start gap-2 text-sm text-brown/60"><span class="text-teal mt-0.5">&#10003;</span> Everything in Standard</li>
@@ -944,8 +1544,8 @@
         <!-- Custom -->
         <div class="pkg-card" onclick="selectPackage('custom')">
           <h3 class="font-display text-xl font-bold text-navy mb-3">Custom</h3>
-          <div class="mb-1"><span class="font-mono text-4xl font-bold text-navy" id="price-custom">$30</span><span class="text-brown-light text-sm"> + add-ons</span></div>
-          <p class="text-xs text-teal mb-1" id="weekly-custom">$30/week</p>
+          <div class="mb-1"><span class="font-mono text-4xl font-bold text-navy" id="price-custom">$35</span><span class="text-brown-light text-sm"> + add-ons</span></div>
+          <p class="text-xs text-teal mb-1" id="weekly-custom">$35/week</p>
           <p class="text-brown-light text-xs mb-4">Build your own. Pick exactly what you need.</p>
           <ul class="space-y-2 mb-6">
             <li class="flex items-start gap-2 text-sm text-brown/60"><span class="text-teal mt-0.5">&#10003;</span> Base lesson included</li>
@@ -965,8 +1565,8 @@
         <div class="mt-6 pt-6 border-t border-gold/15 flex flex-wrap items-center justify-between gap-4">
           <div>
             <p class="text-brown-light text-sm">Your estimated total</p>
-            <div class="flex items-baseline gap-2"><span class="font-mono text-3xl font-bold text-teal" id="customTotal">$30</span><span class="text-brown-light text-sm" id="customPeriod">/session (1x/week)</span></div>
-            <p class="text-brown-light/60 text-xs mt-1" id="customWeekly">$30/week</p>
+            <div class="flex items-baseline gap-2"><span class="font-mono text-3xl font-bold text-teal" id="customTotal">$35</span><span class="text-brown-light text-sm" id="customPeriod">/session (1x/week)</span></div>
+            <p class="text-brown-light/60 text-xs mt-1" id="customWeekly">$35/week</p>
           </div>
           <a href="#contact" class="px-6 py-3 rounded-full bg-teal text-white font-bold text-sm hover:opacity-90 transition">Continue with Custom</a>
         </div>
@@ -1004,10 +1604,10 @@
         <div class="mb-6">
           <label class="text-sm text-brown-light block mb-2">Selected Package</label>
           <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
-            <button onclick="selectPackage('essential')" class="cta-pkg-btn px-3 py-2.5 rounded-xl border border-gold/15 text-sm text-brown/60 hover:border-coral transition-all" data-pkg="essential">Essential<br><span class="font-mono text-xs price-old">$40</span> <span class="font-mono font-bold">$30</span></button>
-            <button onclick="selectPackage('standard')" class="cta-pkg-btn px-3 py-2.5 rounded-xl border border-gold/15 text-sm text-brown/60 hover:border-coral transition-all" data-pkg="standard">Standard<br><span class="font-mono text-xs price-old">$65</span> <span class="font-mono font-bold text-gold">$45</span></button>
-            <button onclick="selectPackage('premium')" class="cta-pkg-btn px-3 py-2.5 rounded-xl border border-gold/15 text-sm text-brown/60 hover:border-coral transition-all" data-pkg="premium">Premium<br><span class="font-mono text-xs price-old">$90</span> <span class="font-mono font-bold text-coral">$70</span></button>
-            <button onclick="selectPackage('custom')" class="cta-pkg-btn px-3 py-2.5 rounded-xl border border-gold/15 text-sm text-brown/60 hover:border-coral transition-all" data-pkg="custom">Custom<br><span class="font-mono font-bold">$30+</span></button>
+            <button onclick="selectPackage('essential')" class="cta-pkg-btn px-3 py-2.5 rounded-xl border border-gold/15 text-sm text-brown/60 hover:border-coral transition-all" data-pkg="essential">Essential<br><span class="font-mono text-xs price-old">$45</span> <span class="font-mono font-bold">$35</span></button>
+            <button onclick="selectPackage('standard')" class="cta-pkg-btn px-3 py-2.5 rounded-xl border border-gold/15 text-sm text-brown/60 hover:border-coral transition-all" data-pkg="standard">Standard<br><span class="font-mono text-xs price-old">$70</span> <span class="font-mono font-bold text-gold">$50</span></button>
+            <button onclick="selectPackage('premium')" class="cta-pkg-btn px-3 py-2.5 rounded-xl border border-gold/15 text-sm text-brown/60 hover:border-coral transition-all" data-pkg="premium">Premium<br><span class="font-mono text-xs price-old">$95</span> <span class="font-mono font-bold text-coral">$75</span></button>
+            <button onclick="selectPackage('custom')" class="cta-pkg-btn px-3 py-2.5 rounded-xl border border-gold/15 text-sm text-brown/60 hover:border-coral transition-all" data-pkg="custom">Custom<br><span class="font-mono font-bold">$35+</span></button>
           </div>
         </div>
         <div class="grid md:grid-cols-2 gap-4 mb-4">
@@ -1031,8 +1631,21 @@
         <span class="font-serif italic text-coral">Fly</span>
         <span class="font-display font-bold text-navy">Korean</span>
       </div>
+      <div class="flex items-center gap-5">
+        <a href="https://www.tiktok.com/@g4jy_" target="_blank" class="text-brown-light hover:text-coral transition" title="TikTok">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.34-6.34V8.76a8.28 8.28 0 004.76 1.5v-3.4a4.85 4.85 0 01-1-.17z"/></svg>
+        </a>
+        <a href="https://www.instagram.com/g4jy_" target="_blank" class="text-brown-light hover:text-coral transition" title="Instagram">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        </a>
+        <a href="https://www.youtube.com/@g4jy" target="_blank" class="text-brown-light hover:text-coral transition" title="YouTube">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        </a>
+        <a href="https://preply.com/en/tutor/7214380" target="_blank" class="text-brown-light hover:text-coral transition" title="Preply Profile">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+        </a>
+      </div>
       <div class="flex items-center gap-4 text-sm text-brown-light">
-        <a href="https://preply.com" target="_blank" class="hover:text-coral transition">Preply Profile</a>
         <span>Super Tutor 7/7</span>
         <span class="flex items-center gap-1">4.8+ avg <span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></span>
       </div>
@@ -1307,30 +1920,30 @@
     let selectedPkg = null;
     let lessonsPerWeek = 1;
     const pkgData = {
-      essential: { base: { regular: 40, promo: 30 }, weekly: { regular: 0, promo: 0 } },
-      standard: { base: { regular: 40, promo: 30 }, weekly: { regular: 25, promo: 15 } },
-      premium: { base: { regular: 40, promo: 30 }, weekly: { regular: 50, promo: 40 } },
+      essential: { base: { regular: 45, promo: 35 }, weekly: { regular: 0, promo: 0 } },
+      standard: { base: { regular: 45, promo: 35 }, weekly: { regular: 25, promo: 15 } },
+      premium: { base: { regular: 45, promo: 35 }, weekly: { regular: 50, promo: 40 } },
     };
     const addons = [
-      { id: 'light_hw', name: 'Light Homework', type: 'per_lesson', regular: 5, promo: 0, desc: 'Weekly study materials + light daily exercises' },
-      { id: 'full_hw', name: 'Full Homework + Word DB', type: 'per_week', regular: 15, promo: 15, desc: '3 documents per lesson + vocabulary tracking' },
-      { id: 'writing', name: 'Writing Correction', type: 'per_lesson', regular: 10, promo: 10, desc: 'Essays, emails, business document correction' },
-      { id: 'nudge', name: 'Nudge & Quiz Messages', type: 'per_week', regular: 5, promo: 0, desc: '2-3 weekly quizzes + study reminders' },
-      { id: 'feedback', name: 'Daily Feedback', type: 'per_week', regular: 15, promo: 10, desc: 'Daily voice + writing corrections' },
-      { id: 'app', name: 'Personal Web App', type: 'per_week', regular: 6, promo: 5, desc: 'Sentence Builder + Flashcards + Mastery tracking' },
-      { id: 'discord', name: 'Discord Community', type: 'per_week', regular: 4, promo: 0, desc: 'Study group + challenges + student community' },
+      { id: 'light_hw', name: 'Light Homework', type: 'per_lesson', regular: 5, promo: 0, desc: 'Weekly study materials + light daily exercises', systemLink: '#system-homework', recFor: 'Students who want structure but have limited time', skipIf: 'You prefer self-directed study between lessons' },
+      { id: 'full_hw', name: 'Full Homework + Word DB', type: 'per_week', regular: 15, promo: 15, desc: '3 documents per lesson + vocabulary tracking', systemLink: '#system-homework', recFor: 'Serious learners who want maximum practice material', skipIf: 'You already have Light Homework and that feels sufficient' },
+      { id: 'writing', name: 'Writing Correction', type: 'per_lesson', regular: 10, promo: 10, desc: 'Essays, emails, business document correction', systemLink: '#system-feedback', recFor: 'Business professionals or TOPIK writing prep', skipIf: 'You are a beginner focused on speaking first' },
+      { id: 'feedback', name: 'Daily Feedback', type: 'per_week', regular: 15, promo: 10, desc: 'Daily voice + writing corrections', systemLink: '#system-feedback', recFor: 'Students who want to improve every single day', skipIf: 'You only study on lesson days' },
+      { id: 'app', name: 'Personal Web App', type: 'per_week', regular: 6, promo: 5, desc: 'Sentence Builder + Flashcards + Mastery tracking', systemLink: '#system-app', recFor: 'Visual learners who practice on mobile/desktop', skipIf: 'You prefer paper-based practice' },
+      { id: 'discord', name: 'Discord Community', type: 'per_week', regular: 4, promo: 0, desc: 'Study group + challenges + student community', systemLink: null, recFor: 'Social learners who want study partners', skipIf: 'You prefer to study independently' },
     ];
 
     // Render addon checkboxes
     const addonList = document.getElementById('addonList');
     if (addonList) {
       addons.forEach(a => {
-        // Custom charges regular prices; show what Standard/Premium would save
         const priceLabel = a.type === 'per_lesson' ? '$'+a.regular+'/lesson' : '$'+a.regular+'/week';
         const freeInPreset = a.promo === 0;
         const discountInPreset = a.promo > 0 && a.promo < a.regular;
         const saveBadge = freeInPreset ? '<span class="text-xs px-2 py-0.5 rounded-full bg-teal/10 text-teal font-bold">FREE in Standard/Premium</span>' : (discountInPreset ? `<span class="text-xs px-2 py-0.5 rounded-full bg-gold/10 text-gold font-bold">Cheaper in preset</span>` : '');
-        addonList.innerHTML += `<label class="flex items-start gap-3 p-3 rounded-xl bg-cream-dark/50 cursor-pointer hover:bg-cream-dark transition"><input type="checkbox" class="addon-check mt-0.5" data-id="${a.id}" onchange="calcCustom()"><div class="flex-1"><div class="flex items-center gap-2 flex-wrap"><span class="text-sm font-medium text-navy/80">${a.name}</span><span class="text-xs text-brown-light">${priceLabel}</span>${saveBadge}</div><p class="text-xs text-brown-light mt-0.5">${a.desc}</p></div></label>`;
+        const sysLink = a.systemLink ? `<a href="${a.systemLink}" class="text-[0.6rem] text-teal hover:underline" onclick="event.stopPropagation()">See in System &uarr;</a>` : '';
+        const recTag = `<div class="mt-1.5 flex flex-wrap gap-1.5"><span class="text-[0.6rem] px-1.5 py-0.5 rounded bg-green-500/8 text-green-600">Best for: ${a.recFor}</span><span class="text-[0.6rem] px-1.5 py-0.5 rounded bg-brown/5 text-brown-light/60">Skip if: ${a.skipIf}</span></div>`;
+        addonList.innerHTML += `<label class="flex items-start gap-3 p-3 rounded-xl bg-cream-dark/50 cursor-pointer hover:bg-cream-dark transition"><input type="checkbox" class="addon-check mt-0.5" data-id="${a.id}" onchange="calcCustom()"><div class="flex-1"><div class="flex items-center gap-2 flex-wrap"><span class="text-sm font-medium text-navy/80">${a.name}</span><span class="text-xs text-brown-light">${priceLabel}</span>${saveBadge} ${sysLink}</div><p class="text-xs text-brown-light mt-0.5">${a.desc}</p>${recTag}</div></label>`;
       });
       // Custom Requests item
       addonList.innerHTML += `<div class="flex items-start gap-3 p-3 rounded-xl bg-cream-dark/50 border border-dashed border-gold/30"><div class="w-5 h-5 flex-shrink-0 mt-0.5 flex items-center justify-center text-gold">&#9733;</div><div class="flex-1"><div class="flex items-center gap-2 flex-wrap"><span class="text-sm font-medium text-navy/80">Custom Requests (1:1 Consultation)</span><span class="text-xs px-2 py-0.5 rounded-full bg-gold/10 text-gold font-bold font-kr">\uAC1C\uBCC4 \uBB38\uC758</span></div><p class="text-xs text-brown-light mt-1 leading-relaxed">For specialized needs beyond standard packages:</p><ul class="text-xs text-brown-light mt-1 space-y-0.5 list-disc list-inside"><li>Corporate lectures &amp; team training</li><li>Deadline-driven intensive courses (visa, TOPIK, relocation)</li><li>3+ hours/day exclusive programs</li><li>K-pop / K-beauty industry professionals</li><li>Business Korean &amp; exam preparation</li></ul><a href="#contact" class="inline-flex items-center gap-1 text-xs text-coral font-semibold mt-2 hover:underline">Contact Me &rarr;</a></div></div>`;
@@ -1389,11 +2002,11 @@
     }
 
     // Define which addons are in each preset package
-    const standardAddons = ['light_hw', 'full_hw', 'nudge'];
-    const premiumAddons = ['light_hw', 'full_hw', 'nudge', 'feedback', 'app', 'discord'];
+    const standardAddons = ['light_hw', 'full_hw'];
+    const premiumAddons = ['light_hw', 'full_hw', 'feedback', 'app', 'discord'];
 
     function calcCustom() {
-      let weeklyPerLesson = 30; // base lesson at promo price
+      let weeklyPerLesson = 35; // base lesson at promo price
       let weeklyServices = 0;
       const checkedIds = [];
       document.querySelectorAll('.addon-check:checked').forEach(cb => {
@@ -1593,6 +2206,64 @@
       btn.addEventListener('mouseenter', () => {
         btn.style.transition = 'transform 0.1s ease-out';
       });
+    });
+
+    // ===== PHILOSOPHY TABS =====
+    function switchPhiloTab(n) {
+      document.querySelectorAll('.philo-tab').forEach((tab, i) => {
+        tab.classList.toggle('active', i === n - 1);
+      });
+      document.querySelectorAll('.philo-panel').forEach((panel, i) => {
+        panel.classList.toggle('active', i === n - 1);
+      });
+    }
+
+    // ===== VIDEO FACADE =====
+    function loadVideo(el, youtubeId) {
+      if (!youtubeId) return;
+      el.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + youtubeId + '?autoplay=1&rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%"></iframe>';
+    }
+
+    // ===== PYRAMID SCROLL ANIMATION =====
+    const pyramidLevels = document.querySelectorAll('#journeyPyramid .pyramid-level');
+    if (pyramidLevels.length) {
+      ScrollTrigger.create({
+        trigger: '#journeyPyramid',
+        start: 'top 75%',
+        once: true,
+        onEnter: () => {
+          // Animate from bottom (base) to top (tip)
+          const reversed = [...pyramidLevels].reverse();
+          reversed.forEach((level, i) => {
+            setTimeout(() => level.classList.add('visible'), i * 250);
+          });
+        }
+      });
+    }
+
+    // ===== STORY MEDIA AUTO-SLIDESHOW =====
+    document.querySelectorAll('.story-media').forEach(container => {
+      const items = container.querySelectorAll('.story-media-item');
+      if (items.length <= 1) { if (items[0]) items[0].classList.add('slide-active'); return; }
+      // Add dots
+      const dotsDiv = document.createElement('div');
+      dotsDiv.className = 'story-media-dots';
+      items.forEach((_, i) => {
+        const dot = document.createElement('span');
+        if (i === 0) dot.classList.add('dot-active');
+        dotsDiv.appendChild(dot);
+      });
+      container.appendChild(dotsDiv);
+      // Init first slide
+      items[0].classList.add('slide-active');
+      let current = 0;
+      setInterval(() => {
+        items[current].classList.remove('slide-active');
+        dotsDiv.children[current].classList.remove('dot-active');
+        current = (current + 1) % items.length;
+        items[current].classList.add('slide-active');
+        dotsDiv.children[current].classList.add('dot-active');
+      }, 3500);
     });
 
     // Init pricing state
