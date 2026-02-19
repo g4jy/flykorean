@@ -129,6 +129,115 @@
     /* Scroll progress */
     #scroll-progress { position: fixed; top: 0; left: 0; height: 3px; z-index: 200; background: linear-gradient(90deg, var(--coral), var(--gold), var(--teal)); transition: width 0.1s linear; }
 
+    /* Typewriter effect */
+    .typewriter-cursor { display: inline-block; width: 3px; height: 0.9em; background: var(--coral); margin-left: 2px; animation: cursorBlink 0.7s infinite; vertical-align: text-bottom; }
+    @keyframes cursorBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+    #hero-typed { display: inline; }
+
+    /* Hero star watermark */
+    .hero-star-watermark {
+      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+      font-size: clamp(8rem, 20vw, 18rem); color: rgba(255, 215, 0, 0.06);
+      letter-spacing: 0.1em; pointer-events: none; z-index: 0; user-select: none;
+      font-family: sans-serif; line-height: 1;
+    }
+
+    /* Success modal */
+    .success-modal-overlay {
+      position: fixed; inset: 0; z-index: 300; background: rgba(26,26,46,0.6);
+      backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
+    }
+    .success-modal-overlay.visible { opacity: 1; pointer-events: all; }
+    .success-modal {
+      background: var(--warm-white); border-radius: 20px; padding: 2.5rem; max-width: 480px; width: 90%;
+      box-shadow: 0 20px 60px rgba(92,64,51,0.2); text-align: center;
+      transform: scale(0.9) translateY(20px); transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .success-modal-overlay.visible .success-modal { transform: scale(1) translateY(0); }
+    @keyframes successCheck {
+      0% { transform: scale(0) rotate(-45deg); opacity: 0; }
+      50% { transform: scale(1.2) rotate(0deg); opacity: 1; }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+    .success-check { animation: successCheck 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.3s both; }
+    @keyframes confettiFall {
+      0% { transform: translateY(-100%) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    }
+    .confetti-piece {
+      position: fixed; top: -10px; width: 10px; height: 10px; z-index: 301;
+      animation: confettiFall 2.5s ease-in forwards;
+    }
+
+    /* Comparison table */
+    .comparison-table { width: 100%; border-collapse: separate; border-spacing: 0; }
+    .comparison-table th { background: rgba(212,165,116,0.1); padding: 0.75rem 1rem; text-align: left; font-size: 0.75rem; font-weight: 700; color: var(--navy); text-transform: uppercase; letter-spacing: 0.05em; }
+    .comparison-table th:first-child { border-radius: 12px 0 0 0; }
+    .comparison-table th:last-child { border-radius: 0 12px 0 0; }
+    .comparison-table td { padding: 0.75rem 1rem; font-size: 0.8rem; color: var(--brown-light); border-bottom: 1px solid rgba(212,165,116,0.1); vertical-align: top; }
+    .comparison-table tr:last-child td { border-bottom: none; }
+    .comparison-table tr.highlight-row td { background: rgba(78,205,196,0.06); color: var(--navy); font-weight: 500; }
+    .comparison-table tr.highlight-row td:first-child { border-left: 3px solid var(--teal); }
+    @media (max-width: 768px) {
+      .comparison-table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .comparison-table { min-width: 600px; }
+    }
+
+    /* Philosophy flow */
+    .philo-flow-card {
+      background: var(--warm-white); border: 1px solid rgba(212,165,116,0.15);
+      border-radius: 16px; padding: 2rem; position: relative;
+      box-shadow: 0 4px 24px rgba(92,64,51,0.06); transition: all 0.4s ease;
+    }
+    .philo-flow-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(92,64,51,0.12); }
+    .philo-flow-arrow {
+      display: flex; align-items: center; justify-content: center;
+      color: var(--coral); font-size: 1.5rem; padding: 0.5rem 0;
+    }
+    .philo-flow-arrow svg { width: 32px; height: 32px; }
+    @media (min-width: 768px) {
+      .philo-flow-arrow { padding: 0 0.5rem; }
+      .philo-flow-arrow svg { transform: rotate(-90deg); }
+    }
+    .philo-flow-label {
+      font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--brown-light); text-align: center;
+      padding: 0.25rem 0;
+    }
+
+    /* System timeline */
+    .system-phase {
+      border-left: 3px solid rgba(212,165,116,0.2); padding-left: 1.5rem;
+      position: relative; margin-bottom: 2rem; padding-bottom: 1rem;
+    }
+    .system-phase::before {
+      content: ''; position: absolute; left: -8px; top: 0;
+      width: 13px; height: 13px; border-radius: 50%;
+      border: 3px solid var(--warm-white);
+    }
+    .system-phase[data-phase="trial"]::before { background: #8B5CF6; }
+    .system-phase[data-phase="before"]::before { background: var(--gold); }
+    .system-phase[data-phase="during"]::before { background: var(--teal); }
+    .system-phase[data-phase="after"]::before { background: var(--coral); }
+    .system-phase[data-phase="between"]::before { background: #6366F1; }
+    .system-phase:last-child { border-left-color: transparent; }
+    .system-phase-content { display: none; }
+    .system-phase.open .system-phase-content { display: block; animation: fadeIn 0.4s ease; }
+    .system-phase-toggle { cursor: pointer; }
+    .system-phase-toggle .toggle-icon { transition: transform 0.3s ease; display: inline-block; }
+    .system-phase.open .system-phase-toggle .toggle-icon { transform: rotate(90deg); }
+
+    /* Availability heatmap */
+    .heatmap-cell {
+      border-radius: 4px; padding: 0.35rem 0.25rem; text-align: center;
+      font-size: 0.55rem; font-weight: 600; transition: all 0.2s ease;
+    }
+    .heatmap-cell.popular { background: rgba(232,132,92,0.25); color: var(--coral); }
+    .heatmap-cell.moderate { background: rgba(212,165,116,0.2); color: var(--gold); }
+    .heatmap-cell.available { background: rgba(78,205,196,0.15); color: var(--teal); }
+    .heatmap-cell.off { background: rgba(139,115,85,0.05); color: var(--brown-light); opacity: 0.4; }
+
     /* Hamburger */
     .hamburger span { display: block; width: 24px; height: 2px; background: var(--navy); margin: 5px 0; transition: all 0.3s ease; }
     .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
@@ -299,6 +408,7 @@
       <div class="hidden md:flex items-center gap-8 text-sm text-brown-light">
         <a href="#story" class="hover:text-coral transition">Story</a>
         <a href="#been-there" class="hover:text-coral transition">Been There?</a>
+        <a href="#comparison" class="hover:text-coral transition">Compare</a>
         <a href="#philosophy" class="hover:text-coral transition">Philosophy</a>
         <a href="#system" class="hover:text-coral transition">System</a>
         <a href="#reviews" class="hover:text-coral transition">Reviews</a>
@@ -314,6 +424,7 @@
     <div class="flex flex-col items-center gap-8 text-xl">
       <a href="#story" onclick="toggleMenu()" class="text-brown hover:text-coral">Story</a>
       <a href="#been-there" onclick="toggleMenu()" class="text-brown hover:text-coral">Been There?</a>
+      <a href="#comparison" onclick="toggleMenu()" class="text-brown hover:text-coral">Compare</a>
       <a href="#philosophy" onclick="toggleMenu()" class="text-brown hover:text-coral">Philosophy</a>
       <a href="#system" onclick="toggleMenu()" class="text-brown hover:text-coral">System</a>
       <a href="#reviews" onclick="toggleMenu()" class="text-brown hover:text-coral">Reviews</a>
@@ -328,17 +439,18 @@
     <div class="parallax-bg" id="heroBg" style="background-image: url('https://images.unsplash.com/photo-1534274867514-d5b47ef89ed7?w=1920&q=80&auto=format&fit=crop');"></div>
     <div class="absolute inset-0" style="background: linear-gradient(135deg, rgba(255,248,243,0.92) 0%, rgba(255,248,243,0.85) 40%, rgba(245,237,227,0.8) 100%);"></div>
 
+    <div class="hero-star-watermark" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+
     <div class="relative z-10 max-w-5xl mx-auto px-6 text-center">
       <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-gold/30 bg-white/60 mb-8 reveal">
         <span class="w-2 h-2 rounded-full bg-coral"></span>
         <span class="text-sm text-brown font-medium">Super Tutor 7/7 on Preply</span>
         <span class="text-xs text-brown-light">|</span>
-        <span class="text-sm text-brown-light">80+ reviews, 4.8 avg &#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <span class="text-sm text-brown-light">80+ reviews, 4.8 avg</span>
       </div>
 
       <h1 class="font-serif text-5xl md:text-7xl lg:text-8xl font-bold leading-[1.1] mb-6 text-navy reveal">
-        Learn to Fly.<br>
-        <span class="gradient-text font-serif italic">In Korean.</span>
+        Learn to <span id="hero-typed"></span><span class="typewriter-cursor"></span>
       </h1>
 
       <p class="text-brown-light text-lg md:text-xl max-w-2xl mx-auto mb-10 reveal" style="transition-delay:0.2s">
@@ -685,8 +797,16 @@
   <!-- ==================== LEARNING JOURNEY ==================== -->
   <section id="journey" class="py-20 md:py-28 bg-cream-dark relative overflow-hidden">
     <div class="max-w-3xl mx-auto px-6">
+      <!-- Hook Question -->
       <div class="text-center mb-16 reveal">
-        <p class="text-coral text-sm font-semibold tracking-widest uppercase mb-3">The Learning Journey</p>
+        <p class="text-coral text-sm font-semibold tracking-widest uppercase mb-6">The Learning Journey</p>
+        <p class="font-serif text-2xl md:text-4xl font-bold text-navy leading-snug mb-4">You've tried apps. You've watched YouTube.<br class="hidden md:block"> You've maybe even bought a textbook.</p>
+        <p class="font-serif text-3xl md:text-5xl font-bold leading-tight"><span class="gradient-text">So why doesn't it stick?</span></p>
+      </div>
+
+      <!-- Transition to pyramid -->
+      <div class="text-center mb-16 reveal">
+        <div class="section-divider mb-10"></div>
         <h2 class="font-serif text-3xl md:text-5xl font-bold text-navy mb-4">You Already Made<br>the Best Choice</h2>
         <p class="text-brown-light max-w-2xl mx-auto">Millions love Korean culture. The pyramid below shows how few actually commit.</p>
       </div>
@@ -897,313 +1017,310 @@
 
   <div class="section-divider"></div>
 
+  <!-- ==================== COMPARISON: FINDING YOUR PATH ==================== -->
+  <section id="comparison" class="py-20 md:py-28 bg-cream-dark relative overflow-hidden">
+    <div class="max-w-5xl mx-auto px-6">
+      <div class="text-center mb-12 reveal">
+        <p class="text-teal text-sm font-semibold tracking-widest uppercase mb-3">Finding Your Path</p>
+        <h2 class="font-serif text-3xl md:text-5xl font-bold text-navy mb-4">Not All Methods Are Equal</h2>
+        <p class="text-brown-light max-w-2xl mx-auto">Every approach has its place. The question is which one matches your goals.</p>
+      </div>
+
+      <div class="comparison-table-wrapper warm-card p-4 md:p-6 reveal">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Method</th>
+              <th>Pros</th>
+              <th>Cons</th>
+              <th>Best For</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="font-medium text-navy">Offline Academies</td>
+              <td>Structured curriculum, social learning</td>
+              <td>Expensive, fixed schedule, one-size-fits-all</td>
+              <td>Locals with budget + time</td>
+            </tr>
+            <tr>
+              <td class="font-medium text-navy">Online Platforms</td>
+              <td>Cheaper, structured content</td>
+              <td>No personalization, no real feedback</td>
+              <td>Self-motivated learners</td>
+            </tr>
+            <tr>
+              <td class="font-medium text-navy">Free Content<br><span class="text-brown-light/50 text-xs">(YouTube / TikTok)</span></td>
+              <td>Free, entertaining, huge variety</td>
+              <td>No structure, no feedback, passive consumption</td>
+              <td>Exploring interest</td>
+            </tr>
+            <tr>
+              <td class="font-medium text-navy">Apps<br><span class="text-brown-light/50 text-xs">(Duolingo etc.)</span></td>
+              <td>Gamified, cheap, convenient</td>
+              <td>Recognition &ne; production, no real speaking</td>
+              <td>Supplementary practice</td>
+            </tr>
+            <tr>
+              <td class="font-medium text-navy">Language Exchange<br><span class="text-brown-light/50 text-xs">(HelloTalk etc.)</span></td>
+              <td>Free, native speakers</td>
+              <td>No structure, uneven quality, time-consuming</td>
+              <td>Already intermediate+</td>
+            </tr>
+            <tr class="highlight-row">
+              <td class="font-bold text-navy">1:1 Tutoring</td>
+              <td><strong>Fully personalized, real feedback, accountability</strong></td>
+              <td><strong>Higher investment</strong></td>
+              <td><strong>Serious learners who want real results</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="text-center mt-10 reveal">
+        <p class="text-brown/60 text-lg leading-relaxed max-w-2xl mx-auto">If 1:1 is the right fit for you, here's how I approach it differently...</p>
+        <div class="mt-4"><a href="#philosophy" class="text-coral font-semibold hover:underline">See my teaching philosophy &darr;</a></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
   <!-- ==================== PHILOSOPHY ==================== -->
   <section id="philosophy" class="py-20 md:py-28 bg-cream-dark relative overflow-hidden">
     <div class="absolute inset-0 opacity-[0.04]" style="background-image: url('https://images.unsplash.com/photo-1590736969955-71cc94901144?w=1920&q=60&auto=format&fit=crop'); background-size: cover; background-position: center;"></div>
-    <div class="max-w-7xl mx-auto px-6">
+    <div class="max-w-5xl mx-auto px-6">
       <div class="text-center mb-6 reveal">
         <p class="text-gold text-sm font-semibold tracking-widest uppercase mb-3">Teaching Philosophy</p>
         <h2 class="font-serif text-3xl md:text-5xl font-bold text-navy mb-4">Three Pillars of Korean Mastery</h2>
-        <p class="text-brown-light max-w-2xl mx-auto">These aren't just teaching methods. They're the foundation of how Korean actually works &mdash; and why most textbooks get it wrong.</p>
+        <p class="text-brown-light max-w-2xl mx-auto">These aren't separate subjects. They're one connected story &mdash; and the order matters.</p>
       </div>
 
-      <!-- Why these three? -->
-      <div class="max-w-2xl mx-auto mb-10 reveal">
+      <!-- Why connected? -->
+      <div class="max-w-2xl mx-auto mb-12 reveal">
         <div class="warm-card p-5 md:p-6 text-center">
-          <p class="text-brown/60 text-sm leading-relaxed mb-3">Most courses teach these separately. But in real Korean, they're inseparable. You can't fix pronunciation without understanding sound change rules (Pronunciation). Sound changes follow sentence patterns (Sentence Logic). And sentence patterns change completely based on who you're talking to (Cultural Context).</p>
-          <div class="flex items-center justify-center gap-3 text-xs text-brown-light/60">
-            <span class="px-3 py-1 rounded-full bg-coral/8 text-coral font-bold">Sounds</span>
-            <span>&harr;</span>
-            <span class="px-3 py-1 rounded-full bg-teal/8 text-teal font-bold">Logic</span>
-            <span>&harr;</span>
-            <span class="px-3 py-1 rounded-full bg-gold/8 text-gold font-bold">Context</span>
+          <p class="text-brown/60 text-sm leading-relaxed mb-3">Most courses teach pronunciation, grammar, and culture as separate units. But in real Korean, they're inseparable. Culture shapes how sentences are built. Sentence structure determines which sounds change. And natural pronunciation is what makes Koreans feel you truly respect their language.</p>
+          <div class="flex items-center justify-center gap-2 text-xs text-brown-light/60 flex-wrap">
+            <span class="px-3 py-1 rounded-full bg-gold/8 text-gold font-bold">Culture (Why)</span>
+            <span>&rarr;</span>
+            <span class="px-3 py-1 rounded-full bg-teal/8 text-teal font-bold">Structure (How)</span>
+            <span>&rarr;</span>
+            <span class="px-3 py-1 rounded-full bg-coral/8 text-coral font-bold">Sounds (What)</span>
           </div>
         </div>
       </div>
 
-      <!-- Tab Bar -->
-      <div class="flex flex-wrap justify-center gap-1 mb-0 reveal" id="philoTabs">
-        <button class="philo-tab active flex items-center gap-2" onclick="switchPhiloTab(1)">
-          <svg class="w-5 h-5 text-coral" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/></svg>
-          <span class="font-display font-bold text-sm">Pronunciation</span>
-        </button>
-        <button class="philo-tab flex items-center gap-2" onclick="switchPhiloTab(2)">
-          <svg class="w-5 h-5 text-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>
-          <span class="font-display font-bold text-sm">Sentence Logic</span>
-        </button>
-        <button class="philo-tab flex items-center gap-2" onclick="switchPhiloTab(3)">
-          <svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
-          <span class="font-display font-bold text-sm">Cultural Context</span>
-        </button>
-      </div>
-
-      <!-- Tab Panels -->
-      <div class="warm-card p-6 md:p-8 rounded-t-none reveal">
-
-        <!-- Panel 1: Pronunciation -->
-        <div class="philo-panel active" id="philoPanel1">
-          <div class="flex items-center gap-3 mb-2">
-            <h3 class="font-display text-xl font-bold text-navy">Sounds Before Grammar</h3>
-          </div>
-          <p class="text-brown/60 text-sm leading-relaxed mb-2 max-w-3xl">Korean is forgiving on grammar but <strong class="text-navy">unforgiving on sounds</strong>. Even with just 10 words, correct pronunciation makes Koreans think you lived in Korea.</p>
-          <p class="text-brown/40 text-xs italic mb-6 max-w-3xl">"Korean people care about pronunciation rather than grammar. If you sound right, they'll understand you."</p>
-
-          <!-- Consonants: 3-column -->
-          <p class="text-coral text-xs font-bold mb-3 tracking-widest uppercase">Consonants: Three Levels of &#12593;/&#12619;/&#12594;</p>
-          <div class="grid md:grid-cols-3 gap-4 mb-6">
-            <div class="bg-cream-dark rounded-xl p-5 text-center">
-              <!-- DIAGRAM: Side-view mouth diagram showing airflow for plain &#12593; (soft, minimal air) -->
-              <div class="w-20 h-20 mx-auto mb-3 rounded-full bg-white/60 border-2 border-dashed border-brown/15 flex items-center justify-center">
-                <span class="font-kr text-3xl font-bold text-navy">&#44032;</span>
-              </div>
-              <p class="font-display font-bold text-navy text-sm mb-1">Plain <span class="font-kr text-xs">(&#50696;&#49324;&#49548;&#47532;)</span></p>
-              <p class="text-xs text-brown-light mb-2">Soft, relaxed &mdash; like "g" in "go"</p>
-              <p class="text-xs text-brown/50">Minimal air release. Vocal cords relaxed.</p>
-              <p class="text-xs text-teal mt-2 font-medium font-kr">&#44032;&#48169; (bag) &bull; &#44256;&#44592; (meat)</p>
+      <!-- Connected Flow: Three Cards with Arrows -->
+      <div class="reveal">
+        <!-- PILLAR 1: CULTURE (WHY) -->
+        <div class="philo-flow-card mb-2" style="border-left: 4px solid var(--gold);">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-12 h-12 rounded-xl bg-gold/10 flex items-center justify-center flex-shrink-0">
+              <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
             </div>
-            <div class="bg-cream-dark rounded-xl p-5 text-center">
-              <!-- DIAGRAM: Side-view mouth diagram showing strong airflow for aspirated &#12619; -->
-              <div class="w-20 h-20 mx-auto mb-3 rounded-full bg-white/60 border-2 border-dashed border-teal/25 flex items-center justify-center">
-                <span class="font-kr text-3xl font-bold text-teal">&#52852;</span>
-              </div>
-              <p class="font-display font-bold text-navy text-sm mb-1">Aspirated <span class="font-kr text-xs">(&#44144;&#49468;&#49548;&#47532;)</span></p>
-              <p class="text-xs text-brown-light mb-2">Strong burst of air &mdash; hold hand in front</p>
-              <p class="text-xs text-brown/50">Puff of air you can feel on your palm.</p>
-              <p class="text-xs text-teal mt-2 font-medium font-kr">&#52852;&#54168; (cafe) &bull; &#52852;&#46300; (card)</p>
-            </div>
-            <div class="bg-cream-dark rounded-xl p-5 text-center">
-              <!-- DIAGRAM: Side-view mouth diagram showing tensed &#12594; (tight throat, no air) -->
-              <div class="w-20 h-20 mx-auto mb-3 rounded-full bg-white/60 border-2 border-dashed border-coral/25 flex items-center justify-center">
-                <span class="font-kr text-3xl font-bold text-coral">&#44620;</span>
-              </div>
-              <p class="font-display font-bold text-navy text-sm mb-1">Tensed <span class="font-kr text-xs">(&#46108;&#49548;&#47532;)</span></p>
-              <p class="text-xs text-brown-light mb-2">Tight throat, no air released</p>
-              <p class="text-xs text-brown/50">Squeeze your throat, stop all airflow.</p>
-              <p class="text-xs text-coral mt-2 font-medium font-kr">&#44620;&#54588; wrong! &#52964;&#54588; = coffee</p>
+            <div>
+              <p class="text-gold text-xs font-bold tracking-widest uppercase">Pillar 1 &mdash; The Why</p>
+              <h3 class="font-display text-xl md:text-2xl font-bold text-navy">Culture</h3>
             </div>
           </div>
-
-          <!-- Vowels: Jaw & Lip Grid -->
-          <p class="text-coral text-xs font-bold mb-3 tracking-widest uppercase">Vowels: Jaw &amp; Lip Positions</p>
-          <div class="grid grid-cols-3 md:grid-cols-6 gap-3 mb-6">
-            <div class="bg-cream-dark rounded-xl p-3 text-center">
-              <span class="font-kr text-2xl font-bold text-coral">&#50500;</span>
-              <p class="text-[0.6rem] text-brown-light mt-1">Jaw: wide open</p>
-              <p class="text-[0.6rem] text-brown/40">Lips: neutral</p>
-            </div>
-            <div class="bg-cream-dark rounded-xl p-3 text-center">
-              <span class="font-kr text-2xl font-bold text-gold">&#50612;</span>
-              <p class="text-[0.6rem] text-brown-light mt-1">Jaw: half open</p>
-              <p class="text-[0.6rem] text-brown/40">Lips: neutral</p>
-            </div>
-            <div class="bg-cream-dark rounded-xl p-3 text-center">
-              <span class="font-kr text-2xl font-bold text-teal">&#50724;</span>
-              <p class="text-[0.6rem] text-brown-light mt-1">Jaw: half</p>
-              <p class="text-[0.6rem] text-brown/40">Lips: rounded</p>
-            </div>
-            <div class="bg-cream-dark rounded-xl p-3 text-center">
-              <span class="font-kr text-2xl font-bold text-navy">&#50864;</span>
-              <p class="text-[0.6rem] text-brown-light mt-1">Jaw: closed</p>
-              <p class="text-[0.6rem] text-brown/40">Lips: pursed</p>
-            </div>
-            <div class="bg-cream-dark rounded-xl p-3 text-center">
-              <span class="font-kr text-2xl font-bold text-brown">&#51004;</span>
-              <p class="text-[0.6rem] text-brown-light mt-1">Jaw: closed</p>
-              <p class="text-[0.6rem] text-brown/40">Lips: spread wide</p>
-            </div>
-            <div class="bg-cream-dark rounded-xl p-3 text-center">
-              <span class="font-kr text-2xl font-bold text-coral">&#51060;</span>
-              <p class="text-[0.6rem] text-brown-light mt-1">Jaw: closed</p>
-              <p class="text-[0.6rem] text-brown/40">Lips: smile shape</p>
-            </div>
-          </div>
-
-          <!-- Sound Changes -->
-          <p class="text-coral text-xs font-bold mb-3 tracking-widest uppercase">Sound Changes: Written &#8800; Spoken</p>
-          <div class="grid md:grid-cols-2 gap-3 mb-4">
-            <div class="flex items-center gap-3 p-3 rounded-xl bg-cream-dark">
-              <span class="font-kr text-base font-bold text-navy">&#47579;&#51080;&#50612;&#50836;</span>
-              <span class="text-coral text-lg">&rarr;</span>
-              <span class="font-kr text-base font-bold text-coral">&#47560;&#49884;&#49492;&#50836;</span>
-              <span class="text-xs text-brown-light ml-auto">"delicious"</span>
-            </div>
-            <div class="flex items-center gap-3 p-3 rounded-xl bg-cream-dark">
-              <span class="font-kr text-base font-bold text-navy">&#54620;&#44397;&#50612;</span>
-              <span class="text-coral text-lg">&rarr;</span>
-              <span class="font-kr text-base font-bold text-coral">&#54620;&#44396;&#44144;</span>
-              <span class="text-xs text-brown-light ml-auto">"Korean language"</span>
-            </div>
-          </div>
-          <!-- AUDIO: Add your own audio recordings here later -->
-          <p class="text-brown-light/40 text-xs italic">I teach you to lean into natural blending, not fight it.</p>
-        </div>
-
-        <!-- Panel 2: Sentence Logic -->
-        <div class="philo-panel" id="philoPanel2">
-          <div class="flex items-center gap-3 mb-2">
-            <h3 class="font-display text-xl font-bold text-navy">Think Korean, Not Translate</h3>
-          </div>
-          <p class="text-brown/60 text-sm leading-relaxed mb-2 max-w-3xl">English goes small&rarr;big. Korean goes big&rarr;small. Once you see the logic, you stop translating and start <em>thinking</em> in Korean.</p>
-          <p class="text-brown/40 text-xs italic mb-6 max-w-3xl">"If I say something &#51452;&#49464;&#50836;, they will give me something. Pattern over grammar."</p>
-
-          <!-- Context block: The 3 key features on top -->
-          <div class="grid grid-cols-3 gap-3 mb-6">
-            <div class="bg-cream-dark rounded-xl p-3 text-center"><p class="text-teal text-[0.65rem] font-bold mb-1">WORD ORDER</p><p class="text-brown/50 text-xs">Korean reverses English order &mdash; verb always last</p></div>
-            <div class="bg-cream-dark rounded-xl p-3 text-center"><p class="text-teal text-[0.65rem] font-bold mb-1">ENDINGS &amp; CONJUGATION</p><p class="text-brown/50 text-xs">One root, many endings &mdash; tense, mood, formality</p></div>
-            <div class="bg-cream-dark rounded-xl p-3 text-center"><p class="text-teal text-[0.65rem] font-bold mb-1">PARTICLES</p><p class="text-brown/50 text-xs">Small markers that define who does what to whom</p></div>
-          </div>
-
-          <!-- 3 detailed blocks below -->
-          <div class="grid md:grid-cols-3 gap-4 mb-6">
-            <div class="bg-cream-dark rounded-xl p-5">
-              <p class="text-teal text-xs font-bold mb-3">WORD ORDER: SHOPPING</p>
-              <div class="mb-4">
-                <p class="text-xs text-brown-light mb-2">English: Who &rarr; Action &rarr; What &rarr; Where</p>
-                <div class="flex flex-wrap gap-1">
-                  <span class="px-3 py-1.5 rounded bg-blue-100 text-blue-700 text-sm font-medium">I</span>
-                  <span class="px-3 py-1.5 rounded bg-red-100 text-red-700 text-sm font-medium">bought</span>
-                  <span class="px-3 py-1.5 rounded bg-green-100 text-green-700 text-sm font-medium">a bag</span>
-                  <span class="px-3 py-1.5 rounded bg-purple-100 text-purple-700 text-sm font-medium">in Paris</span>
-                </div>
-              </div>
-              <div>
-                <p class="text-xs text-brown-light mb-2">Korean: Who &rarr; Where &rarr; What &rarr; Action</p>
-                <div class="flex flex-wrap gap-1">
-                  <span class="px-3 py-1.5 rounded bg-blue-100 text-blue-700 text-sm font-medium font-kr">&#51200;&#45716;</span>
-                  <span class="px-3 py-1.5 rounded bg-purple-100 text-purple-700 text-sm font-medium font-kr">&#54028;&#47532;&#50640;&#49436;</span>
-                  <span class="px-3 py-1.5 rounded bg-green-100 text-green-700 text-sm font-medium font-kr">&#44032;&#48169;&#51012;</span>
-                  <span class="px-3 py-1.5 rounded bg-red-100 text-red-700 text-sm font-medium font-kr">&#49380;&#50836;</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="bg-cream-dark rounded-xl p-5">
-              <p class="text-teal text-xs font-bold mb-3">TENSE: JUST THE ENDING CHANGES</p>
+          <blockquote class="border-l-2 border-gold/30 pl-4 mb-5">
+            <p class="text-brown/70 text-sm md:text-base leading-relaxed italic">"Korea is a group-oriented society with 5,000 years of history. We put community first, context first. That's why Korean sentences put context before action."</p>
+          </blockquote>
+          <div class="grid md:grid-cols-2 gap-4 mb-4">
+            <div class="bg-cream-dark rounded-xl p-4">
+              <p class="text-gold text-xs font-bold mb-2">GROUP-FIRST THINKING</p>
               <div class="space-y-2">
-                <div class="flex items-center gap-3 p-2.5 rounded-lg bg-white/60">
+                <div class="p-2.5 rounded-lg bg-white/60">
+                  <p class="font-kr text-sm font-bold text-navy">&#50864;&#47532; &#45208;&#46972;</p>
+                  <p class="text-xs text-brown-light">"Our country" &mdash; not "my country"</p>
+                </div>
+                <div class="p-2.5 rounded-lg bg-white/60">
+                  <p class="font-kr text-sm font-bold text-navy">&#50864;&#47532; &#50628;&#47560;</p>
+                  <p class="text-xs text-brown-light">"Our mom" &mdash; even when talking about MY mom</p>
+                </div>
+              </div>
+            </div>
+            <div class="bg-cream-dark rounded-xl p-4">
+              <p class="text-gold text-xs font-bold mb-2">HIDDEN LAYERS OF MEANING</p>
+              <div class="space-y-2">
+                <div class="p-2.5 rounded-lg bg-white/60">
+                  <p class="font-kr text-sm font-bold text-navy">&#48372;&#44256;&#49910;&#50612;</p>
+                  <p class="text-xs text-brown-light">Literally "want to see" &mdash; actually means "I miss you"</p>
+                </div>
+                <div class="p-2.5 rounded-lg bg-white/60">
+                  <p class="text-xs text-brown/70">"What day is it today?" from a boss</p>
+                  <p class="text-xs text-gold italic">= implicit deadline check, not a literal question</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="bg-cream-dark rounded-xl p-4">
+            <p class="text-gold text-xs font-bold mb-2">SEVEN WAYS TO SAY "HELLO"</p>
+            <p class="text-brown/60 text-xs leading-relaxed mb-2">The right greeting depends on social context &mdash; age, relationship, setting. This is <strong class="font-kr text-navy">&#45576;&#52824;</strong> (nunchi): reading the room. It's not optional. It's a survival skill.</p>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="px-2 py-1 rounded bg-gold/10 text-gold text-[0.6rem] font-bold">Age</span>
+              <span class="text-gold text-[0.6rem]">&rarr;</span>
+              <span class="px-2 py-1 rounded bg-gold/15 text-gold text-[0.6rem] font-bold">Relationship</span>
+              <span class="text-gold text-[0.6rem]">&rarr;</span>
+              <span class="px-2 py-1 rounded bg-gold/20 text-gold text-[0.6rem] font-bold">Setting</span>
+              <span class="text-gold text-[0.6rem]">&rarr;</span>
+              <span class="px-2 py-1 rounded bg-coral/15 text-coral text-[0.6rem] font-bold">Correct greeting</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Arrow: Culture → Structure -->
+        <div class="philo-flow-arrow">
+          <div class="text-center">
+            <p class="philo-flow-label text-gold">shapes how we speak</p>
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+          </div>
+        </div>
+
+        <!-- PILLAR 2: STRUCTURE (HOW) -->
+        <div class="philo-flow-card mb-2" style="border-left: 4px solid var(--teal);">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-12 h-12 rounded-xl bg-teal/10 flex items-center justify-center flex-shrink-0">
+              <svg class="w-6 h-6 text-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>
+            </div>
+            <div>
+              <p class="text-teal text-xs font-bold tracking-widest uppercase">Pillar 2 &mdash; The How</p>
+              <h3 class="font-display text-xl md:text-2xl font-bold text-navy">Structure</h3>
+            </div>
+          </div>
+          <blockquote class="border-l-2 border-teal/30 pl-4 mb-5">
+            <p class="text-brown/70 text-sm md:text-base leading-relaxed italic">"Korean sentences are reversed from English. Context comes first, action comes last. Because context matters most."</p>
+          </blockquote>
+          <div class="bg-cream-dark rounded-xl p-5 mb-4">
+            <p class="text-teal text-xs font-bold mb-3">CONTEXT FIRST, ACTION LAST</p>
+            <div class="mb-3">
+              <p class="text-xs text-brown-light mb-2">English: I &rarr; ate &rarr; chips &rarr; with friend &rarr; in London &rarr; yesterday</p>
+              <div class="flex flex-wrap gap-1">
+                <span class="px-3 py-1.5 rounded bg-blue-100 text-blue-700 text-sm font-medium">I</span>
+                <span class="px-3 py-1.5 rounded bg-red-100 text-red-700 text-sm font-medium">ate</span>
+                <span class="px-3 py-1.5 rounded bg-green-100 text-green-700 text-sm font-medium">chips</span>
+                <span class="px-3 py-1.5 rounded bg-purple-100 text-purple-700 text-sm font-medium">with friend</span>
+                <span class="px-3 py-1.5 rounded bg-yellow-100 text-yellow-700 text-sm font-medium">in London</span>
+                <span class="px-3 py-1.5 rounded bg-gray-100 text-gray-700 text-sm font-medium">yesterday</span>
+              </div>
+            </div>
+            <div>
+              <p class="text-xs text-teal mb-2 font-medium">Korean: Context &rarr; Context &rarr; Context &rarr; Action</p>
+              <div class="flex flex-wrap gap-1">
+                <span class="px-3 py-1.5 rounded bg-blue-100 text-blue-700 text-sm font-medium font-kr">&#51200;&#45716;</span>
+                <span class="px-3 py-1.5 rounded bg-gray-100 text-gray-700 text-sm font-medium font-kr">&#50612;&#51228;</span>
+                <span class="px-3 py-1.5 rounded bg-yellow-100 text-yellow-700 text-sm font-medium font-kr">&#47088;&#45912;&#50640;&#49436;</span>
+                <span class="px-3 py-1.5 rounded bg-purple-100 text-purple-700 text-sm font-medium font-kr">&#52828;&#44396;&#50752;</span>
+                <span class="px-3 py-1.5 rounded bg-green-100 text-green-700 text-sm font-medium font-kr">&#52841;&#49828;&#47484;</span>
+                <span class="px-3 py-1.5 rounded bg-red-100 text-red-700 text-sm font-medium font-kr">&#47673;&#50632;&#50612;&#50836;</span>
+              </div>
+            </div>
+          </div>
+          <div class="grid md:grid-cols-2 gap-4">
+            <div class="bg-cream-dark rounded-xl p-4">
+              <p class="text-teal text-xs font-bold mb-2">TENSE: JUST THE ENDING CHANGES</p>
+              <div class="space-y-2">
+                <div class="flex items-center gap-3 p-2 rounded-lg bg-white/60">
                   <span class="font-kr text-sm font-bold text-navy w-20 text-right">&#49324;&#50836;</span>
                   <span class="text-xs text-brown-light">&rarr; buy (present)</span>
                 </div>
-                <div class="flex items-center gap-3 p-2.5 rounded-lg bg-white/60">
+                <div class="flex items-center gap-3 p-2 rounded-lg bg-white/60">
                   <span class="font-kr text-sm font-bold text-coral w-20 text-right">&#49388;&#50612;&#50836;</span>
                   <span class="text-xs text-brown-light">&rarr; bought (past)</span>
                 </div>
-                <div class="flex items-center gap-3 p-2.5 rounded-lg bg-white/60">
+                <div class="flex items-center gap-3 p-2 rounded-lg bg-white/60">
                   <span class="font-kr text-sm font-bold text-teal w-20 text-right">&#49332; &#44144;&#50696;&#50836;</span>
                   <span class="text-xs text-brown-light">&rarr; will buy (future)</span>
                 </div>
               </div>
-              <p class="text-brown-light/50 text-xs mt-3 italic">Learn one pattern &rarr; apply it to every verb.</p>
             </div>
-
-            <div class="bg-cream-dark rounded-xl p-5">
-              <p class="text-teal text-xs font-bold mb-3">NUANCE: THREE WAYS TO SAY "WILL DO"</p>
+            <div class="bg-cream-dark rounded-xl p-4">
+              <p class="text-teal text-xs font-bold mb-2">BIG &rarr; SMALL: EVERYTHING</p>
               <div class="space-y-2">
-                <div class="p-2.5 rounded-lg bg-white/60">
-                  <p class="font-kr text-sm font-bold text-navy">&#54624; &#44144;&#50696;&#50836;</p>
-                  <p class="text-xs text-brown-light">Neutral plan &mdash; "I will do it"</p>
+                <div class="p-2 rounded-lg bg-white/60">
+                  <p class="text-xs text-brown-light">Address: <strong class="font-kr text-navy">&#54620;&#44397;, &#49436;&#50872;, &#50724;&#53356; &#49828;&#53944;&#47551; 42</strong></p>
                 </div>
-                <div class="p-2.5 rounded-lg bg-white/60">
-                  <p class="font-kr text-sm font-bold text-teal">&#54624;&#44172;&#50836;</p>
-                  <p class="text-xs text-brown-light">Promise &mdash; "I'll do it (for you)"</p>
-                </div>
-                <div class="p-2.5 rounded-lg bg-white/60">
-                  <p class="font-kr text-sm font-bold text-coral">&#54616;&#47140;&#44256; &#54644;&#50836;</p>
-                  <p class="text-xs text-brown-light">Intention &mdash; "I'm planning to do it"</p>
+                <div class="p-2 rounded-lg bg-white/60">
+                  <p class="text-xs text-brown-light">Date: <strong class="font-kr text-navy">2026&#45380; 2&#50900; 13&#51068;</strong></p>
                 </div>
               </div>
-              <p class="text-brown-light/50 text-xs mt-3 italic">Same "meaning" &mdash; completely different nuance.</p>
+              <p class="text-brown-light/50 text-xs mt-2 italic">Country &rarr; City &rarr; Street. Year &rarr; Month &rarr; Day.</p>
             </div>
           </div>
+        </div>
 
-          <div class="bg-cream-dark rounded-xl p-5">
-            <p class="text-teal text-xs font-bold mb-3">BIG &rarr; SMALL: ADDRESSES &amp; DATES</p>
+        <!-- Arrow: Structure → Sounds -->
+        <div class="philo-flow-arrow">
+          <div class="text-center">
+            <p class="philo-flow-label text-teal">requires mastering</p>
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+          </div>
+        </div>
+
+        <!-- PILLAR 3: SOUNDS (WHAT) -->
+        <div class="philo-flow-card" style="border-left: 4px solid var(--coral);">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-12 h-12 rounded-xl bg-coral/10 flex items-center justify-center flex-shrink-0">
+              <svg class="w-6 h-6 text-coral" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/></svg>
+            </div>
+            <div>
+              <p class="text-coral text-xs font-bold tracking-widest uppercase">Pillar 3 &mdash; The What</p>
+              <h3 class="font-display text-xl md:text-2xl font-bold text-navy">Sounds</h3>
+            </div>
+          </div>
+          <blockquote class="border-l-2 border-coral/30 pl-4 mb-5">
+            <p class="text-brown/70 text-sm md:text-base leading-relaxed italic">"If you pronounce naturally, Korean people immediately feel 'they respect our culture.' Pronunciation opens doors. Tourist pronunciation closes them."</p>
+          </blockquote>
+          <div class="grid md:grid-cols-3 gap-4 mb-4">
+            <div class="bg-cream-dark rounded-xl p-4 text-center">
+              <div class="w-16 h-16 mx-auto mb-2 rounded-full bg-white/60 border-2 border-dashed border-brown/15 flex items-center justify-center">
+                <span class="font-kr text-2xl font-bold text-navy">&#44032;</span>
+              </div>
+              <p class="font-display font-bold text-navy text-xs mb-1">Plain</p>
+              <p class="text-[0.6rem] text-brown-light">Soft, relaxed</p>
+            </div>
+            <div class="bg-cream-dark rounded-xl p-4 text-center">
+              <div class="w-16 h-16 mx-auto mb-2 rounded-full bg-white/60 border-2 border-dashed border-teal/25 flex items-center justify-center">
+                <span class="font-kr text-2xl font-bold text-teal">&#52852;</span>
+              </div>
+              <p class="font-display font-bold text-navy text-xs mb-1">Aspirated</p>
+              <p class="text-[0.6rem] text-brown-light">Strong air burst</p>
+            </div>
+            <div class="bg-cream-dark rounded-xl p-4 text-center">
+              <div class="w-16 h-16 mx-auto mb-2 rounded-full bg-white/60 border-2 border-dashed border-coral/25 flex items-center justify-center">
+                <span class="font-kr text-2xl font-bold text-coral">&#44620;</span>
+              </div>
+              <p class="font-display font-bold text-navy text-xs mb-1">Tensed</p>
+              <p class="text-[0.6rem] text-brown-light">Tight, no air</p>
+            </div>
+          </div>
+          <div class="bg-cream-dark rounded-xl p-4">
+            <p class="text-coral text-xs font-bold mb-2">SOUND CHANGES: WRITTEN &ne; SPOKEN</p>
             <div class="grid md:grid-cols-2 gap-3">
-              <div class="p-3 rounded-lg bg-white/60">
-                <p class="text-xs text-brown-light mb-1">English: <strong>42 Oak Street, Seoul, Korea</strong></p>
-                <p class="text-xs text-teal">Korean: <strong class="font-kr">&#54620;&#44397;, &#49436;&#50872;, &#50724;&#53356; &#49828;&#53944;&#47551; 42</strong></p>
+              <div class="flex items-center gap-3 p-2.5 rounded-lg bg-white/60">
+                <span class="font-kr text-sm font-bold text-navy">&#47579;&#51080;&#50612;&#50836;</span>
+                <span class="text-coral">&rarr;</span>
+                <span class="font-kr text-sm font-bold text-coral">&#47560;&#49884;&#49492;&#50836;</span>
+                <span class="text-xs text-brown-light ml-auto">"delicious"</span>
               </div>
-              <div class="p-3 rounded-lg bg-white/60">
-                <p class="text-xs text-brown-light mb-1">English: <strong>February 13, 2026</strong></p>
-                <p class="text-xs text-teal">Korean: <strong class="font-kr">2026&#45380; 2&#50900; 13&#51068;</strong></p>
+              <div class="flex items-center gap-3 p-2.5 rounded-lg bg-white/60">
+                <span class="font-kr text-sm font-bold text-navy">&#54620;&#44397;&#50612;</span>
+                <span class="text-coral">&rarr;</span>
+                <span class="font-kr text-sm font-bold text-coral">&#54620;&#44396;&#44144;</span>
+                <span class="text-xs text-brown-light ml-auto">"Korean language"</span>
               </div>
             </div>
+            <p class="text-brown-light/40 text-xs italic mt-2">I teach you to lean into natural blending, not fight it.</p>
           </div>
         </div>
+      </div>
 
-        <!-- Panel 3: Cultural Context -->
-        <div class="philo-panel" id="philoPanel3">
-          <div class="flex items-center gap-3 mb-2">
-            <h3 class="font-display text-xl font-bold text-navy">Three Cultural Pillars</h3>
-          </div>
-          <p class="text-brown/60 text-sm leading-relaxed mb-2 max-w-3xl">Korean isn't just a language &mdash; it's a social operating system. The same sentence can be polite, casual, or insulting based on context. Understanding <em>why</em> Korean works this way is the key to speaking naturally, not just correctly.</p>
-          <p class="text-brown/40 text-xs italic mb-6 max-w-3xl">"Korea and Japan are high contextual societies &mdash; less verbal, more non-verbal."</p>
-
-          <div class="grid md:grid-cols-3 gap-4 mb-6">
-            <!-- High Context Society -->
-            <div class="bg-cream-dark rounded-xl p-5">
-              <p class="text-gold text-xs font-bold mb-1 tracking-widest uppercase">High Context Society</p>
-              <p class="font-kr text-xs text-gold/60 mb-3">&#45458;&#51008; &#47589;&#46973; &#47928;&#54868;</p>
-              <p class="text-brown/60 text-xs leading-relaxed mb-2"><strong class="text-navy">Why it matters:</strong> Korea's 5,000-year history as a densely populated, homogeneous society created a culture where people share unspoken context. Words are just the tip of the iceberg.</p>
-              <p class="text-brown/60 text-xs leading-relaxed mb-3">Context matters more than words. What's <em>not</em> said is as important as what is.</p>
-              <div class="p-3 rounded-lg bg-white/60 mb-3">
-                <p class="text-xs text-gold font-medium mb-1">Quiz: Your friend says <span class="font-kr">"&#44312;&#52268;&#50500;&#50836;"</span>. What do they mean?</p>
-                <p class="text-xs text-brown-light">A) Fine &nbsp; B) Upset but won't say &nbsp; C) Depends on context</p>
-                <p class="text-xs text-teal mt-1 italic">Answer: C &mdash; I teach you to read the difference.</p>
-              </div>
-              <p class="text-brown/50 text-xs"><strong class="font-kr">&#45576;&#52824;</strong> &mdash; reading social cues is a trainable skill.</p>
-            </div>
-
-            <!-- Honorific System -->
-            <div class="bg-cream-dark rounded-xl p-5">
-              <p class="text-gold text-xs font-bold mb-1 tracking-widest uppercase">Honorific System</p>
-              <p class="font-kr text-xs text-gold/60 mb-3">&#45458;&#51076;&#47568;</p>
-              <p class="text-brown/60 text-xs leading-relaxed mb-2"><strong class="text-navy">Why it exists:</strong> Confucian values embedded hierarchy into the language itself. It's not optional politeness &mdash; it's grammatically mandatory. Using the wrong level is like speaking broken Korean.</p>
-              <p class="text-brown/60 text-xs leading-relaxed mb-3">The "Korean brain simulation" &mdash; instantly calculating which words to use:</p>
-              <div class="flex flex-wrap gap-1 mb-3">
-                <span class="px-2 py-1 rounded bg-gold/10 text-gold text-[0.6rem] font-bold">Age &rarr;</span>
-                <span class="px-2 py-1 rounded bg-gold/15 text-gold text-[0.6rem] font-bold">Relationship &rarr;</span>
-                <span class="px-2 py-1 rounded bg-gold/20 text-gold text-[0.6rem] font-bold">Context &rarr;</span>
-                <span class="px-2 py-1 rounded bg-coral/15 text-coral text-[0.6rem] font-bold">Formality Level</span>
-              </div>
-              <div class="space-y-1.5 mb-3">
-                <div class="flex items-center justify-between p-1.5 rounded bg-white/60"><span class="font-kr text-xs">&#44256;&#47560;&#50892;</span><span class="text-[0.6rem] text-green-600">Friends</span></div>
-                <div class="flex items-center justify-between p-1.5 rounded bg-white/60"><span class="font-kr text-xs">&#44048;&#49324;&#54644;&#50836;</span><span class="text-[0.6rem] text-yellow-600">Polite</span></div>
-                <div class="flex items-center justify-between p-1.5 rounded bg-white/60"><span class="font-kr text-xs">&#44048;&#49324;&#54633;&#45768;&#45796;</span><span class="text-[0.6rem] text-orange-600">Formal</span></div>
-                <div class="flex items-center justify-between p-1.5 rounded bg-white/60"><span class="font-kr text-xs">&#44048;&#49324;&#46300;&#47549;&#45768;&#45796;</span><span class="text-[0.6rem] text-red-600">Very formal</span></div>
-              </div>
-              <div class="flex items-center gap-2 p-2 rounded-lg bg-white/60">
-                <div class="text-center"><p class="font-kr text-xs font-bold text-navy">&#48165; &#47673;&#50632;&#50612;?</p><p class="text-[0.55rem] text-brown-light">Younger</p></div>
-                <span class="text-gold text-xs">vs</span>
-                <div class="text-center"><p class="font-kr text-xs font-bold text-coral">&#49885;&#49324; &#54616;&#49512;&#49845;&#45768;&#44620;?</p><p class="text-[0.55rem] text-brown-light">Elder</p></div>
-              </div>
-            </div>
-
-            <!-- Group-Oriented Society -->
-            <div class="bg-cream-dark rounded-xl p-5">
-              <p class="text-gold text-xs font-bold mb-1 tracking-widest uppercase">Group-Oriented Society</p>
-              <p class="font-kr text-xs text-gold/60 mb-3">&#51665;&#45800;&#51452;&#51032;</p>
-              <p class="text-brown/60 text-xs leading-relaxed mb-2"><strong class="text-navy">Why it matters:</strong> Korea's agricultural roots required collective survival. This "we-first" thinking became baked into the language. You literally can't say "my country" naturally in Korean.</p>
-              <p class="text-brown/60 text-xs leading-relaxed mb-3">"We" comes before "I" in Korean thinking. Even grammar reflects this.</p>
-              <div class="space-y-2 mb-3">
-                <div class="p-2.5 rounded-lg bg-white/60">
-                  <p class="font-kr text-sm font-bold text-navy">&#50864;&#47532; &#45208;&#46972;</p>
-                  <p class="text-xs text-brown-light">"Our country" (not "my country")</p>
-                </div>
-                <div class="p-2.5 rounded-lg bg-white/60">
-                  <p class="font-kr text-sm font-bold text-navy">&#50864;&#47532; &#50628;&#47560;</p>
-                  <p class="text-xs text-brown-light">"Our mom" (not "my mom")</p>
-                </div>
-                <div class="p-2.5 rounded-lg bg-white/60">
-                  <p class="font-kr text-sm font-bold text-navy">&#50864;&#47532; &#54924;&#49324;</p>
-                  <p class="text-xs text-brown-light">"Our company" (not "my company")</p>
-                </div>
-              </div>
-              <p class="text-brown/50 text-xs">Why Koreans ask your age: not nosiness &mdash; <strong>linguistic necessity</strong> for the group hierarchy.</p>
-            </div>
-          </div>
+      <!-- Student quote -->
+      <div class="max-w-2xl mx-auto mt-10 text-center reveal">
+        <div class="warm-card p-6">
+          <p class="text-brown/60 text-sm italic leading-relaxed">"You explained in 5 minutes what my textbook spent 20 pages on. And I actually get it now."</p>
+          <p class="text-brown-light text-xs mt-2">&mdash; J***e, Culture Explorer</p>
         </div>
-
       </div>
     </div>
   </section>
@@ -1218,139 +1335,216 @@
 
   <!-- ==================== SYSTEM ==================== -->
   <section id="system" class="py-20 md:py-28 bg-cream relative overflow-hidden">
-    <!-- 📸 IMAGE SUGGESTION: Screenshot of your actual Notion workspace or lesson documentation -->
     <div class="absolute inset-0 opacity-[0.03]" style="background-image: url('https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=1920&q=60&auto=format&fit=crop'); background-size: cover; background-position: center;"></div>
-    <div class="max-w-7xl mx-auto px-6">
+    <div class="max-w-4xl mx-auto px-6">
       <div class="text-center mb-16 reveal">
         <p class="text-teal text-sm font-semibold tracking-widest uppercase mb-3">The System</p>
-        <h2 class="font-serif text-3xl md:text-5xl font-bold text-navy mb-4">Your Problems. Already Solved.</h2>
-        <p class="text-brown-light max-w-2xl mx-auto">Every feature exists because a real student had this exact problem. Here's what happens at every stage of your learning.</p>
+        <h2 class="font-serif text-3xl md:text-5xl font-bold text-navy mb-4">Your Learning Journey, Step by Step</h2>
+        <p class="text-brown-light max-w-2xl mx-auto">Every feature exists because a real student had this exact problem. Click each phase to see what happens.</p>
       </div>
 
-      <!-- Time-based phase labels -->
-      <div class="flex flex-wrap justify-center gap-3 mb-10 reveal">
-        <span class="px-4 py-2 rounded-full bg-purple-500/10 text-purple-500 text-xs font-bold border border-purple-500/15">Trial Lesson</span>
+      <!-- Phase Timeline -->
+      <div class="flex flex-wrap justify-center gap-3 mb-12 reveal">
+        <span class="px-4 py-2 rounded-full bg-purple-500/10 text-purple-500 text-xs font-bold border border-purple-500/15">Trial</span>
         <span class="text-brown-light/30 self-center">&rarr;</span>
-        <span class="px-4 py-2 rounded-full bg-gold/10 text-gold text-xs font-bold border border-gold/15">Before Each Lesson</span>
+        <span class="px-4 py-2 rounded-full bg-gold/10 text-gold text-xs font-bold border border-gold/15">Before</span>
         <span class="text-brown-light/30 self-center">&rarr;</span>
-        <span class="px-4 py-2 rounded-full bg-teal/10 text-teal text-xs font-bold border border-teal/15">During Lesson</span>
+        <span class="px-4 py-2 rounded-full bg-teal/10 text-teal text-xs font-bold border border-teal/15">During</span>
         <span class="text-brown-light/30 self-center">&rarr;</span>
-        <span class="px-4 py-2 rounded-full bg-coral/10 text-coral text-xs font-bold border border-coral/15">After Lesson</span>
+        <span class="px-4 py-2 rounded-full bg-coral/10 text-coral text-xs font-bold border border-coral/15">After</span>
+        <span class="text-brown-light/30 self-center">&rarr;</span>
+        <span class="px-4 py-2 rounded-full bg-indigo-500/10 text-indigo-500 text-xs font-bold border border-indigo-500/15">Between</span>
       </div>
 
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Card 1: AI Lesson Docs -->
-        <div id="system-docs" class="warm-card p-6 reveal">
-          <div class="flex items-center justify-between mb-3"><span class="px-2 py-0.5 rounded text-[0.6rem] font-bold bg-coral/10 text-coral">After Lesson</span></div>
-          <div class="flex items-center gap-3 mb-4">
-            <div class="w-10 h-10 rounded-xl bg-teal/10 flex items-center justify-center">
-              <svg class="w-5 h-5 text-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-            </div>
-            <div><h3 class="font-display font-bold text-navy">AI Lesson Documentation</h3><p class="text-xs text-teal">Automated after every lesson</p></div>
-          </div>
-          <div class="bg-coral/5 rounded-xl p-3 mb-3"><p class="text-xs text-coral font-medium">&#128172; "I forgot what we covered last week..."</p></div>
-          <div class="mockup-doc mb-4">
-            <div class="flex items-center gap-2 mb-3">
-              <div class="w-2 h-2 rounded-full bg-red-400"></div><div class="w-2 h-2 rounded-full bg-yellow-400"></div><div class="w-2 h-2 rounded-full bg-green-400"></div>
-              <span class="text-[0.6rem] text-brown-light/40 ml-2">#15_Loriana_2026-02-10.md</span>
-            </div>
-            <div class="space-y-2">
-              <div class="h-2 bg-gold/20 rounded w-3/4"></div><div class="h-1.5 bg-brown/5 rounded w-full"></div><div class="h-1.5 bg-brown/5 rounded w-5/6"></div>
-              <div class="h-2 bg-teal/20 rounded w-2/3 mt-3"></div><div class="h-1.5 bg-brown/5 rounded w-full"></div><div class="h-1.5 bg-brown/5 rounded w-4/5"></div>
-              <div class="h-2 bg-coral/20 rounded w-3/5 mt-3"></div><div class="h-1.5 bg-brown/5 rounded w-full"></div>
+      <div class="reveal">
+        <!-- TRIAL LESSON -->
+        <div class="system-phase open" data-phase="trial">
+          <div class="system-phase-toggle flex items-center gap-3 mb-4" onclick="toggleSystemPhase(this)">
+            <span class="toggle-icon text-purple-500 text-lg" style="transform:rotate(90deg)">&#9656;</span>
+            <div>
+              <h3 class="font-display text-lg md:text-xl font-bold text-navy">Trial Lesson</h3>
+              <p class="text-xs text-purple-500 font-medium">Experience the teaching style firsthand</p>
             </div>
           </div>
-          <p class="text-brown/60 text-sm leading-relaxed"><strong class="text-teal">Solved:</strong> Every lesson is recorded and AI generates a detailed 7-section summary &mdash; what we covered, every correction, new vocabulary, and your progress. You'll never lose a single thing from our lessons again.</p>
+          <div class="system-phase-content">
+            <div class="warm-card p-5 mb-4">
+              <ul class="space-y-2 text-sm text-brown/70">
+                <li class="flex items-start gap-2"><span class="text-purple-500 mt-0.5">&#10003;</span> Full 50-minute lesson &mdash; not a sales call</li>
+                <li class="flex items-start gap-2"><span class="text-purple-500 mt-0.5">&#10003;</span> See the AI documentation system in action with a live demo</li>
+                <li class="flex items-start gap-2"><span class="text-purple-500 mt-0.5">&#10003;</span> Get a personalized learning roadmap based on your goals</li>
+              </ul>
+              <div class="mt-4 p-3 rounded-lg bg-purple-500/5">
+                <p class="text-xs text-purple-600 italic"><strong>Why I built this:</strong> Too many trial lessons are vague sales pitches. Mine is a real lesson so you can make an informed decision.</p>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <!-- Card 2: 3-Doc Homework -->
-        <div id="system-homework" class="warm-card p-6 reveal" style="transition-delay:0.1s">
-          <div class="flex items-center justify-between mb-3"><span class="px-2 py-0.5 rounded text-[0.6rem] font-bold bg-coral/10 text-coral">After Lesson</span></div>
-          <div class="flex items-center gap-3 mb-4">
-            <div class="w-10 h-10 rounded-xl bg-gold/10 flex items-center justify-center">
-              <svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+        <!-- BEFORE LESSON -->
+        <div class="system-phase" data-phase="before">
+          <div class="system-phase-toggle flex items-center gap-3 mb-4" onclick="toggleSystemPhase(this)">
+            <span class="toggle-icon text-gold text-lg">&#9656;</span>
+            <div>
+              <h3 class="font-display text-lg md:text-xl font-bold text-navy">Before Each Lesson</h3>
+              <p class="text-xs text-gold font-medium">Preparation that sets you up for success</p>
             </div>
-            <div><h3 class="font-display font-bold text-navy">3-Document Homework</h3><p class="text-xs text-gold">125+ exercises per lesson</p></div>
           </div>
-          <div class="bg-coral/5 rounded-xl p-3 mb-3"><p class="text-xs text-coral font-medium">&#128172; "Textbook exercises feel generic and boring..."</p></div>
-          <div class="space-y-2 mb-4">
-            <div class="flex items-center gap-3 p-3 rounded-lg bg-cream-dark/50"><span class="text-lg">&#128221;</span><div><p class="text-sm font-medium text-brown">Sentence Practice</p><p class="text-xs text-brown-light">5 daily sets &times; 25 exercises = 125 total</p></div></div>
-            <div class="flex items-center gap-3 p-3 rounded-lg bg-cream-dark/50"><span class="text-lg">&#128214;</span><div><p class="text-sm font-medium text-brown">Reading Passages</p><p class="text-xs text-brown-light">4 stories with comprehension questions</p></div></div>
-            <div class="flex items-center gap-3 p-3 rounded-lg bg-cream-dark/50"><span class="text-lg">&#128218;</span><div><p class="text-sm font-medium text-brown">Lesson Materials</p><p class="text-xs text-brown-light">20-25 new vocabulary + word tests + patterns</p></div></div>
+          <div class="system-phase-content">
+            <div class="warm-card p-5 mb-4">
+              <ul class="space-y-2 text-sm text-brown/70">
+                <li class="flex items-start gap-2"><span class="text-gold mt-0.5">&#10003;</span> Lesson materials delivered before we meet</li>
+                <li class="flex items-start gap-2"><span class="text-gold mt-0.5">&#10003;</span> Vocabulary preview so you come prepared</li>
+                <li class="flex items-start gap-2"><span class="text-gold mt-0.5">&#10003;</span> Personal web app updated with new content to review</li>
+              </ul>
+              <div class="mt-4 p-3 rounded-lg bg-gold/5">
+                <p class="text-xs text-gold italic"><strong>Why I built this:</strong> Students learn faster when they preview material. Even 10 minutes of prep doubles lesson efficiency.</p>
+              </div>
+            </div>
           </div>
-          <p class="text-brown/60 text-sm leading-relaxed"><strong class="text-teal">Solved:</strong> Every exercise comes from <strong class="text-navy/70">your actual lesson</strong>. The words you struggled with, the grammar we practiced, the topics you care about. A Korean textbook is for everyone &mdash; this is for <em>you</em>.</p>
         </div>
 
-        <!-- Card 3: Personal Web App -->
-        <div id="system-app" class="warm-card p-6 reveal" style="transition-delay:0.2s">
-          <div class="flex items-center justify-between mb-3"><span class="px-2 py-0.5 rounded text-[0.6rem] font-bold bg-gold/10 text-gold">Before &amp; Between Lessons</span></div>
-          <div class="flex items-center gap-3 mb-4">
-            <div class="w-10 h-10 rounded-xl bg-coral/10 flex items-center justify-center">
-              <svg class="w-5 h-5 text-coral" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+        <!-- DURING LESSON -->
+        <div class="system-phase" data-phase="during">
+          <div class="system-phase-toggle flex items-center gap-3 mb-4" onclick="toggleSystemPhase(this)">
+            <span class="toggle-icon text-teal text-lg">&#9656;</span>
+            <div>
+              <h3 class="font-display text-lg md:text-xl font-bold text-navy">During Lesson</h3>
+              <p class="text-xs text-teal font-medium">Interactive, personalized 50-minute sessions</p>
             </div>
-            <div><h3 class="font-display font-bold text-navy">Personal Web App</h3><p class="text-xs text-coral">Your own URL, your vocabulary</p></div>
           </div>
-          <div class="bg-coral/5 rounded-xl p-3 mb-3"><p class="text-xs text-coral font-medium">&#128172; "I don't have anyone to practice with outside lessons..."</p></div>
-          <div class="space-y-2 mb-4">
-            <div class="flex items-center gap-3 p-2.5 rounded-lg bg-cream-dark/50"><span class="text-base">&#127922;</span><div><p class="text-sm font-medium text-brown">Sentence Builder</p><p class="text-xs text-brown-light">Drag-and-drop Korean blocks to build sentences</p></div></div>
-            <div class="flex items-center gap-3 p-2.5 rounded-lg bg-cream-dark/50"><span class="text-base">&#127183;</span><div><p class="text-sm font-medium text-brown">3D Flashcards + Mastery</p><p class="text-xs text-brown-light">Know/Unsure/Weak tracking, weak words first</p></div></div>
-            <div class="flex items-center gap-3 p-2.5 rounded-lg bg-cream-dark/50"><span class="text-base">&#127911;</span><div><p class="text-sm font-medium text-brown">Teacher's Voice TTS</p><p class="text-xs text-brown-light">My actual pronunciation recordings, not robot voices</p></div></div>
-            <div class="flex items-center gap-3 p-2.5 rounded-lg bg-cream-dark/50"><span class="text-base">&#128302;</span><div><p class="text-sm font-medium text-brown">Gamified Quizzes</p><p class="text-xs text-brown-light">Situation-based tests with instant feedback</p></div></div>
-            <div class="flex items-center gap-3 p-2.5 rounded-lg bg-cream-dark/50"><span class="text-base">&#128292;</span><div><p class="text-sm font-medium text-brown">Hangul Builder</p><p class="text-xs text-brown-light">Learn to read Korean alphabet interactively</p></div></div>
+          <div class="system-phase-content">
+            <div class="warm-card p-5 mb-4">
+              <ul class="space-y-2 text-sm text-brown/70">
+                <li class="flex items-start gap-2"><span class="text-teal mt-0.5">&#10003;</span> Interactive practice with real-time pronunciation coaching</li>
+                <li class="flex items-start gap-2"><span class="text-teal mt-0.5">&#10003;</span> Cultural context woven into every grammar point</li>
+                <li class="flex items-start gap-2"><span class="text-teal mt-0.5">&#10003;</span> Lesson adapts to where you are <em>that day</em></li>
+              </ul>
+              <div class="mt-4 p-3 rounded-lg bg-teal/5">
+                <p class="text-xs text-teal italic"><strong>Why I built this:</strong> Every lesson is recorded. You focus on learning; the system captures everything for later.</p>
+              </div>
+            </div>
           </div>
-          <p class="text-brown/60 text-sm leading-relaxed"><strong class="text-teal">Solved:</strong> Your own dedicated URL with all features. <strong class="text-navy/70">Auto-updated</strong> after each lesson with new vocabulary and exercises. Works on any device.</p>
         </div>
 
-        <!-- Card 4: Daily Feedback -->
-        <div id="system-feedback" class="warm-card p-6 reveal">
-          <div class="flex items-center justify-between mb-3"><span class="px-2 py-0.5 rounded text-[0.6rem] font-bold bg-gold/10 text-gold">Between Lessons</span></div>
-          <div class="flex items-center gap-3 mb-4">
-            <div class="w-10 h-10 rounded-xl bg-green-500/10 flex items-center justify-center">
-              <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+        <!-- AFTER LESSON -->
+        <div class="system-phase" data-phase="after">
+          <div class="system-phase-toggle flex items-center gap-3 mb-4" onclick="toggleSystemPhase(this)">
+            <span class="toggle-icon text-coral text-lg">&#9656;</span>
+            <div>
+              <h3 class="font-display text-lg md:text-xl font-bold text-navy">After Lesson</h3>
+              <p class="text-xs text-coral font-medium">AI-powered documentation and personalized homework</p>
             </div>
-            <div><h3 class="font-display font-bold text-navy">Daily Feedback</h3><p class="text-xs text-green-500">Response within 3 hours on average</p></div>
           </div>
-          <div class="bg-coral/5 rounded-xl p-3 mb-3"><p class="text-xs text-coral font-medium">&#128172; "I only get to practice Korean once a week in lessons..."</p></div>
-          <div class="space-y-2 mb-4">
-            <div class="flex justify-end"><div class="bg-teal/10 rounded-2xl rounded-tr-md px-3 py-2 max-w-[80%]"><p class="text-xs text-brown/70">&#127908; Voice recording (0:32)</p><p class="text-[0.6rem] text-brown-light mt-1">Practice: &#51200;&#45716; &#54620;&#44397;&#50612;&#47484; &#44277;&#48512;&#54644;&#50836;</p></div></div>
-            <div class="flex justify-start"><div class="bg-cream-dark rounded-2xl rounded-tl-md px-3 py-2 max-w-[80%]"><p class="text-xs text-brown/70">Great job! Your &#12622; is perfect now &#128079; One small thing: &#44277;&#48512;&#54644;&#50836; &mdash; make the &#48512; a bit shorter.</p><p class="text-[0.6rem] text-brown-light mt-1">Jay &bull; 2 hours ago</p></div></div>
+          <div class="system-phase-content">
+            <div class="grid md:grid-cols-2 gap-4 mb-4">
+              <!-- AI Lesson Docs -->
+              <div id="system-docs" class="warm-card p-5">
+                <div class="flex items-center gap-3 mb-3">
+                  <div class="w-8 h-8 rounded-lg bg-teal/10 flex items-center justify-center"><svg class="w-4 h-4 text-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg></div>
+                  <div><h4 class="font-display font-bold text-navy text-sm">AI Lesson Summary</h4><p class="text-[0.6rem] text-teal">7-section detailed document</p></div>
+                </div>
+                <div class="mockup-doc mb-3" style="max-width:100%">
+                  <div class="flex items-center gap-2 mb-2"><div class="w-2 h-2 rounded-full bg-red-400"></div><div class="w-2 h-2 rounded-full bg-yellow-400"></div><div class="w-2 h-2 rounded-full bg-green-400"></div><span class="text-[0.5rem] text-brown-light/40 ml-2">#15_Loriana_2026-02-10.md</span></div>
+                  <div class="space-y-1.5"><div class="h-1.5 bg-gold/20 rounded w-3/4"></div><div class="h-1 bg-brown/5 rounded w-full"></div><div class="h-1.5 bg-teal/20 rounded w-2/3 mt-2"></div><div class="h-1 bg-brown/5 rounded w-full"></div><div class="h-1.5 bg-coral/20 rounded w-3/5 mt-2"></div><div class="h-1 bg-brown/5 rounded w-full"></div></div>
+                </div>
+                <p class="text-brown/60 text-xs leading-relaxed">Every correction, new vocabulary, and progress point &mdash; documented permanently.</p>
+              </div>
+              <!-- 3-Doc Homework -->
+              <div id="system-homework" class="warm-card p-5">
+                <div class="flex items-center gap-3 mb-3">
+                  <div class="w-8 h-8 rounded-lg bg-gold/10 flex items-center justify-center"><svg class="w-4 h-4 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg></div>
+                  <div><h4 class="font-display font-bold text-navy text-sm">3-Document Homework</h4><p class="text-[0.6rem] text-gold">125+ exercises per lesson</p></div>
+                </div>
+                <div class="space-y-1.5 mb-3">
+                  <div class="flex items-center gap-2 p-2 rounded-lg bg-cream-dark/50"><span class="text-sm">&#128221;</span><p class="text-xs text-brown">Sentence Practice (5 sets x 25)</p></div>
+                  <div class="flex items-center gap-2 p-2 rounded-lg bg-cream-dark/50"><span class="text-sm">&#128214;</span><p class="text-xs text-brown">Reading Passages (4 stories)</p></div>
+                  <div class="flex items-center gap-2 p-2 rounded-lg bg-cream-dark/50"><span class="text-sm">&#128218;</span><p class="text-xs text-brown">Lesson Materials (20-25 vocab)</p></div>
+                </div>
+                <p class="text-brown/60 text-xs leading-relaxed">Every exercise from <strong>your actual lesson</strong>, not a generic textbook.</p>
+              </div>
+            </div>
+            <div class="warm-card p-4 mb-4">
+              <div class="flex items-center gap-3 mb-2">
+                <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center"><svg class="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"/></svg></div>
+                <div><h4 class="font-display font-bold text-navy text-sm">Web App Auto-Updated</h4><p class="text-[0.6rem] text-indigo-500">New vocabulary pushed to your personal app</p></div>
+              </div>
+              <div class="bg-cream-dark rounded-lg p-3">
+                <div class="flex items-center justify-between text-xs mb-1"><span class="text-brown-light">Your vocabulary</span><span class="text-teal font-medium">247 words tracked</span></div>
+                <div class="w-full h-2 bg-white rounded-full"><div class="flex h-full rounded-full overflow-hidden"><div class="bg-green-500 w-[60%]"></div><div class="bg-yellow-500 w-[25%]"></div><div class="bg-red-500 w-[15%]"></div></div></div>
+                <div class="flex justify-between text-[0.55rem] text-brown-light mt-1"><span>Mastered (148)</span><span>Learning (62)</span><span>Weak (37)</span></div>
+              </div>
+            </div>
+            <div class="p-3 rounded-lg bg-coral/5">
+              <p class="text-xs text-coral italic"><strong>Why I built this:</strong> The lesson is just the beginning. What you do after determines how fast you progress.</p>
+            </div>
           </div>
-          <p class="text-brown/60 text-sm leading-relaxed"><strong class="text-teal">Solved:</strong> Send voice recordings and writing practice anytime. Get <strong class="text-navy/70">detailed corrections within hours</strong>. You improve every single day, not just once a week.</p>
         </div>
 
-        <!-- Card 5: Nudge & Quiz -->
-        <div class="warm-card p-6 reveal" style="transition-delay:0.1s">
-          <div class="flex items-center justify-between mb-3"><span class="px-2 py-0.5 rounded text-[0.6rem] font-bold bg-gold/10 text-gold">Between Lessons</span></div>
-          <div class="flex items-center gap-3 mb-4">
-            <div class="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center">
-              <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+        <!-- BETWEEN LESSONS -->
+        <div class="system-phase" data-phase="between">
+          <div class="system-phase-toggle flex items-center gap-3 mb-4" onclick="toggleSystemPhase(this)">
+            <span class="toggle-icon text-indigo-500 text-lg">&#9656;</span>
+            <div>
+              <h3 class="font-display text-lg md:text-xl font-bold text-navy">Between Lessons</h3>
+              <p class="text-xs text-indigo-500 font-medium">Daily support that keeps you progressing</p>
             </div>
-            <div><h3 class="font-display font-bold text-navy">Nudge & Quiz Messages</h3><p class="text-xs text-purple-500">2-3 times per week</p></div>
           </div>
-          <div class="bg-coral/5 rounded-xl p-3 mb-3"><p class="text-xs text-coral font-medium">&#128172; "I keep forgetting to study between lessons..."</p></div>
-          <div class="space-y-2 mb-4">
-            <div class="bg-cream-dark/70 rounded-xl p-3"><p class="text-xs text-purple-600 font-medium mb-1">&#128227; Mini Quiz</p><p class="text-xs text-brown/60">What's the difference between &#51060;/&#44032; and &#51008;/&#45716;?</p></div>
-            <div class="bg-cream-dark/70 rounded-xl p-3"><p class="text-xs text-gold font-medium mb-1">&#128170; Study Nudge</p><p class="text-xs text-brown/60">You learned &#44032;&#45796;, &#50724;&#45796;, &#47673;&#45796; last lesson. Try using one in a sentence today!</p></div>
-          </div>
-          <p class="text-brown/60 text-sm leading-relaxed"><strong class="text-teal">Solved:</strong> Like Duolingo reminders, but <strong class="text-navy/70">actually personalized</strong> to your weak areas. They keep Korean alive in your mind even on your busiest days.</p>
-        </div>
-
-        <!-- Card 6: Word DB -->
-        <div class="warm-card p-6 reveal" style="transition-delay:0.2s">
-          <div class="flex items-center justify-between mb-3"><span class="px-2 py-0.5 rounded text-[0.6rem] font-bold bg-teal/10 text-teal">During &amp; After Lesson</span></div>
-          <div class="flex items-center gap-3 mb-4">
-            <div class="w-10 h-10 rounded-xl bg-indigo-500/10 flex items-center justify-center">
-              <svg class="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"/></svg>
+          <div class="system-phase-content">
+            <div class="grid md:grid-cols-2 gap-4 mb-4">
+              <!-- Daily Feedback -->
+              <div id="system-feedback" class="warm-card p-5">
+                <div class="flex items-center gap-3 mb-3">
+                  <div class="w-8 h-8 rounded-lg bg-green-500/10 flex items-center justify-center"><svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg></div>
+                  <div><h4 class="font-display font-bold text-navy text-sm">Daily Feedback</h4><p class="text-[0.6rem] text-green-500">Response within 3 hours</p></div>
+                </div>
+                <div class="space-y-1.5 mb-3">
+                  <div class="flex justify-end"><div class="bg-teal/10 rounded-xl rounded-tr-sm px-2.5 py-1.5 max-w-[85%]"><p class="text-[0.65rem] text-brown/70">&#127908; Voice recording (0:32)</p></div></div>
+                  <div class="flex justify-start"><div class="bg-cream-dark rounded-xl rounded-tl-sm px-2.5 py-1.5 max-w-[85%]"><p class="text-[0.65rem] text-brown/70">Great job! Make the &#48512; a bit shorter. &#128079;</p></div></div>
+                </div>
+                <p class="text-brown/60 text-xs leading-relaxed">Send voice recordings and writing anytime. Get <strong>detailed corrections within hours</strong>.</p>
+              </div>
+              <!-- Nudge & Quiz -->
+              <div class="warm-card p-5">
+                <div class="flex items-center gap-3 mb-3">
+                  <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center"><svg class="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg></div>
+                  <div><h4 class="font-display font-bold text-navy text-sm">Nudge & Quiz Messages</h4><p class="text-[0.6rem] text-purple-500">2-3 times per week</p></div>
+                </div>
+                <div class="space-y-1.5 mb-3">
+                  <div class="bg-cream-dark/70 rounded-lg p-2.5"><p class="text-[0.65rem] text-purple-600 font-medium">&#128227; What's the difference between &#51060;/&#44032; and &#51008;/&#45716;?</p></div>
+                  <div class="bg-cream-dark/70 rounded-lg p-2.5"><p class="text-[0.65rem] text-gold font-medium">&#128170; Use &#44032;&#45796; in a sentence today!</p></div>
+                </div>
+                <p class="text-brown/60 text-xs leading-relaxed">Personalized reminders that keep Korean alive in your mind every day.</p>
+              </div>
             </div>
-            <div><h3 class="font-display font-bold text-navy">Word DB & Weakness Tracking</h3><p class="text-xs text-indigo-500">Automatic detection</p></div>
+            <!-- Web App -->
+            <div id="system-app" class="warm-card p-5 mb-4">
+              <div class="flex items-center gap-3 mb-3">
+                <div class="w-8 h-8 rounded-lg bg-coral/10 flex items-center justify-center"><svg class="w-4 h-4 text-coral" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg></div>
+                <div><h4 class="font-display font-bold text-navy text-sm">Personal Web App Practice</h4><p class="text-[0.6rem] text-coral">Your own URL, always available</p></div>
+              </div>
+              <div class="grid grid-cols-2 md:grid-cols-5 gap-2 mb-3">
+                <div class="flex items-center gap-2 p-2 rounded-lg bg-cream-dark/50"><span class="text-sm">&#127922;</span><p class="text-[0.65rem] text-brown">Sentence Builder</p></div>
+                <div class="flex items-center gap-2 p-2 rounded-lg bg-cream-dark/50"><span class="text-sm">&#127183;</span><p class="text-[0.65rem] text-brown">3D Flashcards</p></div>
+                <div class="flex items-center gap-2 p-2 rounded-lg bg-cream-dark/50"><span class="text-sm">&#127911;</span><p class="text-[0.65rem] text-brown">Teacher's Voice</p></div>
+                <div class="flex items-center gap-2 p-2 rounded-lg bg-cream-dark/50"><span class="text-sm">&#128302;</span><p class="text-[0.65rem] text-brown">Quizzes</p></div>
+                <div class="flex items-center gap-2 p-2 rounded-lg bg-cream-dark/50"><span class="text-sm">&#128292;</span><p class="text-[0.65rem] text-brown">Hangul Builder</p></div>
+              </div>
+              <p class="text-brown/60 text-xs leading-relaxed mb-3">Auto-updated after each lesson with new vocabulary. Works on any device.</p>
+              <!-- Why this is different from generic apps -->
+              <div class="rounded-xl bg-cream-dark p-4">
+                <p class="text-coral text-[0.65rem] font-bold tracking-widest uppercase mb-2">Why this isn't Duolingo or Anki</p>
+                <div class="space-y-2 text-xs text-brown/70 leading-relaxed">
+                  <div class="flex items-start gap-2"><span class="text-coral mt-0.5 flex-shrink-0">1.</span><span><strong class="text-navy">100% your content.</strong> Every word, every sentence comes from your actual lessons. Not a generic wordlist someone made for millions of users.</span></div>
+                  <div class="flex items-start gap-2"><span class="text-coral mt-0.5 flex-shrink-0">2.</span><span><strong class="text-navy">Your teacher's voice.</strong> Hear the correct pronunciation recorded by me, not a robot TTS. You practice the exact sounds we drilled together.</span></div>
+                  <div class="flex items-start gap-2"><span class="text-coral mt-0.5 flex-shrink-0">3.</span><span><strong class="text-navy">Production, not recognition.</strong> Drag-and-drop sentence building forces you to construct Korean from scratch. Apps like Duolingo only test if you can pick the right answer.</span></div>
+                  <div class="flex items-start gap-2"><span class="text-coral mt-0.5 flex-shrink-0">4.</span><span><strong class="text-navy">It grows with you.</strong> New content appears automatically after every lesson. Your weak words get prioritized. The app adapts to you, not the other way around.</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="p-3 rounded-lg bg-indigo-500/5">
+              <p class="text-xs text-indigo-500 italic"><strong>Why I built this:</strong> One lesson per week is not enough. Duolingo costs $7/month but teaches you what everyone else is learning. This app teaches you what <em>you</em> need to learn, from <em>your</em> lessons, in <em>your teacher's voice</em>. That's the difference between $7 entertainment and real progress.</p>
+            </div>
           </div>
-          <div class="bg-coral/5 rounded-xl p-3 mb-3"><p class="text-xs text-coral font-medium">&#128172; "I keep making the same mistakes over and over..."</p></div>
-          <div class="bg-cream-dark rounded-xl p-4 mb-4">
-            <div class="flex items-center justify-between text-xs mb-2"><span class="text-brown-light">Your vocabulary</span><span class="text-teal font-medium">247 words tracked</span></div>
-            <div class="w-full h-2 bg-white rounded-full mb-3"><div class="flex h-full rounded-full overflow-hidden"><div class="bg-green-500 w-[60%]"></div><div class="bg-yellow-500 w-[25%]"></div><div class="bg-red-500 w-[15%]"></div></div></div>
-            <div class="flex justify-between text-[0.65rem] text-brown-light"><span>&#9679; Mastered (148)</span><span>&#9679; Learning (62)</span><span>&#9679; Weak (37)</span></div>
-          </div>
-          <p class="text-brown/60 text-sm leading-relaxed"><strong class="text-teal">Solved:</strong> Every word from every lesson goes into your <strong class="text-navy/70">personal database</strong>. The system spots your weak areas and automatically prioritizes them everywhere &mdash; homework, quizzes, flashcards, and app practice.</p>
         </div>
       </div>
     </div>
@@ -1364,7 +1558,11 @@
 
   <div class="section-divider"></div>
 
-  <!-- ==================== REVIEWS ==================== -->
+  <!-- ==================== REVIEWS ====================
+       NOTE: To add new reviews, append objects to the `reviews` array in the SCRIPTS section.
+       Each review needs: { name, tag, text, color, type: "preply"|"chat"|"reaction" }
+       The ticker layout auto-shuffles and distributes across 4 rows. No HTML changes needed.
+  -->
   <section id="reviews" class="py-20 md:py-28 bg-cream-dark relative overflow-hidden">
     <div class="absolute inset-0 opacity-5" style="background-image: url('https://images.unsplash.com/photo-1557682250-33bd709cbe85?w=1920&q=60&auto=format&fit=crop'); background-size: cover; background-position: center;"></div>
     <div class="relative z-10 max-w-7xl mx-auto px-6">
@@ -1401,13 +1599,33 @@
     <div class="max-w-3xl mx-auto px-6">
       <div class="text-center mb-8">
         <p class="font-serif text-2xl md:text-3xl font-bold text-navy mb-3">Availability &amp; Scheduling</p>
-        <p class="text-brown/60 text-sm max-w-lg mx-auto">I work with a limited number of students to give each one my full attention. Here's my actual schedule.</p>
+        <p class="text-brown/60 text-sm max-w-lg mx-auto">I work with a limited number of students to give each one my full attention. Select your timezone to see available slots.</p>
       </div>
 
-      <!-- Weekly Schedule Grid -->
-      <!-- UPDATE: Change filled/open slots each month -->
+      <!-- Timezone Selector -->
       <div class="warm-card p-5 md:p-6 mb-6">
-        <div class="grid grid-cols-7 gap-1 text-center text-xs mb-3">
+        <div class="flex flex-wrap items-center gap-3 mb-5">
+          <label class="text-sm text-brown font-medium">Your timezone:</label>
+          <select id="timezoneSelect" class="px-4 py-2 rounded-xl bg-cream border border-gold/15 text-navy text-sm focus:border-coral focus:outline-none transition" onchange="updateHeatmap()">
+            <option value="UTC+0">London (UTC+0)</option>
+            <option value="UTC+1">Paris / Berlin (UTC+1)</option>
+            <option value="UTC+2">Cairo / Athens (UTC+2)</option>
+            <option value="UTC+3">Moscow / Istanbul (UTC+3)</option>
+            <option value="UTC+5:30">Mumbai (UTC+5:30)</option>
+            <option value="UTC+8">Singapore / Hong Kong (UTC+8)</option>
+            <option value="UTC+9" selected>Seoul / Tokyo (UTC+9)</option>
+            <option value="UTC+10">Sydney (UTC+10)</option>
+            <option value="UTC-5">New York (UTC-5)</option>
+            <option value="UTC-6">Chicago (UTC-6)</option>
+            <option value="UTC-7">Denver (UTC-7)</option>
+            <option value="UTC-8">Los Angeles (UTC-8)</option>
+          </select>
+        </div>
+
+        <!-- Weekly Heatmap -->
+        <p class="text-xs text-brown-light mb-3 font-medium">Weekly availability heatmap <span class="text-brown-light/40">(times shown in your selected timezone)</span></p>
+        <div class="grid grid-cols-8 gap-1 text-center text-[0.6rem] mb-2">
+          <div class="py-1"></div>
           <div class="font-bold text-navy py-1">Mon</div>
           <div class="font-bold text-brown-light/40 py-1 line-through">Tue</div>
           <div class="font-bold text-navy py-1">Wed</div>
@@ -1416,25 +1634,14 @@
           <div class="font-bold text-navy py-1">Sat</div>
           <div class="font-bold text-teal py-1">Sun</div>
         </div>
-        <div class="grid grid-cols-7 gap-1 text-center text-[0.6rem] mb-2">
-          <!-- Morning slots -->
-          <div class="py-2 rounded bg-coral/10 text-coral font-medium">AM<br>3 slots</div>
-          <div class="py-2 rounded bg-brown/5 text-brown-light/30">OFF</div>
-          <div class="py-2 rounded bg-coral/10 text-coral font-medium">AM<br>3 slots</div>
-          <div class="py-2 rounded bg-coral/10 text-coral font-medium">AM<br>3 slots</div>
-          <div class="py-2 rounded bg-coral/10 text-coral font-medium">AM<br>3 slots</div>
-          <div class="py-2 rounded bg-coral/10 text-coral font-medium">AM<br>3 slots</div>
-          <div class="py-2 rounded bg-teal/10 text-teal font-medium" rowspan="2">Group<br>Lesson</div>
+        <div id="heatmapGrid" class="grid grid-cols-8 gap-1 text-center mb-3">
+          <!-- Rendered by JS -->
         </div>
-        <div class="grid grid-cols-7 gap-1 text-center text-[0.6rem]">
-          <!-- Afternoon slots -->
-          <div class="py-2 rounded bg-gold/10 text-gold font-medium">PM<br>3 slots</div>
-          <div class="py-2 rounded bg-brown/5 text-brown-light/30">OFF</div>
-          <div class="py-2 rounded bg-gold/10 text-gold font-medium">PM<br>3 slots</div>
-          <div class="py-2 rounded bg-gold/10 text-gold font-medium">PM<br>3 slots</div>
-          <div class="py-2 rounded bg-gold/10 text-gold font-medium">PM<br>3 slots</div>
-          <div class="py-2 rounded bg-gold/10 text-gold font-medium">PM<br>3 slots</div>
-          <div class="py-2 rounded bg-teal/5 text-teal/40 font-medium">-</div>
+        <div class="flex flex-wrap justify-center gap-4 mt-3 text-[0.6rem] text-brown-light/60">
+          <span class="flex items-center gap-1"><span class="w-3 h-3 rounded heatmap-cell popular inline-block"></span> Popular (book early)</span>
+          <span class="flex items-center gap-1"><span class="w-3 h-3 rounded heatmap-cell moderate inline-block"></span> Some availability</span>
+          <span class="flex items-center gap-1"><span class="w-3 h-3 rounded heatmap-cell available inline-block"></span> Available</span>
+          <span class="flex items-center gap-1"><span class="w-3 h-3 rounded heatmap-cell off inline-block"></span> Unavailable</span>
         </div>
         <div class="flex flex-wrap justify-center gap-4 mt-4 text-xs text-brown-light/60">
           <span>~30 slots / week</span>
@@ -1465,9 +1672,9 @@
       <div class="warm-card p-5 text-center mb-8 border-dashed border-gold/30" id="waitlistNotice" style="display:none;">
         <p class="text-gold text-xs font-bold tracking-widest uppercase mb-2">Currently Full</p>
         <p class="text-brown/60 text-sm mb-3">All slots are taken for this period. Join the waitlist to be first in line when a spot opens.</p>
-        <p class="text-brown-light/50 text-xs">Next reservation window opens at the start of each 4-week cycle. Waitlist members get 24-hour early access.</p>
+        <button onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})" class="px-6 py-2.5 rounded-full bg-gold text-white text-sm font-bold hover:opacity-90 transition">Join Waitlist</button>
+        <p class="text-brown-light/50 text-xs mt-3">Next reservation window opens at the start of each 4-week cycle. Waitlist members get 24-hour early access.</p>
       </div>
-      <!-- UPDATE: Toggle waitlist visibility by setting display:block when fully booked -->
 
       <div class="text-center">
         <a href="#contact" class="magnetic-btn inline-flex items-center gap-2 px-10 py-4 rounded-full bg-gradient-to-r from-coral to-gold text-white font-bold text-lg shadow-lg hover:shadow-xl hover:shadow-coral/30 transition-all hover:-translate-y-1">Check Availability <span>&rarr;</span></a>
@@ -1515,8 +1722,8 @@
           <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-gold text-white text-xs font-bold">MOST POPULAR</div>
           <h3 class="font-display text-xl font-bold text-navy mb-1 mt-2">Standard</h3>
           <p class="text-xs text-purple-500 font-medium mb-2">Bonus: Free Nudge &amp; Quiz messages</p>
-          <div class="mb-1"><span class="price-old text-brown-light text-lg font-mono">$70</span><span class="font-mono text-4xl font-bold text-gold ml-2" id="price-standard">$50</span><span class="text-brown-light text-sm">/session</span></div>
-          <p class="text-xs text-teal mb-1" id="weekly-standard">$50/week</p>
+          <div class="mb-1"><span class="price-old text-brown-light text-lg font-mono">$63</span><span class="font-mono text-4xl font-bold text-gold ml-2" id="price-standard">$45</span><span class="text-brown-light text-sm">/session</span></div>
+          <p class="text-xs text-teal mb-1" id="weekly-standard">$45/week</p>
           <p class="text-brown-light text-xs mb-4">Lessons + homework + engagement.</p>
           <ul class="space-y-2 mb-6">
             <li class="flex items-start gap-2 text-sm text-brown/60"><span class="text-teal mt-0.5">&#10003;</span> Everything in Essential</li>
@@ -1529,7 +1736,7 @@
         <!-- Premium -->
         <div class="pkg-card" onclick="selectPackage('premium')">
           <h3 class="font-display text-xl font-bold text-navy mb-3">Premium</h3>
-          <div class="mb-1"><span class="price-old text-brown-light text-lg font-mono">$95</span><span class="font-mono text-4xl font-bold text-coral ml-2" id="price-premium">$75</span><span class="text-brown-light text-sm">/session</span></div>
+          <div class="mb-1"><span class="price-old text-brown-light text-lg font-mono">$97</span><span class="font-mono text-4xl font-bold text-coral ml-2" id="price-premium">$75</span><span class="text-brown-light text-sm">/session</span></div>
           <p class="text-xs text-teal mb-1" id="weekly-premium">$75/week</p>
           <p class="text-brown-light text-xs mb-4">The full experience. Daily support + app.</p>
           <ul class="space-y-2 mb-6">
@@ -1554,6 +1761,7 @@
             <li class="flex items-start gap-2 text-sm text-brown/70"><span class="text-brown-light mt-0.5">+</span> Change anytime</li>
           </ul>
           <button class="w-full py-3 rounded-xl border border-gold/20 text-brown text-sm font-medium hover:border-teal hover:text-teal transition-all">Customize Below</button>
+          <p class="text-brown-light/50 text-[0.6rem] mt-3 leading-relaxed">Can't decide? I'll recommend the right package for you after our trial lesson.</p>
         </div>
       </div>
 
@@ -1623,6 +1831,35 @@
       </div>
     </div>
   </section>
+
+  <!-- ==================== SUCCESS MODAL ==================== -->
+  <div class="success-modal-overlay" id="successModal">
+    <div class="success-modal">
+      <div class="success-check w-16 h-16 mx-auto mb-5 rounded-full bg-teal/10 flex items-center justify-center">
+        <svg class="w-8 h-8 text-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+      </div>
+      <h3 class="font-serif text-2xl font-bold text-navy mb-3">Thank You!</h3>
+      <p class="text-brown/70 text-sm leading-relaxed mb-6">I'll reach out within 24 hours with a personalized recommendation based on your goals.</p>
+      <div class="text-left mb-6">
+        <p class="text-brown font-semibold text-sm mb-3">What happens next:</p>
+        <div class="space-y-3">
+          <div class="flex items-start gap-3">
+            <div class="w-7 h-7 rounded-full bg-coral/10 flex items-center justify-center flex-shrink-0"><span class="text-coral text-xs font-bold">1</span></div>
+            <p class="text-brown/60 text-sm">I'll review your message and recommend the right package</p>
+          </div>
+          <div class="flex items-start gap-3">
+            <div class="w-7 h-7 rounded-full bg-teal/10 flex items-center justify-center flex-shrink-0"><span class="text-teal text-xs font-bold">2</span></div>
+            <p class="text-brown/60 text-sm">We'll schedule a free trial lesson</p>
+          </div>
+          <div class="flex items-start gap-3">
+            <div class="w-7 h-7 rounded-full bg-gold/10 flex items-center justify-center flex-shrink-0"><span class="text-gold text-xs font-bold">3</span></div>
+            <p class="text-brown/60 text-sm">You'll experience the full system firsthand</p>
+          </div>
+        </div>
+      </div>
+      <button onclick="closeSuccessModal()" class="px-6 py-3 rounded-full bg-coral text-white font-semibold text-sm hover:bg-coral-light transition-all">Got it!</button>
+    </div>
+  </div>
 
   <!-- ==================== FOOTER ==================== -->
   <footer class="py-8 bg-cream-dark border-t border-gold/10">
@@ -1921,23 +2158,23 @@
     let lessonsPerWeek = 1;
     const pkgData = {
       essential: { base: { regular: 45, promo: 35 }, weekly: { regular: 0, promo: 0 } },
-      standard: { base: { regular: 45, promo: 35 }, weekly: { regular: 25, promo: 15 } },
-      premium: { base: { regular: 45, promo: 35 }, weekly: { regular: 50, promo: 40 } },
+      standard: { base: { regular: 45, promo: 35 }, weekly: { regular: 18, promo: 10 } },
+      premium: { base: { regular: 45, promo: 35 }, weekly: { regular: 52, promo: 40 } },
     };
     const addons = [
-      { id: 'light_hw', name: 'Light Homework', type: 'per_lesson', regular: 5, promo: 0, desc: 'Weekly study materials + light daily exercises', systemLink: '#system-homework', recFor: 'Students who want structure but have limited time', skipIf: 'You prefer self-directed study between lessons' },
-      { id: 'full_hw', name: 'Full Homework + Word DB', type: 'per_week', regular: 15, promo: 15, desc: '3 documents per lesson + vocabulary tracking', systemLink: '#system-homework', recFor: 'Serious learners who want maximum practice material', skipIf: 'You already have Light Homework and that feels sufficient' },
-      { id: 'writing', name: 'Writing Correction', type: 'per_lesson', regular: 10, promo: 10, desc: 'Essays, emails, business document correction', systemLink: '#system-feedback', recFor: 'Business professionals or TOPIK writing prep', skipIf: 'You are a beginner focused on speaking first' },
-      { id: 'feedback', name: 'Daily Feedback', type: 'per_week', regular: 15, promo: 10, desc: 'Daily voice + writing corrections', systemLink: '#system-feedback', recFor: 'Students who want to improve every single day', skipIf: 'You only study on lesson days' },
-      { id: 'app', name: 'Personal Web App', type: 'per_week', regular: 6, promo: 5, desc: 'Sentence Builder + Flashcards + Mastery tracking', systemLink: '#system-app', recFor: 'Visual learners who practice on mobile/desktop', skipIf: 'You prefer paper-based practice' },
-      { id: 'discord', name: 'Discord Community', type: 'per_week', regular: 4, promo: 0, desc: 'Study group + challenges + student community', systemLink: null, recFor: 'Social learners who want study partners', skipIf: 'You prefer to study independently' },
+      { id: 'light_hw', name: 'Light Homework', type: 'per_lesson', regular: 3, promo: 0, desc: 'Weekly study materials + light daily exercises', systemLink: '#system-homework', recFor: 'Students who want structure but have limited time', skipIf: 'You prefer self-directed study between lessons' },
+      { id: 'full_hw', name: 'Full Homework + Word DB', type: 'per_week', regular: 10, promo: 10, desc: '3 documents per lesson + vocabulary tracking', systemLink: '#system-homework', recFor: 'Serious learners who want maximum practice material', skipIf: 'You already have Light Homework and that feels sufficient' },
+      { id: 'writing', name: 'Advanced Writing Correction', type: 'per_lesson', regular: 15, promo: 15, desc: 'Detailed correction of essays, emails, and business documents with line-by-line feedback', systemLink: '#system-feedback', recFor: 'Business professionals or TOPIK writing prep', skipIf: 'You are a beginner focused on speaking first' },
+      { id: 'feedback', name: 'Daily Feedback', type: 'per_week', regular: 20, promo: 12, desc: 'Send voice recordings and writing anytime, get detailed corrections within hours — not next lesson', systemLink: '#system-feedback', recFor: 'Students who want to improve every single day', skipIf: 'You only study on lesson days' },
+      { id: 'app', name: 'Personal Web App', type: 'per_week', regular: 6, promo: 5, desc: 'YOUR lesson content as an app — Sentence Builder, Flashcards with teacher voice, Mastery tracking. Not generic like Duolingo.', systemLink: '#system-app', recFor: 'Students who want daily practice with their own lesson content', skipIf: 'You prefer paper-based practice' },
+      { id: 'discord', name: 'Discord Community', type: 'per_month', regular: 8, promo: 0, desc: 'Study group + challenges + student community', systemLink: null, recFor: 'Social learners who want study partners', skipIf: 'You prefer to study independently' },
     ];
 
     // Render addon checkboxes
     const addonList = document.getElementById('addonList');
     if (addonList) {
       addons.forEach(a => {
-        const priceLabel = a.type === 'per_lesson' ? '$'+a.regular+'/lesson' : '$'+a.regular+'/week';
+        const priceLabel = a.type === 'per_lesson' ? '$'+a.regular+'/lesson' : a.type === 'per_month' ? '$'+a.regular+'/month' : '$'+a.regular+'/week';
         const freeInPreset = a.promo === 0;
         const discountInPreset = a.promo > 0 && a.promo < a.regular;
         const saveBadge = freeInPreset ? '<span class="text-xs px-2 py-0.5 rounded-full bg-teal/10 text-teal font-bold">FREE in Standard/Premium</span>' : (discountInPreset ? `<span class="text-xs px-2 py-0.5 rounded-full bg-gold/10 text-gold font-bold">Cheaper in preset</span>` : '');
@@ -2014,6 +2251,7 @@
         checkedIds.push(addon.id);
         // Custom charges REGULAR prices (no promo discounts)
         if (addon.type === 'per_lesson') weeklyPerLesson += addon.regular;
+        else if (addon.type === 'per_month') weeklyServices += addon.regular / 4; // convert monthly to weekly
         else weeklyServices += addon.regular;
       });
       const weeklyTotal = (weeklyPerLesson * lessonsPerWeek) + weeklyServices;
@@ -2118,13 +2356,42 @@
       if (!data.name || !data.email) { alert('Please enter your name and email.'); return; }
       const btn = document.getElementById('submitBtn');
       btn.textContent = 'Sending...'; btn.disabled = true;
+      function onSubmitSuccess() {
+        btn.textContent = "Sent!"; btn.style.background = 'var(--teal)';
+        showSuccessModal();
+      }
       if (FORM_WEBHOOK) {
         fetch(FORM_WEBHOOK, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
-          .then(() => { btn.textContent = "Sent! I'll be in touch within 24 hours."; btn.style.background = 'var(--teal)'; })
+          .then(onSubmitSuccess)
           .catch(() => { btn.textContent = 'Error. Please try again.'; btn.disabled = false; btn.style.background = 'var(--coral)'; });
       } else {
         console.log('Form submission (no webhook configured):', data);
-        setTimeout(() => { btn.textContent = "Sent! I'll be in touch within 24 hours."; btn.style.background = 'var(--teal)'; }, 1000);
+        setTimeout(onSubmitSuccess, 1000);
+      }
+    }
+
+    function showSuccessModal() {
+      const modal = document.getElementById('successModal');
+      if (modal) { modal.classList.add('visible'); launchConfetti(); }
+    }
+    function closeSuccessModal() {
+      const modal = document.getElementById('successModal');
+      if (modal) modal.classList.remove('visible');
+    }
+    function launchConfetti() {
+      const colors = ['#E8845C', '#4ECDC4', '#D4A574', '#FFD700', '#6366F1', '#FF9F6B'];
+      for (let i = 0; i < 30; i++) {
+        const piece = document.createElement('div');
+        piece.className = 'confetti-piece';
+        piece.style.left = Math.random() * 100 + 'vw';
+        piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.animationDelay = Math.random() * 1 + 's';
+        piece.style.animationDuration = (2 + Math.random() * 2) + 's';
+        piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+        piece.style.width = (6 + Math.random() * 8) + 'px';
+        piece.style.height = (6 + Math.random() * 8) + 'px';
+        document.body.appendChild(piece);
+        setTimeout(() => piece.remove(), 4000);
       }
     }
 
@@ -2208,7 +2475,7 @@
       });
     });
 
-    // ===== PHILOSOPHY TABS =====
+    // ===== PHILOSOPHY TABS (legacy - kept for compatibility) =====
     function switchPhiloTab(n) {
       document.querySelectorAll('.philo-tab').forEach((tab, i) => {
         tab.classList.toggle('active', i === n - 1);
@@ -2265,6 +2532,183 @@
         dotsDiv.children[current].classList.add('dot-active');
       }, 3500);
     });
+
+    // ===== TYPEWRITER EFFECT =====
+    (function() {
+      const phrases = [
+        { prefix: 'Learn to ', text: 'sound like a local.' },
+        { prefix: 'Learn to ', text: 'think in Korean.' },
+        { prefix: 'Learn to ', text: 'understand the culture.' },
+        { prefix: 'Learn to ', text: 'fly. In Korean.' },
+      ];
+      const el = document.getElementById('hero-typed');
+      if (!el) return;
+      let phraseIdx = 0;
+      let charIdx = 0;
+      let isDeleting = false;
+      let pauseTime = 0;
+      const typeSpeed = 60;
+      const deleteSpeed = 35;
+      const pauseAfterType = 2000;
+      const pauseAfterDelete = 300;
+
+      function updateDisplay() {
+        const phrase = phrases[phraseIdx];
+        const fullText = phrase.prefix + phrase.text;
+        const visibleText = fullText.substring(0, charIdx);
+        // Split into prefix and styled part
+        if (charIdx <= phrase.prefix.length) {
+          el.innerHTML = visibleText;
+        } else {
+          const isLast = phraseIdx === phrases.length - 1;
+          const styledPart = visibleText.substring(phrase.prefix.length);
+          if (isLast && styledPart.includes('.')) {
+            const parts = styledPart.split('.');
+            el.innerHTML = phrase.prefix + parts[0] + '.<br><span class="gradient-text font-serif italic">' + (parts[1] ? parts[1].trimStart() + (charIdx < fullText.length ? '' : '.') : '') + '</span>';
+            // Fix: show the full final text properly
+            if (charIdx >= fullText.length) {
+              el.innerHTML = 'Learn to fly.<br><span class="gradient-text font-serif italic">In Korean.</span>';
+            }
+          } else {
+            el.innerHTML = phrase.prefix + '<span class="gradient-text">' + styledPart + '</span>';
+          }
+        }
+      }
+
+      function tick() {
+        if (pauseTime > 0) {
+          pauseTime -= typeSpeed;
+          setTimeout(tick, typeSpeed);
+          return;
+        }
+        const phrase = phrases[phraseIdx];
+        const fullText = phrase.prefix + phrase.text;
+        const isLastPhrase = phraseIdx === phrases.length - 1;
+
+        if (!isDeleting) {
+          charIdx++;
+          updateDisplay();
+          if (charIdx >= fullText.length) {
+            if (isLastPhrase) {
+              // Final phrase stays permanently
+              el.innerHTML = 'Learn to fly.<br><span class="gradient-text font-serif italic">In Korean.</span>';
+              // Remove cursor
+              const cursor = document.querySelector('.typewriter-cursor');
+              if (cursor) cursor.style.display = 'none';
+              return;
+            }
+            isDeleting = true;
+            pauseTime = pauseAfterType;
+          }
+          setTimeout(tick, typeSpeed);
+        } else {
+          // Only delete the typed part (after prefix)
+          if (charIdx > phrases[phraseIdx].prefix.length) {
+            charIdx--;
+            updateDisplay();
+            setTimeout(tick, deleteSpeed);
+          } else {
+            isDeleting = false;
+            phraseIdx++;
+            charIdx = 0;
+            pauseTime = pauseAfterDelete;
+            setTimeout(tick, typeSpeed);
+          }
+        }
+      }
+      // Start after a short delay
+      setTimeout(tick, 800);
+    })();
+
+    // ===== SYSTEM PHASE TOGGLE =====
+    function toggleSystemPhase(toggleEl) {
+      const phase = toggleEl.closest('.system-phase');
+      if (phase) phase.classList.toggle('open');
+    }
+
+    // ===== AVAILABILITY HEATMAP =====
+    function updateHeatmap() {
+      const grid = document.getElementById('heatmapGrid');
+      if (!grid) return;
+      // Time slots (KST hours)
+      const slots = [
+        { label: '9 AM', kst: 9 },
+        { label: '10 AM', kst: 10 },
+        { label: '11 AM', kst: 11 },
+        { label: '2 PM', kst: 14 },
+        { label: '3 PM', kst: 15 },
+        { label: '4 PM', kst: 16 },
+      ];
+      // Availability data: [Mon, Tue, Wed, Thu, Fri, Sat, Sun]
+      // 0=off, 1=available, 2=moderate, 3=popular
+      const avail = [
+        [3, 0, 2, 3, 2, 1, 0], // 9 AM KST
+        [2, 0, 3, 2, 3, 2, 0], // 10 AM
+        [1, 0, 2, 1, 2, 3, 0], // 11 AM
+        [2, 0, 1, 2, 1, 2, 0], // 2 PM
+        [3, 0, 2, 3, 2, 1, 0], // 3 PM
+        [1, 0, 1, 1, 1, 1, 0], // 4 PM
+      ];
+      const select = document.getElementById('timezoneSelect');
+      const tzStr = select ? select.value : 'UTC+9';
+      // Parse offset
+      const match = tzStr.match(/UTC([+-])(\d+)(?::(\d+))?/);
+      let offsetHours = 9; // default KST
+      if (match) {
+        const sign = match[1] === '+' ? 1 : -1;
+        offsetHours = sign * (parseInt(match[2]) + (match[3] ? parseInt(match[3])/60 : 0));
+      }
+      const kstOffset = 9;
+      const diff = offsetHours - kstOffset;
+      const classMap = ['off', 'available', 'moderate', 'popular'];
+      const labelMap = ['', 'Open', 'Some', 'Hot'];
+      let html = '';
+      slots.forEach((slot, si) => {
+        let localHour = slot.kst + diff;
+        if (localHour < 0) localHour += 24;
+        if (localHour >= 24) localHour -= 24;
+        const h = localHour;
+        const ampm = h >= 12 ? 'PM' : 'AM';
+        const h12 = h === 0 ? 12 : h > 12 ? h - 12 : h;
+        const timeLabel = h12 + ' ' + ampm;
+        html += '<div class="text-[0.55rem] text-brown-light py-1 font-medium text-right pr-1">' + timeLabel + '</div>';
+        for (let d = 0; d < 7; d++) {
+          const level = avail[si][d];
+          const isSun = d === 6;
+          if (isSun && si === 0) {
+            html += '<div class="heatmap-cell available row-span-6 flex items-center justify-center" style="grid-row: span 6; background:rgba(78,205,196,0.1);color:var(--teal);font-size:0.55rem;">Group<br>Lesson</div>';
+          } else if (!isSun) {
+            html += '<div class="heatmap-cell ' + classMap[level] + '">' + labelMap[level] + '</div>';
+          }
+        }
+      });
+      grid.innerHTML = html;
+      // Fix Sunday spanning - simpler approach: just render normally
+      grid.innerHTML = '';
+      slots.forEach((slot, si) => {
+        let localHour = slot.kst + diff;
+        if (localHour < 0) localHour += 24;
+        if (localHour >= 24) localHour -= 24;
+        const h = localHour;
+        const ampm = h >= 12 ? 'PM' : 'AM';
+        const h12 = h === 0 ? 12 : h > 12 ? h - 12 : h;
+        const timeLabel = h12 + ' ' + ampm;
+        const row = document.createElement('div');
+        row.className = 'contents';
+        let rowHtml = '<div class="text-[0.55rem] text-brown-light py-1 font-medium text-right pr-1">' + timeLabel + '</div>';
+        for (let d = 0; d < 7; d++) {
+          const level = avail[si][d];
+          if (d === 6) {
+            // Sunday: group lesson marker
+            rowHtml += '<div class="heatmap-cell ' + (si === 0 ? 'available' : 'off') + '">' + (si === 0 ? 'Group' : '-') + '</div>';
+          } else {
+            rowHtml += '<div class="heatmap-cell ' + classMap[level] + '">' + labelMap[level] + '</div>';
+          }
+        }
+        grid.innerHTML += rowHtml;
+      });
+    }
+    updateHeatmap();
 
     // Init pricing state
     setLessonsPerWeek(1);
