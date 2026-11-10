@@ -14,7 +14,7 @@
  * An email notification will also be sent to the configured address.
  */
 
-const NOTIFICATION_EMAIL = 'impressive261@gmail.com'; // Change this to your email
+const NOTIFICATION_EMAIL = 'YOUR_EMAIL@example.com'; // Change this to your email
 const SHEET_NAME = 'Inquiries';
 
 function doPost(e) {
